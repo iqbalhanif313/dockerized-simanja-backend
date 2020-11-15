@@ -1,0 +1,9 @@
+/sourcefiles/postgres
+
+/application/vendor
+/.idea
+/application/.idea
+/application/Homestead.json
+/application/Homestead.yaml
+application/.env
+.phpunit.result.cache
