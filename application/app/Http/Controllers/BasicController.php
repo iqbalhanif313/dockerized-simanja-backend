@@ -3,6 +3,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jamaah;
+use Illuminate\Support\Facades\App;
 
 class BasicController extends Controller
 {

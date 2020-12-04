@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Simanja (Sistem Management Jamaah)",
-        "description": "This is developped using Swagger UI.  You can find\nout more about Swagger at\n[http://swagger.io](http://swagger.io) or on\n[irc.freenode.net, #swagger](http://swagger.io/irc/).",
+        "description": "This is developped using Swagger UI.  You can find\r\nout more about Swagger at\r\n[http://swagger.io](http://swagger.io) or on\r\n[irc.freenode.net, #swagger](http://swagger.io/irc/).",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "email": "iqbalhanif313@gmail.com"
@@ -135,6 +135,217 @@
                     }
                 ]
             }
+        },
+        "/createJamaah": {
+            "post": {
+                "tags": [
+                    "md_jamaah"
+                ],
+                "summary": "Create Jamaah information",
+                "operationId": "register",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "Nama": {
+                                        "description": "Full name of jamaah",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "Jenis Kelamin": {
+                                        "description": "write 'laki-laki' or 'perempuan'",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "NIK": {
+                                        "description": "max length 16",
+                                        "type": "bigInteger",
+                                        "example": ""
+                                    },
+                                    "Tempat Lahir": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "Tanggal Lahir": {
+                                        "description": "YYYY-MM-DD",
+                                        "type": "date",
+                                        "example": ""
+                                    },
+                                    "HP": {
+                                        "description": "max:13",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "Alamat": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "users_id": {
+                                        "description": "available id: 1",
+                                        "type": "unsignedBigInteger",
+                                        "example": ""
+                                    },
+                                    "st_kelompok_id": {
+                                        "description": "available id: 1 and 2",
+                                        "type": "unsignedBigInteger",
+                                        "example": ""
+                                    },
+                                    "st_kategori_jamaah_id": {
+                                        "description": "available id: 1 and 2",
+                                        "type": "unsignedBigInteger",
+                                        "example": ""
+                                    },
+                                    "st_status_jamaah_id": {
+                                        "description": "available id: 1 and 2",
+                                        "type": "unsignedBigInteger",
+                                        "example": ""
+                                    },
+                                    "provinsi_id": {
+                                        "description": "available id: 1 and 2",
+                                        "type": "unsignedBigInteger",
+                                        "example": ""
+                                    },
+                                    "kab_id": {
+                                        "description": "available id: 1",
+                                        "type": "unsignedBigInteger",
+                                        "example": ""
+                                    },
+                                    "kec_id": {
+                                        "description": "available id: 1",
+                                        "type": "unsignedBigInteger",
+                                        "example": ""
+                                    },
+                                    "kel_id": {
+                                        "description": "available id: 1",
+                                        "type": "unsignedBigInteger",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/showJamaah": {
+            "get": {
+                "tags": [
+                    "md_jamaah"
+                ],
+                "summary": "Show Jamaah information",
+                "operationId": "info",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/showStDesa": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show setup desa information",
+                "operationId": "info",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/showStKelompok": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show setup desa information",
+                "operationId": "info",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/showStKepengurusan": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show setup kepengurusan information",
+                "operationId": "info",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -158,6 +369,22 @@
         {
             "name": "info",
             "description": "Authorization Api",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://swagger.io"
+            }
+        },
+        {
+            "name": "md_jamaah",
+            "description": "Jamaah Api",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://swagger.io"
+            }
+        },
+        {
+            "name": "setup",
+            "description": "Setup Api",
             "externalDocs": {
                 "description": "Find out more",
                 "url": "http://swagger.io"
