@@ -7,13 +7,16 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
 
-    protected function respondWithToken($token)
+    protected function respondWithToken($token,$profile)
     {
-        return response()->json([
+        $response['token'] = [
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => app('auth')->factory()->getTTL() * 60
-        ]);
+        ];
+        $response['profile'] = $profile;
+
+        return response()->json($response);
     }
 
     public function handleBadRequest($message){

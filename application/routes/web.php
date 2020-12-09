@@ -19,9 +19,15 @@ $router->get('/', function () use ($router) {
 $router->get('/ping', function () use ($router) {
     return "ping success";
 });
-$router->post('/login', 'AuthController@login');
-$router->post('/register', 'AuthController@register');
 
+
+
+$router->group([
+    'prefix' => 'api',
+], function ($router) {
+    $router->post('/login', 'AuthController@login');
+    $router->post('/register', 'AuthController@register');
+});
 
 $router->group([
     'prefix' => 'api',

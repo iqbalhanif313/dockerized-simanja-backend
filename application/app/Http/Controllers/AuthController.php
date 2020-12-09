@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Request\LoginRequest;
 use App\Http\Request\RegisterRequest;
+use App\Http\Services\Auth\LoginService;
 use App\Http\Services\Auth\RegisterService;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
     protected $registerService;
+    protected $loginService;
 
     public function __construct()
     {
         $this->registerService = new RegisterService();
+        $this->loginService = new LoginService();
     }
 
     /**
@@ -59,7 +62,9 @@ class AuthController extends Controller
         if(!$token){
             return $this->handleBadRequest('wrong login');
         }
-        return $this->respondWithToken($token);
+
+        $profile = $this->loginService->buildResponse();
+        return $this->respondWithToken($token,$profile);
     }
 
 

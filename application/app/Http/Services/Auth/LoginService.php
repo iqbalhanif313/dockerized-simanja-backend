@@ -4,7 +4,7 @@
 namespace App\Http\Services\Auth;
 
 
-class UserInfoService
+class LoginService
 {
 
     public function buildResponse(){
@@ -28,7 +28,7 @@ class UserInfoService
         foreach ($roles as $role) {
             $response['roles'][] = $role->name;
         }
-        return response()->json($response);
+        return $response;
     }
 
 }
