@@ -11,7 +11,7 @@ class SetupController extends Controller
      * Show setup desa information
      *
      * @OA\Get(
-     *     path="/showStDesa",
+     *     path="/api/showStDesa",
      *     tags={"setup"},
      *     operationId="info",
      *     @OA\Response(
@@ -28,7 +28,7 @@ class SetupController extends Controller
      *   ),
      */
 
-    public function showStDesa() 
+    public function showStDesa()
     {
         $stDesa = st_desa::all();
 
@@ -39,7 +39,7 @@ class SetupController extends Controller
      * Show setup desa information
      *
      * @OA\Get(
-     *     path="/showStKelompok",
+     *     path="/api/showStKelompok",
      *     tags={"setup"},
      *     operationId="info",
      *     @OA\Response(
@@ -56,7 +56,7 @@ class SetupController extends Controller
      *   ),
      */
 
-    public function showStKelompok() 
+    public function showStKelompok()
     {
         $stKelompok = st_kelompok::all();
 
@@ -67,7 +67,7 @@ class SetupController extends Controller
      * Show setup kepengurusan information
      *
      * @OA\Get(
-     *     path="/showStKepengurusan",
+     *     path="/api/showStKepengurusan",
      *     tags={"setup"},
      *     operationId="info",
      *     @OA\Response(
@@ -84,7 +84,7 @@ class SetupController extends Controller
      *   ),
      */
 
-    public function showStKepengurusan() 
+    public function showStKepengurusan()
     {
         $stKepengurusan = st_kepengurusan::all();
 
@@ -92,5 +92,5 @@ class SetupController extends Controller
     }
 
 
-    
+
 }

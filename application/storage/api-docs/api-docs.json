@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Simanja (Sistem Management Jamaah)",
-        "description": "This is developped using Swagger UI.  You can find\r\nout more about Swagger at\r\n[http://swagger.io](http://swagger.io) or on\r\n[irc.freenode.net, #swagger](http://swagger.io/irc/).",
+        "description": "This is developped using Swagger UI.  You can find\nout more about Swagger at\n[http://swagger.io](http://swagger.io) or on\n[irc.freenode.net, #swagger](http://swagger.io/irc/).",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "email": "iqbalhanif313@gmail.com"
@@ -111,7 +111,7 @@
                 ]
             }
         },
-        "/info": {
+        "/api/info": {
             "get": {
                 "tags": [
                     "info"
@@ -136,7 +136,7 @@
                 ]
             }
         },
-        "/createJamaah": {
+        "/api/createJamaah": {
             "post": {
                 "tags": [
                     "md_jamaah"
@@ -247,7 +247,7 @@
                 ]
             }
         },
-        "/showJamaah": {
+        "/api/showJamaah": {
             "get": {
                 "tags": [
                     "md_jamaah"
@@ -272,7 +272,7 @@
                 ]
             }
         },
-        "/showStDesa": {
+        "/api/showStDesa": {
             "get": {
                 "tags": [
                     "setup"
@@ -297,7 +297,7 @@
                 ]
             }
         },
-        "/showStKelompok": {
+        "/api/showStKelompok": {
             "get": {
                 "tags": [
                     "setup"
@@ -322,7 +322,7 @@
                 ]
             }
         },
-        "/showStKepengurusan": {
+        "/api/showStKepengurusan": {
             "get": {
                 "tags": [
                     "setup"

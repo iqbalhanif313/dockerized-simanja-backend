@@ -4,7 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Request\CreateJamaahRequest;
-use App\Http\Services\Auth\JamaahService;
+use App\Http\Services\MdJamaah\JamaahService;
 use App\Models\Jamaah;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\App;
@@ -22,7 +22,7 @@ class JamaahController extends Controller
      * Create Jamaah information
      *
      * @OA\Post(
-     *     path="/createJamaah",
+     *     path="/api/createJamaah",
      *     tags={"md_jamaah"},
      *     operationId="register",
      *     @OA\Response(
@@ -134,7 +134,7 @@ class JamaahController extends Controller
      * Show Jamaah information
      *
      * @OA\Get(
-     *     path="/showJamaah",
+     *     path="/api/showJamaah",
      *     tags={"md_jamaah"},
      *     operationId="info",
      *     @OA\Response(
@@ -151,7 +151,7 @@ class JamaahController extends Controller
      *   ),
      */
 
-    public function show() 
+    public function show()
     {
         $jamaah = Jamaah::all();
 

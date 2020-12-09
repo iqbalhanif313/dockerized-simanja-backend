@@ -53,4 +53,10 @@ class User extends Model implements JWTSubject,AuthenticatableContract, Authoriz
         // TODO: Implement getJWTCustomClaims() method.
         return [];
     }
+
+    public function detailJamaah()
+    {
+        return $this->hasOne(Jamaah::class, 'users_id');
+    }
+
 }

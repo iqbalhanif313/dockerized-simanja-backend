@@ -3,16 +3,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\Auth\UserInfoService;
 use App\Models\Jamaah;
 use Illuminate\Support\Facades\App;
 
 class BasicController extends Controller
 {
+    protected $userInfoService;
+
+    public function __construct(){
+        $this->userInfoService = new UserInfoService();
+    }
     /**
      * Get user information
      *
      * @OA\Get(
-     *     path="/info",
+     *     path="/api/info",
      *     tags={"info"},
      *     operationId="info",
      *     @OA\Response(
@@ -30,6 +36,6 @@ class BasicController extends Controller
      */
     public function info()
     {
-        return response()->json(app('auth')->user());
+        return $this->userInfoService->buildResponse();
     }
 }

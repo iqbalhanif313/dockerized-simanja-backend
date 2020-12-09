@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Services\Auth;
+namespace App\Http\Services\MdJamaah;
 
 use App\Models\Jamaah;
 use App\Models\Kab;
@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\DB;
 
 class JamaahService
 {
-   
+
     public function handleJamaahCreation($request) {
-        $credential = $request->only('nama','nik','jenis_kelamin','tempat_lahir','tanggal_lahir','hp','alamat','users_id','kelompok' 
+        $credential = $request->only('nama','nik','jenis_kelamin','tempat_lahir','tanggal_lahir','hp','alamat','users_id','kelompok'
                 ,'kategori_jamaah','status_jamaah','provinsi','kab','kec','kel');
 
         $users_id = User::where('id', $credential['users_id'])->first();

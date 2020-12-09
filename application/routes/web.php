@@ -24,6 +24,7 @@ $router->post('/register', 'AuthController@register');
 
 
 $router->group([
+    'prefix' => 'api',
     'middleware' => 'auth',
 ], function ($router) {
     $router->post('/logout', 'AuthController@logout');
