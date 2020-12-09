@@ -28,4 +28,9 @@ $router->group([
 ], function ($router) {
     $router->post('/logout', 'AuthController@logout');
     $router->get('/info', 'BasicController@info');
+    $router->get('/showJamaah', 'JamaahController@show');
+    $router->post('/createJamaah', 'JamaahController@create');
+    $router->get('/showStDesa', 'SetupController@showStDesa');
+    $router->get('/showStKelompok', 'SetupController@showStKelompok');
+    $router->get('/showStKepengurusan', 'SetupController@showStKepengurusan');
 });

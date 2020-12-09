@@ -39,6 +39,22 @@ out more about Swagger at
  *         url="http://swagger.io"
  *     )
  * )
+ *  @OA\Tag(
+ *     name="md_jamaah",
+ *     description="Jamaah Api",
+ *     @OA\ExternalDocumentation(
+ *         description="Find out more",
+ *         url="http://swagger.io"
+ *     )
+ * )
+ *  @OA\Tag(
+ *     name="setup",
+ *     description="Setup Api",
+ *     @OA\ExternalDocumentation(
+ *         description="Find out more",
+ *         url="http://swagger.io"
+ *     )
+ * )
  * @OA\ExternalDocumentation(
  *     description="Find out more about Swagger",
  *     url="http://swagger.io"
