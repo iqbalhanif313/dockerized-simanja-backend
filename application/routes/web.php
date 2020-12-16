@@ -31,7 +31,7 @@ $router->group([
 
 $router->group([
     'prefix' => 'api',
-    // 'middleware' => 'auth',
+    'middleware' => 'auth',
 ], function ($router) {
     $router->post('/logout', 'AuthController@logout');
     $router->get('/info', 'BasicController@info');
