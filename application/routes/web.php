@@ -31,13 +31,13 @@ $router->group([
 
 $router->group([
     'prefix' => 'api',
-    'middleware' => 'auth',
+    // 'middleware' => 'auth',
 ], function ($router) {
     $router->post('/logout', 'AuthController@logout');
     $router->get('/info', 'BasicController@info');
-    $router->get('/showJamaah', 'JamaahController@show');
-    $router->post('/createJamaah', 'JamaahController@create');
-    $router->get('/showStDesa', 'SetupController@showStDesa');
-    $router->get('/showStKelompok', 'SetupController@showStKelompok');
-    $router->get('/showStKepengurusan', 'SetupController@showStKepengurusan');
+    $router->get('master/jamaah', 'JamaahController@index');
+    $router->post('master/jamaah/store', 'JamaahController@store');
+    $router->get('/setup/st-desa', 'SetupController@getStDesa');
+    $router->get('/setup/st-kelompok', 'SetupController@getStKelompok');
+    $router->get('/setup/st-kepengurusan', 'SetupController@getStKepengurusan');
 });

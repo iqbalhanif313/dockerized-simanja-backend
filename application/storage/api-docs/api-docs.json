@@ -136,7 +136,7 @@
                 ]
             }
         },
-        "/api/createJamaah": {
+        "/api/master/jamaah/store": {
             "post": {
                 "tags": [
                     "md_jamaah"
@@ -247,7 +247,7 @@
                 ]
             }
         },
-        "/api/showJamaah": {
+        "/api/master/jamaah": {
             "get": {
                 "tags": [
                     "md_jamaah"
@@ -272,7 +272,7 @@
                 ]
             }
         },
-        "/api/showStDesa": {
+        "/api/setup/st-desa": {
             "get": {
                 "tags": [
                     "setup"
@@ -297,7 +297,7 @@
                 ]
             }
         },
-        "/api/showStKelompok": {
+        "/api/setup/st-kelompok": {
             "get": {
                 "tags": [
                     "setup"
@@ -322,7 +322,7 @@
                 ]
             }
         },
-        "/api/showStKepengurusan": {
+        "/api/setup/st-kepengurusan": {
             "get": {
                 "tags": [
                     "setup"

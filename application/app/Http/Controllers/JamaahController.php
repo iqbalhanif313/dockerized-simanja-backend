@@ -22,7 +22,7 @@ class JamaahController extends Controller
      * Create Jamaah information
      *
      * @OA\Post(
-     *     path="/api/createJamaah",
+     *     path="/api/master/jamaah/store",
      *     tags={"md_jamaah"},
      *     operationId="register",
      *     @OA\Response(
@@ -121,7 +121,7 @@ class JamaahController extends Controller
      *   ),
      */
 
-    public function create(CreateJamaahRequest $request)
+    public function store(CreateJamaahRequest $request)
     {
         if (!$this->jamaahService->handleJamaahCreation($request)) {
             $this->handleBadRequest("Bad request at jamaah creation");
@@ -134,7 +134,7 @@ class JamaahController extends Controller
      * Show Jamaah information
      *
      * @OA\Get(
-     *     path="/api/showJamaah",
+     *     path="/api/master/jamaah",
      *     tags={"md_jamaah"},
      *     operationId="info",
      *     @OA\Response(
@@ -151,7 +151,7 @@ class JamaahController extends Controller
      *   ),
      */
 
-    public function show()
+    public function index()
     {
         $jamaah = Jamaah::all();
 
