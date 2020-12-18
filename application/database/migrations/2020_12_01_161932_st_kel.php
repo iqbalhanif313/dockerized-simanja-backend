@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Kec extends Migration
+class Kel extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class Kec extends Migration
      */
     public function up()
     {
-        Schema::create('kec', function (Blueprint $table) {
+        Schema::create('st_kel', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->unsignedBigInteger('kab_id');
-            $table->foreign('kab_id')->references('id')->on('kab');
+            $table->unsignedBigInteger('st_kec_id');
+            $table->foreign('st_kec_id')->references('id')->on('st_kec');
         });
     }
 

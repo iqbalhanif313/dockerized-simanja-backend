@@ -16,8 +16,8 @@ class StKepengurusan extends Migration
         Schema::create('st_kepengurusan', function (Blueprint $table) {
             $table->id();
             $table->string('deskripsi');
-            $table->unsignedBigInteger('st_level_id');
-            $table->foreign('st_level_id')->references('id')->on('st_level');
+            // $table->unsignedBigInteger('st_level_id');
+            // $table->foreign('st_level_id')->references('id')->on('st_level');
         });
     }
 

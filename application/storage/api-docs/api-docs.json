@@ -139,7 +139,7 @@
         "/api/master/jamaah/store": {
             "post": {
                 "tags": [
-                    "md_jamaah"
+                    "master/jamaah"
                 ],
                 "summary": "Create Jamaah information",
                 "operationId": "register",
@@ -250,7 +250,7 @@
         "/api/master/jamaah": {
             "get": {
                 "tags": [
-                    "md_jamaah"
+                    "master/jamaah"
                 ],
                 "summary": "Show Jamaah information",
                 "operationId": "info",
@@ -272,13 +272,13 @@
                 ]
             }
         },
-        "/api/setup/st-desa": {
+        "/api/setup/desa": {
             "get": {
                 "tags": [
                     "setup"
                 ],
-                "summary": "Show setup desa information",
-                "operationId": "info",
+                "summary": "Show Setup Desa information",
+                "operationId": "setup/desa",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -297,13 +297,13 @@
                 ]
             }
         },
-        "/api/setup/st-kelompok": {
+        "/api/setup/jenis-kegiatan": {
             "get": {
                 "tags": [
                     "setup"
                 ],
-                "summary": "Show setup desa information",
-                "operationId": "info",
+                "summary": "Show Setup Jenis Kegiatan information",
+                "operationId": "setup/jenis-kegiatan",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -322,13 +322,288 @@
                 ]
             }
         },
-        "/api/setup/st-kepengurusan": {
+        "/api/setup/kabupaten": {
             "get": {
                 "tags": [
                     "setup"
                 ],
-                "summary": "Show setup kepengurusan information",
-                "operationId": "info",
+                "summary": "Show Setup Kabupaten information",
+                "operationId": "setup/kabupaten",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/kabupaten/{st_provinsi_id}": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show Setup Kabupaten information",
+                "operationId": "setup/kabupaten/id",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/kategori-jamaah": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show Setup Jenis Kegiatan information",
+                "operationId": "setup/kategori-jamaah",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/kecamatan": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show Setup Kecamatan information",
+                "operationId": "setup/kecamatan",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/kecamatan/{st_kab_id}": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show Setup Kecamatan information",
+                "operationId": "setup/kecamatan/id",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/kelurahan": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show Setup Kelurahan information",
+                "operationId": "setup/kelurahan",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/kelurahan/{st_kab_id}": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show Setup Kelurahan information",
+                "operationId": "setup/kelurahan/id",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/level": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show Setup Level information",
+                "operationId": "setup/level",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/provinsi": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show Setup Provinsi information",
+                "operationId": "provinsi",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/status-jamaah": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show Setup StatusJamaah information",
+                "operationId": "setup/status-jamaah",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/status-kehadiran": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show Setup StatusKehadiran information",
+                "operationId": "setup/status-kehadiran",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/tipe-mutasi": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show Setup TipeMutasi information",
+                "operationId": "setup/tipe-mutasi",
                 "responses": {
                     "400": {
                         "description": "Bad Request"

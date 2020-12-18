@@ -13,7 +13,7 @@ class Provinsi extends Migration
      */
     public function up()
     {
-        Schema::create('provinsi', function (Blueprint $table) {
+        Schema::create('st_provinsi', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
         });

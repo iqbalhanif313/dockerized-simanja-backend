@@ -5,7 +5,7 @@ use App\Models\st_desa;
 use App\Models\st_kelompok;
 use App\Models\st_kepengurusan;
 
-class SetupController extends Controller
+class RefController extends Controller
 {
     /**
      * Show setup desa information
@@ -84,11 +84,19 @@ class SetupController extends Controller
      *   ),
      */
 
-    public function getStKepengurusan()
+    public function getRefJenisKelamin()
     {
-        $stKepengurusan = st_kepengurusan::all();
+        // $data = [{
+        //     "id" : "L",
+        //     "nama" : "Laki-laki"
+        // }];
+        $data = array(
+            'employees' => array(
+                array('firstName' => 'John', 'lastName' => 'Doe'),
+            )
+        );
 
-        return response()->json($stKepengurusan);
+        return response()->json($data);
     }
 
 

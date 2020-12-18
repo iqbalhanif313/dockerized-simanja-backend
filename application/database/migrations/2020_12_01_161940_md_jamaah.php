@@ -14,10 +14,10 @@ class MdJamaah extends Migration
     public function up()
     {
         Schema::create('md_jamaah', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
+            $table->bigInteger('nik')->primary();
             $table->string('nama');
             $table->string('jenis_kelamin');
-            $table->bigInteger('nik');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->string('hp',13);
@@ -30,14 +30,14 @@ class MdJamaah extends Migration
             $table->foreign('st_kategori_jamaah_id')->references('id')->on('st_kategori_jamaah');
             $table->unsignedBigInteger('st_status_jamaah_id');
             $table->foreign('st_status_jamaah_id')->references('id')->on('st_status_jamaah');
-            $table->unsignedBigInteger('provinsi_id');
-            $table->foreign('provinsi_id')->references('id')->on('provinsi');
-            $table->unsignedBigInteger('kab_id');
-            $table->foreign('kab_id')->references('id')->on('kab');
-            $table->unsignedBigInteger('kec_id');
-            $table->foreign('kec_id')->references('id')->on('kec');
-            $table->unsignedBigInteger('kel_id');
-            $table->foreign('kel_id')->references('id')->on('kel');
+            $table->unsignedBigInteger('st_provinsi_id');
+            $table->foreign('st_provinsi_id')->references('id')->on('st_provinsi');
+            $table->unsignedBigInteger('st_kab_id');
+            $table->foreign('st_kab_id')->references('id')->on('st_kab');
+            $table->unsignedBigInteger('st_kec_id');
+            $table->foreign('st_kec_id')->references('id')->on('st_kec');
+            $table->unsignedBigInteger('st_kel_id');
+            $table->foreign('st_kel_id')->references('id')->on('st_kel');
             $table->timestamps();
         });
     }
