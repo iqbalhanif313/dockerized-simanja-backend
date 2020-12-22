@@ -45,6 +45,8 @@ $router->group([
 
     //setup
     $router->get('/setup/desa', 'Setup\DesaController@index');
+    $router->get('/setup/desa/{id}', 'Setup\DesaController@getById');
+    
     $router->get('/setup/jenis-kegiatan', 'Setup\JenisKegiatanController@index');
     $router->get('/setup/kabupaten', 'Setup\KabupatenController@index');
     $router->get('/setup/kabupaten/{st_provinsi_id}', 'Setup\KabupatenController@getById');

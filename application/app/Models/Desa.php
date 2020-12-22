@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class st_desa extends Model
+class Desa extends Model
 {
+    protected $guarded = [];
     public $table = "st_desa";
 }
