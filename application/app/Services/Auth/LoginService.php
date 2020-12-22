@@ -1,15 +1,15 @@
 <?php
 
 
-namespace App\Http\Services\Auth;
+namespace App\Services\Auth;
 
 
-class UserInfoService
+class LoginService
 {
 
     public function buildResponse(){
         $user = app('auth')->user();
-        $roles = $user->roles()->get();
+        // $roles = $user->roles()->get();
         $detail = $user->detailJamaah;
 
         $response['email']= $user->email;
@@ -20,15 +20,15 @@ class UserInfoService
         $response['info']['hp'] = $detail->hp;
         $response['info']['alamat'] = $detail->alamat;
         $response['info']['kelompok'] = $detail->kelompok;
-        $response['info']['kel'] = $detail->kel;
-        $response['info']['kab'] = $detail->kab;
-        $response['info']['provinsi'] = $detail->provinsi;
+        $response['info']['kel'] = $detail->st_kel_id;
+        $response['info']['kab'] = $detail->st_kab_id;
+        $response['info']['provinsi'] = $detail->st_provinsi_id;
         $response['info']['status'] = $detail->status;
 
-        foreach ($roles as $role) {
-            $response['roles'][] = $role->name;
-        }
-        return response()->json($response);
+        // foreach ($roles as $role) {
+        //     $response['roles'][] = $role->name;
+        // }
+        return $response;
     }
 
 }

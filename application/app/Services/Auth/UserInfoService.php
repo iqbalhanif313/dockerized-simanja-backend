@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Http\Services\Auth;
+namespace App\Services\Auth;
 
 
-class LoginService
+class UserInfoService
 {
 
     public function buildResponse(){
@@ -28,7 +28,7 @@ class LoginService
         foreach ($roles as $role) {
             $response['roles'][] = $role->name;
         }
-        return $response;
+        return response()->json($response);
     }
 
 }

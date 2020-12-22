@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Services\Auth;
+namespace App\Services\Auth;
 
 
 use App\Models\Role;
