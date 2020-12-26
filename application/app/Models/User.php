@@ -35,7 +35,7 @@ class User extends Model implements JWTSubject,AuthenticatableContract, Authoriz
 
     public function hasRole($role)
     {
-        return $this->roles()->where('name', $role)->count() == 1;
+        return $this->roles()->where('nama', $role)->count() == 1;
     }
 
     public function roles(){

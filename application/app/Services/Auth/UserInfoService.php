@@ -24,10 +24,10 @@ class UserInfoService
         $response['info']['kab'] = $detail->kab;
         $response['info']['provinsi'] = $detail->provinsi;
         $response['info']['status'] = $detail->status;
-
-        foreach ($roles as $role) {
-            $response['roles'][] = $role->name;
-        }
+        $response['roles'][0] = "admin";
+        // foreach ($roles as $role) {
+        //     $response['roles'][] = $role->name;
+        // }
         return response()->json($response);
     }
 

@@ -3,7 +3,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\Auth\UserInfoService;
+use App\Services\Auth\UserInfoService;
 use App\Models\Jamaah;
 use Illuminate\Support\Facades\App;
 

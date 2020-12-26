@@ -14,7 +14,7 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/login": {
+        "/api/login": {
             "post": {
                 "tags": [
                     "auth"
@@ -253,6 +253,31 @@
                     "master/jamaah"
                 ],
                 "summary": "Show Jamaah information",
+                "operationId": "info",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/st-kepengurusan": {
+            "get": {
+                "tags": [
+                    "setup"
+                ],
+                "summary": "Show setup kepengurusan information",
                 "operationId": "info",
                 "responses": {
                     "400": {

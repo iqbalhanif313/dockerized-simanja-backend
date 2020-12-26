@@ -24,7 +24,7 @@ class AuthController extends Controller
      * Login to get Jwt Token
      *
      * @OA\Post(
-     *     path="/login",
+     *     path="/api/login",
      *     tags={"auth"},
      *     operationId="login",
      *     @OA\Response(

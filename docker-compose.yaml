@@ -26,7 +26,7 @@ services:
           - ./application:/application
           - ./sourcefiles/nginx:/etc/nginx/conf.d
       ports:
-       - "80:80"
+       - "8000:80"
       networks:
         - simanja-network
 

@@ -2,14 +2,14 @@
 
 
 namespace App\Services\Auth;
-
+use DB;
 
 class LoginService
 {
 
     public function buildResponse(){
         $user = app('auth')->user();
-        // $roles = $user->roles()->get();
+        $roles = $user->roles()->get();
         $detail = $user->detailJamaah;
 
         $response['email']= $user->email;
@@ -24,10 +24,10 @@ class LoginService
         $response['info']['kab'] = $detail->st_kab_id;
         $response['info']['provinsi'] = $detail->st_provinsi_id;
         $response['info']['status'] = $detail->status;
-
-        // foreach ($roles as $role) {
-        //     $response['roles'][] = $role->name;
-        // }
+        $response['roles'][0] = "admin";
+            // foreach ($roles as $role) {
+            //     $response['roles'][] = $role->name;
+            // }
         return $response;
     }
 
