@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Kegiatan;
 
-use App\Models\st_desa as Desa;
-use App\Repositories\DesaRepository;
+use App\Models\Kegiatan;
+use App\Repositories\KegiatanRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
 
-class DesaService
+class KegiatanService
 {
 
-    protected $desaRepository;
+    protected $kegiatanRepository;
 
-    public function __construct(DesaRepository $desaRepository)
+    public function __construct(KegiatanRepository $kegiatanRepository)
     {
-        $this->desaRepository = $desaRepository;
+        $this->kegiatanRepository = $kegiatanRepository;
     }
 
     public function deleteById($id)
@@ -25,36 +25,35 @@ class DesaService
         DB::beginTransaction();
 
         try {
-            $desa = $this->desaRepository->delete($id);
+            $kegiatan = $this->kegiatanRepository->delete($id);
 
         } catch (Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
 
-            throw new InvalidArgumentException('Unable to delete desa data');
+            throw new InvalidArgumentException('Unable to delete kegiatan data');
         }
 
         DB::commit();
 
-        return $desa;
+        return $kegiatan;
 
     }
 
     public function getAll()
     {
-        return $this->desaRepository->getAll();
+        return $this->kegiatanRepository->getAll();
     }
 
     public function getById($id)
     {
-        return $this->desaRepository->getById($id);
+        return $this->kegiatanRepository->getById($id);
     }
 
-    public function updateDesa($data, $id)
+    public function updateData($data, $id)
     {
         $validator = Validator::make($data, [
-            'title' => 'bail|min:2',
-            'description' => 'bail|max:255'
+            'nama' => 'bail|max:255'
         ]);
 
         if ($validator->fails()) {
@@ -64,33 +63,33 @@ class DesaService
         DB::beginTransaction();
 
         try {
-            $desa = $this->desaRepository->update($data, $id);
+            $kegiatan = $this->kegiatanRepository->update($data, $id);
 
         } catch (Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
 
-            throw new InvalidArgumentException('Unable to update desa data');
+            throw new InvalidArgumentException('Unable to update kegiatan data');
         }
 
         DB::commit();
 
-        return $desa;
+        return $kegiatan;
 
     }
 
-    public function saveDesaData($data)
+    public function saveData($data)
     {
         $validator = Validator::make($data, [
-            'title' => 'required',
-            'description' => 'required'
+            'id' => 'required',
+            'nama' => 'required'
         ]);
 
         if ($validator->fails()) {
             throw new InvalidArgumentException($validator->errors()->first());
         }
 
-        $result = $this->desaRepository->save($data);
+        $result = $this->kegiatanRepository->save($data);
 
         return $result;
     }

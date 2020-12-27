@@ -3,12 +3,12 @@
 
 namespace App\Http\Controllers\Setup;
 
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use DB;
 use Exception;
-use App\Services\DesaService;
+use App\Services\Desa\DesaService;
 
 class DesaController extends Controller
 {
@@ -54,9 +54,65 @@ class DesaController extends Controller
         }
 
         return response()->json($result, $result['status']);
-
-        // $query = "SELECT * FROM st_desa";
-        // $data = DB::select($query);
-        // return response()->json($data);
     }
+
+    public function store(Request $request)
+    {
+        $data = $request->only([
+            'id',
+            'nama',
+        ]);
+
+        $result = ['status' => 200];
+
+        try {
+            $result['data'] = $this->desaService->saveData($data);
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+
+        return response()->json($result, $result['status']);
+    }
+
+    public function show($id)
+    {
+        $result = ['status' => 200];
+
+        try {
+            $result['data'] = $this->desaService->getById($id);
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+        return response()->json($result, $result['status']);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = $request->only([
+            'id',
+            'nama'
+        ]);
+
+        $result = ['status' => 200];
+
+        try {
+            $result['data'] = $this->desaService->updateData($data, $id);
+
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+
+        return response()->json($result, $result['status']);
+
+    }
+
 }

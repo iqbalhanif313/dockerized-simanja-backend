@@ -39,13 +39,18 @@ $router->group([
     //master data
     $router->get('master/jamaah', 'Master\JamaahController@index');
     $router->post('master/jamaah/store', 'Master\JamaahController@store');
+
     $router->get('master/kegiatan', 'Master\KegiatanController@index');
+    $router->get('master/kegiatan/{id}', 'Master\KegiatanController@show');
+
     $router->get('master/kelompok', 'Master\KelompokController@index');
     $router->get('master/kepengurusan', 'Master\KepengurusanController@index');
 
     //setup
     $router->get('/setup/desa', 'Setup\DesaController@index');
-    $router->get('/setup/desa/{id}', 'Setup\DesaController@getById');
+    $router->get('/setup/desa/{id}', 'Setup\DesaController@show');
+    $router->post('/setup/desa', 'Setup\DesaController@store');
+    $router->put('/setup/desa/{id}', 'Setup\DesaController@update');
     
     $router->get('/setup/jenis-kegiatan', 'Setup\JenisKegiatanController@index');
     $router->get('/setup/kabupaten', 'Setup\KabupatenController@index');

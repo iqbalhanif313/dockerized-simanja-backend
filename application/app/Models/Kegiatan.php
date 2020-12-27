@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Desa extends Model
+class Kegiatan extends Model
 {
     protected $guarded = [];
-    public $table = "st_desa";
+    public $table = "md_kegiatan";
     public $incrementing = false;
 }

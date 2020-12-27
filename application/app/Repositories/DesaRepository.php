@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\st_desa as Desa;
+use App\Models\Desa;
 use DB;
 
 class DesaRepository
@@ -48,8 +48,8 @@ class DesaRepository
         
         $desa = $this->desa->find($id);
 
-        $desa->title = $data['title'];
-        $desa->description = $data['description'];
+        $desa->id = $data['id'];
+        $desa->nama = $data['nama'];
 
         $desa->update();
 
