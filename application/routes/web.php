@@ -82,8 +82,11 @@ $router->group([
     $router->post('/trans/jadwal', 'Trans\JadwalController@store');
     $router->put('/trans/jadwal/{id}', 'Trans\JadwalController@update');
 
-
     $router->get('/trans/kepengurusan', 'Trans\KepengurusanController@index');
+    $router->get('/trans/kepengurusan/{id}', 'Trans\KepengurusanController@show');
+    $router->post('/trans/kepengurusan', 'Trans\KepengurusanController@store');
+    $router->put('/trans/kepengurusan/{id}', 'Trans\KepengurusanController@update');
+
     $router->get('/trans/mutasi', 'Trans\MutasiController@index');
     $router->get('/trans/presensi', 'Trans\JadwalController@index');
 
