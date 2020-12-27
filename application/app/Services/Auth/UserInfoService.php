@@ -19,11 +19,11 @@ class UserInfoService
         $response['info']['tempat_lahir'] = $detail->tempat_lahir;
         $response['info']['hp'] = $detail->hp;
         $response['info']['alamat'] = $detail->alamat;
-        $response['info']['kelompok'] = $detail->kelompok;
-        $response['info']['kel'] = $detail->kel;
-        $response['info']['kab'] = $detail->kab;
-        $response['info']['provinsi'] = $detail->provinsi;
-        $response['info']['status'] = $detail->status;
+        // $response['info']['kelompok'] = $detail->kelompok;
+        // $response['info']['kel'] = $detail->kel;
+        // $response['info']['kab'] = $detail->kab;
+        // $response['info']['provinsi'] = $detail->provinsi;
+        // $response['info']['status'] = $detail->status;
         $response['roles'][0] = "admin";
         // foreach ($roles as $role) {
         //     $response['roles'][] = $role->name;
