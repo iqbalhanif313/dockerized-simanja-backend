@@ -78,6 +78,11 @@ $router->group([
 
     //transactional
     $router->get('/trans/jadwal', 'Trans\JadwalController@index');
+    $router->get('/trans/jadwal/{id}', 'Trans\JadwalController@show');
+    $router->post('/trans/jadwal', 'Trans\JadwalController@store');
+    $router->put('/trans/jadwal/{id}', 'Trans\JadwalController@update');
+
+
     $router->get('/trans/kepengurusan', 'Trans\KepengurusanController@index');
     $router->get('/trans/mutasi', 'Trans\MutasiController@index');
     $router->get('/trans/presensi', 'Trans\JadwalController@index');

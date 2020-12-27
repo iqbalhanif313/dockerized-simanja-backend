@@ -59,10 +59,10 @@ class JadwalController extends Controller
     public function store(Request $request)
     {
         $data = $request->only([
-            'id',
-            'st_desa_id',
-            'nama',
-            'alamat'
+            'tanggal',
+            'jam_mulai',
+            'jam_selesai',
+            'md_kegiatan_id'
         ]);
 
         $result = ['status' => 200];
@@ -97,10 +97,10 @@ class JadwalController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->only([
-            'id',
-            'st_desa_id',
-            'nama',
-            'alamat'
+            'tanggal',
+            'jam_mulai',
+            'jam_selesai',
+            'md_kegiatan_id'
         ]);
 
         $result = ['status' => 200];

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Jadwal;
+use Ramsey\Uuid\Uuid;
 use DB;
 
 class JadwalRepository
@@ -34,15 +35,17 @@ class JadwalRepository
 
     public function getById($id)
     {
-        $query = "SELECT md_jadwal.*,st_level.nama as level,md_kelompok.nama as kelompok,st_desa.nama as desa , st_jenis_jadwal.nama as jenis_jadwal,st_kategori_jamaah.nama as peserta
-        FROM md_jadwal
-        LEFT JOIN st_jenis_jadwal ON md_jadwal.st_jenis_jadwal_id = st_jenis_jadwal.id
-        LEFT JOIN st_kategori_jamaah ON md_jadwal.st_kategori_jamaah_id = st_kategori_jamaah.id
-        LEFT JOIN st_level ON md_jadwal.st_level_id = st_level.id
-        LEFT JOIN md_kelompok ON md_jadwal.md_kelompok_id = md_kelompok.id 
-        LEFT JOIN st_desa ON md_jadwal.st_desa_id = st_desa.id  
-        WHERE md_jadwal.id = '$id' 
-        AND md_jadwal.deleted_at IS NULL";
+        $query = "SELECT trans_jadwal.*,md_kegiatan.deskripsi as kegiatan,st_level.nama as level,md_kelompok.nama as kelompok,st_desa.nama as desa , st_jenis_kegiatan.nama as jenis_kegiatan,st_kategori_jamaah.nama as peserta
+        FROM trans_jadwal
+        LEFT JOIN md_kegiatan ON trans_jadwal.md_kegiatan_id = md_kegiatan.id
+        LEFT JOIN st_jenis_kegiatan ON md_kegiatan.st_jenis_kegiatan_id = st_jenis_kegiatan.id
+        LEFT JOIN st_kategori_jamaah ON md_kegiatan.st_kategori_jamaah_id = st_kategori_jamaah.id
+        LEFT JOIN st_level ON md_kegiatan.st_level_id = st_level.id
+        LEFT JOIN md_kelompok ON md_kegiatan.md_kelompok_id = md_kelompok.id 
+        LEFT JOIN st_desa ON md_kegiatan.st_desa_id = st_desa.id 
+        WHERE trans_jadwal.id = '$id'
+        AND trans_jadwal.deleted_at IS NULL";
+
         $data = DB::select($query);
         return $data;
     }
@@ -51,13 +54,11 @@ class JadwalRepository
     {
         $jadwal = new $this->jadwal;
 
-        $jadwal->id = $data['id'];
-        $jadwal->deskripsi = $data['deskripsi'];
-        $jadwal->st_level_id = $data['st_level_id'];
-        $jadwal->st_jenis_jadwal_id = $data['st_jenis_jadwal_id'];
-        $jadwal->st_kategori_jamaah_id = $data['st_kategori_jamaah_id'];
-        $jadwal->st_desa_id = $data['st_desa_id'];
-        $jadwal->md_kelompok_id = $data['md_kelompok_id'];
+        $jadwal->id = Uuid::uuid1()->toString();
+        $jadwal->tanggal = $data['tanggal'];
+        $jadwal->jam_mulai = $data['jam_mulai'];
+        $jadwal->jam_selesai = $data['jam_selesai'];
+        $jadwal->md_kegiatan_id = $data['md_kegiatan_id'];
         $jadwal->save();
 
         return $jadwal->fresh();
@@ -68,13 +69,10 @@ class JadwalRepository
         
         $jadwal = $this->jadwal->find($id);
 
-        $jadwal->id = $data['id'];
-        $jadwal->deskripsi = $data['deskripsi'];
-        $jadwal->st_level_id = $data['st_level_id'];
-        $jadwal->st_jenis_jadwal_id = $data['st_jenis_jadwal_id'];
-        $jadwal->st_kategori_jamaah_id = $data['st_kategori_jamaah_id'];
-        $jadwal->st_desa_id = $data['st_desa_id'];
-        $jadwal->md_kelompok_id = $data['md_kelompok_id'];
+        $jadwal->tanggal = $data['tanggal'];
+        $jadwal->jam_mulai = $data['jam_mulai'];
+        $jadwal->jam_selesai = $data['jam_selesai'];
+        $jadwal->md_kegiatan_id = $data['md_kegiatan_id'];
 
         $jadwal->update();
 

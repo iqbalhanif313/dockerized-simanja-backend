@@ -53,7 +53,10 @@ class JadwalService
     public function updateData($data, $id)
     {
         $validator = Validator::make($data, [
-            'deskripsi' => 'bail|max:255'
+            'tanggal' => 'bail',
+            'jam_mulai' => 'bail',
+            'jam_selesai' => 'bail',
+            'md_kegiatan_id' => 'bail'
         ]);
 
         if ($validator->fails()) {
@@ -81,11 +84,10 @@ class JadwalService
     public function saveData($data)
     {
         $validator = Validator::make($data, [
-            'id' => 'required',
-            'deskripsi' => 'required',
-            'st_level_id' => 'required',
-            'st_jenis_jadwal_id' => 'required',
-            'st_kategori_jamaah_id' => 'required'
+            'tanggal' => 'required',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required',
+            'md_kegiatan_id' => 'required'
         ]);
 
         if ($validator->fails()) {
