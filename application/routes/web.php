@@ -87,8 +87,12 @@ $router->group([
     $router->post('/trans/kepengurusan', 'Trans\KepengurusanController@store');
     $router->put('/trans/kepengurusan/{id}', 'Trans\KepengurusanController@update');
 
+    $router->get('/trans/presensi', 'Trans\PresensiController@index');
+    $router->get('/trans/presensi/{id}', 'Trans\PresensiController@show');
+    $router->get('/trans/presensi/jadwal/{trans_jadwal_id}', 'Trans\PresensiController@getByTransJadwalId');
+
     $router->get('/trans/mutasi', 'Trans\MutasiController@index');
-    $router->get('/trans/presensi', 'Trans\JadwalController@index');
+    
 
     //refererence
     $router->get('/ref/jenis-kelamin', 'RefController@getRefJenisKelamin');
