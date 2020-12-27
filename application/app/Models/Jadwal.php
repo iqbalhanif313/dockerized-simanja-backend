@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Jadwal extends Model
+{
+    protected $guarded = [];
+    public $table = "trans_jadwal";
+    public $incrementing = false;
+}
