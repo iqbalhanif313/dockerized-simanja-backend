@@ -21,16 +21,14 @@ class CreateJamaahRequest extends FormRequest
             "jenis_kelamin" => "required",
             "tempat_lahir" => "required",
             "tanggal_lahir" => "required",
-            "hp" => "required|size:12",
+            "hp" => "required",
             "alamat" => "required",
             "users_id" => "required",
-            "kelompok" => "required",
-            "kategori_jamaah" => "required",
-            "status_jamaah" => "required",
-            "provinsi" => "required",
-            "kab" => "required",
-            "kec" => "required",
-            "kel" => "required",
+            "md_kelompok_id" => "required",
+            "st_provinsi_id" => "required",
+            "st_kab_id" => "required",
+            "st_kec_id" => "required",
+            "st_kel_id" => "required",
         ];
     }
 }

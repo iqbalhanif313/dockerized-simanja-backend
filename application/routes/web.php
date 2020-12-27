@@ -38,7 +38,7 @@ $router->group([
 
     //master data
     $router->get('master/jamaah', 'Master\JamaahController@index');
-    $router->post('master/jamaah/store', 'Master\JamaahController@store');
+    $router->post('master/jamaah', 'Master\JamaahController@store');
 
     $router->get('master/kegiatan', 'Master\KegiatanController@index');
     $router->get('master/kegiatan/{id}', 'Master\KegiatanController@show');

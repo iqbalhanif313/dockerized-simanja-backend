@@ -6,30 +6,32 @@ use Illuminate\Database\Eloquent\Model;
 
 class Jamaah extends Model
 {
+    protected $guarded = [];
     public $table = "md_jamaah";
+    public $incrementing = false;
 
     public function kel()
     {
-        return $this->belongsTo(Kel::class, 'kel_id');
+        return $this->belongsTo(Kel::class, 'st_kel_id');
     }
     public function kec()
     {
-        return $this->belongsTo(Kel::class, 'kec_id');
+        return $this->belongsTo(Kel::class, 'st_kec_id');
     }
 
     public function kab()
     {
-        return $this->belongsTo(Kab::class,'kab_id');
+        return $this->belongsTo(Kab::class,'st_kab_id');
     }
 
     public function provinsi()
     {
-        return $this->belongsTo(Kab::class,'provinsi_id');
+        return $this->belongsTo(Provinsi::class,'st_provinsi_id');
     }
 
     public function kelompok()
     {
-        return $this->belongsTo(Kelompok::class,'st_kelompok_id');
+        return $this->belongsTo(Kelompok::class,'md_kelompok_id');
     }
 
     public function status()

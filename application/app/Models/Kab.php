@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kab extends Model
 {
-    public $table = "kab";
+    public $table = "st_kab_id";
 }
