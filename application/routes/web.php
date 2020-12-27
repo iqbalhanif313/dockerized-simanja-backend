@@ -42,6 +42,8 @@ $router->group([
 
     $router->get('master/kegiatan', 'Master\KegiatanController@index');
     $router->get('master/kegiatan/{id}', 'Master\KegiatanController@show');
+    $router->post('master/kegiatan', 'Master\KegiatanController@store');
+    $router->put('master/kegiatan/{id}', 'Master\KegiatanController@update');
 
     $router->get('master/kelompok', 'Master\KelompokController@index');
     $router->get('master/kepengurusan', 'Master\KepengurusanController@index');

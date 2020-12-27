@@ -82,7 +82,10 @@ class KegiatanService
     {
         $validator = Validator::make($data, [
             'id' => 'required',
-            'nama' => 'required'
+            'deskripsi' => 'required',
+            'st_level_id' => 'required',
+            'st_jenis_kegiatan_id' => 'required',
+            'st_kategori_jamaah_id' => 'required'
         ]);
 
         if ($validator->fails()) {

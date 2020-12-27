@@ -101,7 +101,12 @@ class KegiatanController extends Controller
     {
         $data = $request->only([
             'id',
-            'nama'
+            'deskripsi',
+            'st_level_id',
+            'st_jenis_kegiatan_id',
+            'st_kategori_jamaah_id',
+            'st_desa_id',
+            'md_kelompok_id'
         ]);
 
         $result = ['status' => 200];

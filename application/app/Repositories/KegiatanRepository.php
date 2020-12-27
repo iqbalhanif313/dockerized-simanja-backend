@@ -51,8 +51,12 @@ class KegiatanRepository
         $kegiatan = new $this->kegiatan;
 
         $kegiatan->id = $data['id'];
-        $kegiatan->nama = $data['nama'];
-
+        $kegiatan->deskripsi = $data['deskripsi'];
+        $kegiatan->st_level_id = $data['st_level_id'];
+        $kegiatan->st_jenis_kegiatan_id = $data['st_jenis_kegiatan_id'];
+        $kegiatan->st_kategori_jamaah_id = $data['st_kategori_jamaah_id'];
+        $kegiatan->st_desa_id = $data['st_desa_id'];
+        $kegiatan->md_kelompok_id = $data['md_kelompok_id'];
         $kegiatan->save();
 
         return $kegiatan->fresh();
@@ -64,7 +68,12 @@ class KegiatanRepository
         $kegiatan = $this->kegiatan->find($id);
 
         $kegiatan->id = $data['id'];
-        $kegiatan->nama = $data['nama'];
+        $kegiatan->deskripsi = $data['deskripsi'];
+        $kegiatan->st_level_id = $data['st_level_id'];
+        $kegiatan->st_jenis_kegiatan_id = $data['st_jenis_kegiatan_id'];
+        $kegiatan->st_kategori_jamaah_id = $data['st_kategori_jamaah_id'];
+        $kegiatan->st_desa_id = $data['st_desa_id'];
+        $kegiatan->md_kelompok_id = $data['md_kelompok_id'];
 
         $kegiatan->update();
 
