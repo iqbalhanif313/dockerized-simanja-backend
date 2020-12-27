@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Request\CreateJamaahRequest;
-use App\Http\Services\MdJamaah\JamaahService;
+use App\Services\MdJamaah\JamaahService;
 use App\Http\Controllers\Controller;
 use Exception;
 

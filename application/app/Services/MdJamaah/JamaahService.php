@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Services\MdJamaah;
+namespace App\Services\MdJamaah;
 
 use App\Models\Jamaah;
 use App\Models\Kab;
