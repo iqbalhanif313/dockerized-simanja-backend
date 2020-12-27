@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Services\Kegiatan;
+namespace App\Services\Kepengurusan;
 
-use App\Models\Kegiatan;
-use App\Repositories\KegiatanRepository;
+use App\Models\Kepengurusan;
+use App\Repositories\KepengurusanRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
 
-class KegiatanService
+class KepengurusanService
 {
 
-    protected $kegiatanRepository;
+    protected $kepengurusanRepository;
 
-    public function __construct(KegiatanRepository $kegiatanRepository)
+    public function __construct(KepengurusanRepository $kepengurusanRepository)
     {
-        $this->kegiatanRepository = $kegiatanRepository;
+        $this->kepengurusanRepository = $kepengurusanRepository;
     }
 
     public function deleteById($id)
@@ -25,35 +25,35 @@ class KegiatanService
         DB::beginTransaction();
 
         try {
-            $kegiatan = $this->kegiatanRepository->delete($id);
+            $kepengurusan = $this->kepengurusanRepository->delete($id);
 
         } catch (Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
 
-            throw new InvalidArgumentException('Unable to delete kegiatan data');
+            throw new InvalidArgumentException('Unable to delete kepengurusan data');
         }
 
         DB::commit();
 
-        return $kegiatan;
+        return $kepengurusan;
 
     }
 
     public function getAll()
     {
-        return $this->kegiatanRepository->getAll();
+        return $this->kepengurusanRepository->getAll();
     }
 
     public function getById($id)
     {
-        return $this->kegiatanRepository->getById($id);
+        return $this->kepengurusanRepository->getById($id);
     }
 
     public function updateData($data, $id)
     {
         $validator = Validator::make($data, [
-            'deskripsi' => 'bail|max:255'
+            'nama' => 'bail|max:255',        
         ]);
 
         if ($validator->fails()) {
@@ -63,18 +63,18 @@ class KegiatanService
         DB::beginTransaction();
 
         try {
-            $kegiatan = $this->kegiatanRepository->update($data, $id);
+            $kepengurusan = $this->kepengurusanRepository->update($data, $id);
 
         } catch (Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
 
-            throw new InvalidArgumentException('Unable to update kegiatan data');
+            throw new InvalidArgumentException('Unable to update kepengurusan data');
         }
 
         DB::commit();
 
-        return $kegiatan;
+        return $kepengurusan;
 
     }
 
@@ -82,17 +82,16 @@ class KegiatanService
     {
         $validator = Validator::make($data, [
             'id' => 'required',
-            'deskripsi' => 'required',
-            'st_level_id' => 'required',
-            'st_jenis_kegiatan_id' => 'required',
-            'st_kategori_jamaah_id' => 'required'
+            'nama' => 'required',
+            'st_kepengurusan_id' => 'required',
+            'st_level_id' => 'required'
         ]);
 
         if ($validator->fails()) {
             throw new InvalidArgumentException($validator->errors()->first());
         }
 
-        $result = $this->kegiatanRepository->save($data);
+        $result = $this->kepengurusanRepository->save($data);
 
         return $result;
     }

@@ -46,7 +46,14 @@ $router->group([
     $router->put('master/kegiatan/{id}', 'Master\KegiatanController@update');
 
     $router->get('master/kelompok', 'Master\KelompokController@index');
+    $router->get('master/kelompok/{id}', 'Master\KelompokController@show');
+    $router->post('master/kelompok', 'Master\KelompokController@store');
+    $router->put('master/kelompok/{id}', 'Master\KelompokController@update');
+
     $router->get('master/kepengurusan', 'Master\KepengurusanController@index');
+    $router->get('master/kepengurusan/{id}', 'Master\KepengurusanController@show');
+    $router->post('master/kepengurusan', 'Master\KepengurusanController@store');
+    $router->put('master/kepengurusan/{id}', 'Master\KepengurusanController@update');
 
     //setup
     $router->get('/setup/desa', 'Setup\DesaController@index');

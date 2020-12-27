@@ -19,7 +19,7 @@ class DesaRepository
 
     public function getAll()
     {
-        $query = "SELECT id,CONCAT(id,'- ',nama) as nama FROM st_desa";
+        $query = "SELECT id,nama,CONCAT(id,'- ',nama) as id_nama FROM st_desa";
         $data = DB::select($query);
         return $data;
     }
