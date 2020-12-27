@@ -5,22 +5,19 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Request\CreateJamaahRequest;
 use App\Http\Services\MdJamaah\JamaahService;
-use App\Models\Jamaah;
-use Illuminate\Http\Client\Request;
-use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
-use DB;
+use Exception;
 
 class JamaahController extends Controller
 {
     protected $jamaahService;
 
-    public function __construct()
+    public function __construct(JamaahService $jamaahService)
     {
-        $this->jamaahService = new JamaahService();
+        $this->jamaahService = $jamaahService;
     }
 
-     /**
+    /**
      * Show Jamaah information
      *
      * @OA\Get(
@@ -43,19 +40,33 @@ class JamaahController extends Controller
 
     public function index()
     {
-        $query =
-            "SELECT md_jamaah.*,u.*,sk.nama as kecamatan, s.nama as kelurahan,k.nama as kabupaten,sp.nama as provinsi,ssj.nama as status,skj.nama as kategori,mk.nama as kelompok from md_jamaah
-                LEFT JOIN st_kec sk on md_jamaah.st_kec_id = sk.id
-                LEFT JOIN st_kel s on md_jamaah.st_kel_id = s.id
-                LEFT JOIN st_kab k on md_jamaah.st_kab_id = k.id
-                LEFT JOIN st_provinsi sp on k.st_provinsi_id = sp.id
-                LEFT JOIN st_status_jamaah ssj on md_jamaah.st_status_jamaah_id = ssj.id
-                LEFT JOIN st_kategori_jamaah skj on md_jamaah.st_kategori_jamaah_id = skj.id
-                LEFT JOIN md_kelompok mk on md_jamaah.md_kelompok_id = mk.id
-                LEFT JOIN users u on md_jamaah.users_id = u.id
-                WHERE md_jamaah.deleted_at IS NULL";
-        $data = DB::select($query);
-        return response()->json($data);
+        $result = ['status' => 200];
+
+        try {
+            $result['data'] = $this->jamaahService->getAll();
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+
+        return response()->json($result, $result['status']);
+    }
+
+    public function show($id)
+    {
+        $result = ['status' => 200];
+
+        try {
+            $result['data'] = $this->jamaahService->getById($id);
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+        return response()->json($result, $result['status']);
     }
 
     /**
@@ -80,37 +91,38 @@ class JamaahController extends Controller
      *    		@OA\MediaType(
      *    			mediaType="application/json",
      *    			@OA\Schema(
-     *    				 @OA\Property(property="Nama",
-     *    					type="string",
-     *    					example="",
-     *    					description="Full name of jamaah"
-     *    				),
-     *    				 @OA\Property(property="Jenis Kelamin",
-     *    					type="string",
-     *    					example="",
-     *    					description="write 'laki-laki' or 'perempuan'"
-     *                  ),
-     *                  @OA\Property(property="NIK",
+     *                  @OA\Property(property="nik",
      *    					type="bigInteger",
      *    					example="",
      *    					description="max length 16"
      *                  ),
-     *                  @OA\Property(property="Tempat Lahir",
+     *    				 @OA\Property(property="nama",
+     *    					type="string",
+     *    					example="Slamet Sampurno",
+     *    					description="Full name of jamaah"
+     *    				),
+     *    				 @OA\Property(property="jenis_kelamin",
+     *    					type="string",
+     *    					example="L",
+     *    					description="Tulis 'L' or 'P'"
+     *                  ),
+     *                  
+     *                  @OA\Property(property="tempat_lahir",
      *    					type="string",
      *    					example="",
      *    					description=""
      *                  ),
-     *                  @OA\Property(property="Tanggal Lahir",
+     *                  @OA\Property(property="tanggal_lahir",
      *    					type="date",
      *    					example="",
      *    					description="YYYY-MM-DD"
      *                  ),
-     *                  @OA\Property(property="HP",
+     *                  @OA\Property(property="hp",
      *    					type="string",
      *    					example="",
      *    					description="max:13"
      *                  ),
-     *                  @OA\Property(property="Alamat",
+     *                  @OA\Property(property="alamat",
      *    					type="string",
      *    					example="",
      *    					description=""
@@ -169,6 +181,4 @@ class JamaahController extends Controller
 
         return $this->success("jamaah creation succeed");
     }
-
-   
 }

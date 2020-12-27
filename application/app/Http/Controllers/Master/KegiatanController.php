@@ -4,9 +4,7 @@
 namespace App\Http\Controllers\Master;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
-use DB;
 use Exception;
 use App\Services\Kegiatan\KegiatanService;
 

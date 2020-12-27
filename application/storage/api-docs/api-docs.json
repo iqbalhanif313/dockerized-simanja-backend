@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Simanja (Sistem Management Jamaah)",
-        "description": "This is developped using Swagger UI.  You can find\nout more about Swagger at\n[http://swagger.io](http://swagger.io) or on\n[irc.freenode.net, #swagger](http://swagger.io/irc/).",
+        "description": "This is developped using Swagger UI.  You can find\r\nout more about Swagger at\r\n[http://swagger.io](http://swagger.io) or on\r\n[irc.freenode.net, #swagger](http://swagger.io/irc/).",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "email": "iqbalhanif313@gmail.com"
@@ -136,6 +136,31 @@
                 ]
             }
         },
+        "/api/master/jamaah": {
+            "get": {
+                "tags": [
+                    "master/jamaah"
+                ],
+                "summary": "Show Jamaah information",
+                "operationId": "info",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
         "/api/master/jamaah/store": {
             "post": {
                 "tags": [
@@ -151,7 +176,7 @@
                                     "Nama": {
                                         "description": "Full name of jamaah",
                                         "type": "string",
-                                        "example": ""
+                                        "example": "Slamet Sampurno"
                                     },
                                     "Jenis Kelamin": {
                                         "description": "write 'laki-laki' or 'perempuan'",
@@ -247,13 +272,63 @@
                 ]
             }
         },
-        "/api/master/jamaah": {
+        "/api/master/kegiatan": {
             "get": {
                 "tags": [
-                    "master/jamaah"
+                    "master"
                 ],
-                "summary": "Show Jamaah information",
-                "operationId": "info",
+                "summary": "Show Setup Kegiatan information",
+                "operationId": "master/kegiatan",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/master/kelompok": {
+            "get": {
+                "tags": [
+                    "master"
+                ],
+                "summary": "Show Setup Kelompok information",
+                "operationId": "master/kelompok",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/master/kepengurusan": {
+            "get": {
+                "tags": [
+                    "master"
+                ],
+                "summary": "Show Setup Kepengurusan information",
+                "operationId": "master/kepengurusan",
                 "responses": {
                     "400": {
                         "description": "Bad Request"

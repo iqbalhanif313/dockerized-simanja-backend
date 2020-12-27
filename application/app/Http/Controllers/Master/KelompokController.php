@@ -107,7 +107,6 @@ class KelompokController extends Controller
 
         try {
             $result['data'] = $this->kelompokService->updateData($data, $id);
-
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
@@ -116,7 +115,5 @@ class KelompokController extends Controller
         }
 
         return response()->json($result, $result['status']);
-
     }
-
 }

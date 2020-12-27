@@ -23,7 +23,7 @@ class CreateJamaahRequest extends FormRequest
             "tanggal_lahir" => "required",
             "hp" => "required",
             "alamat" => "required",
-            "users_id" => "required",
+            // "users_id" => "required",
             "md_kelompok_id" => "required",
             "st_provinsi_id" => "required",
             "st_kab_id" => "required",

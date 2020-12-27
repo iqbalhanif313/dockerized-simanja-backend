@@ -12,11 +12,26 @@ use App\Models\Kelompok;
 use App\Models\Provinsi;
 use App\Models\Status;
 use App\Models\User;
+use App\Repositories\JamaahRepository;
 use Illuminate\Support\Facades\DB;
 
 class JamaahService
 {
+    protected $jamaahRepository;
 
+    public function __construct(JamaahRepository $jamaahRepository)
+    {
+        $this->jamaahRepository = $jamaahRepository;
+    }
+    public function getAll()
+    {
+        return $this->jamaahRepository->getAll()->original;
+    }
+
+    public function getById($id)
+    {
+        return $this->jamaahRepository->getById($id)->original;
+    }
     public function handleJamaahCreation($request)
     {
         $credential = $request->only(
