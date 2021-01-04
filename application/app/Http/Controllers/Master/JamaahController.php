@@ -18,7 +18,7 @@ class JamaahController extends Controller
     }
 
     /**
-     * Show Jamaah information
+     * Show List Jamaah
      *
      * @OA\Get(
      *     path="/api/master/jamaah",

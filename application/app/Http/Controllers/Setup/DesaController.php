@@ -45,6 +45,7 @@ class DesaController extends Controller
         $result = ['status' => 200];
 
         try {
+            $result['message'] = "ok";
             $result['data'] = $this->desaService->getAll();
         } catch (Exception $e) {
             $result = [

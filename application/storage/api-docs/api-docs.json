@@ -141,7 +141,7 @@
                 "tags": [
                     "master/jamaah"
                 ],
-                "summary": "Show Jamaah information",
+                "summary": "Show List Jamaah",
                 "operationId": "info",
                 "responses": {
                     "400": {
@@ -173,37 +173,37 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "Nama": {
-                                        "description": "Full name of jamaah",
-                                        "type": "string",
-                                        "example": "Slamet Sampurno"
-                                    },
-                                    "Jenis Kelamin": {
-                                        "description": "write 'laki-laki' or 'perempuan'",
-                                        "type": "string",
-                                        "example": ""
-                                    },
-                                    "NIK": {
+                                    "nik": {
                                         "description": "max length 16",
                                         "type": "bigInteger",
                                         "example": ""
                                     },
-                                    "Tempat Lahir": {
+                                    "nama": {
+                                        "description": "Full name of jamaah",
+                                        "type": "string",
+                                        "example": "Slamet Sampurno"
+                                    },
+                                    "jenis_kelamin": {
+                                        "description": "Tulis 'L' or 'P'",
+                                        "type": "string",
+                                        "example": "L"
+                                    },
+                                    "tempat_lahir": {
                                         "description": "",
                                         "type": "string",
                                         "example": ""
                                     },
-                                    "Tanggal Lahir": {
+                                    "tanggal_lahir": {
                                         "description": "YYYY-MM-DD",
                                         "type": "date",
                                         "example": ""
                                     },
-                                    "HP": {
+                                    "hp": {
                                         "description": "max:13",
                                         "type": "string",
                                         "example": ""
                                     },
-                                    "Alamat": {
+                                    "alamat": {
                                         "description": "",
                                         "type": "string",
                                         "example": ""
@@ -275,10 +275,173 @@
         "/api/master/kegiatan": {
             "get": {
                 "tags": [
-                    "master"
+                    "master/kegiatan"
                 ],
-                "summary": "Show Setup Kegiatan information",
+                "summary": "Show List Master Kegiatan",
                 "operationId": "master/kegiatan",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "master/kegiatan"
+                ],
+                "summary": "Store Master Kegiatan",
+                "operationId": "storekegiatan",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "max length 25",
+                                        "type": "string",
+                                        "example": "P-R-DRH"
+                                    },
+                                    "deskripsi": {
+                                        "description": "max length 16",
+                                        "type": "string",
+                                        "example": "Pengajian Muda-Mudi Daerah"
+                                    },
+                                    "st_level_id": {
+                                        "description": "Lihat Tabel st_level",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "st_jenis_kegiatan_id": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "P"
+                                    },
+                                    "st_kategori_jamaah_id": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "R"
+                                    },
+                                    "st_desa_id": {
+                                        "description": "optional",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "md_kelompok_id": {
+                                        "description": "optional",
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/master/kegiatan/{id}": {
+            "get": {
+                "tags": [
+                    "master/kegiatan"
+                ],
+                "summary": "Show Detail Master Kegiatan",
+                "operationId": "master/kegiatan/{id}",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "master/kegiatan"
+                ],
+                "summary": "Update Master Kegiatan",
+                "operationId": "updatekegiatan",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "max length 25",
+                                        "type": "string",
+                                        "example": "P-R-DRH"
+                                    },
+                                    "deskripsi": {
+                                        "description": "max length 16",
+                                        "type": "string",
+                                        "example": "Pengajian Muda-Mudi Daerah"
+                                    },
+                                    "st_level_id": {
+                                        "description": "Lihat Tabel st_level",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "st_jenis_kegiatan_id": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "P"
+                                    },
+                                    "st_kategori_jamaah_id": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "R"
+                                    },
+                                    "st_desa_id": {
+                                        "description": "optional",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "md_kelompok_id": {
+                                        "description": "optional",
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -704,6 +867,81 @@
                 ],
                 "summary": "Show Setup TipeMutasi information",
                 "operationId": "setup/tipe-mutasi",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/master/jadwal": {
+            "get": {
+                "tags": [
+                    "master"
+                ],
+                "summary": "Show Setup Jadwal information",
+                "operationId": "master/jadwal",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/trans/kepengurusan": {
+            "get": {
+                "tags": [
+                    "trans"
+                ],
+                "summary": "Show Setup TransKepengurusan information",
+                "operationId": "trans/kepengurusan",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/master/presensi": {
+            "get": {
+                "tags": [
+                    "master"
+                ],
+                "summary": "Show Setup Presensi information",
+                "operationId": "master/presensi",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
