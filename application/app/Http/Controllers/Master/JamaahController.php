@@ -43,6 +43,7 @@ class JamaahController extends Controller
         $result = ['status' => 200];
 
         try {
+            $result['message'] = "ok";
             $result['data'] = $this->jamaahService->getAll();
         } catch (Exception $e) {
             $result = [
@@ -79,6 +80,7 @@ class JamaahController extends Controller
         $result = ['status' => 200];
 
         try {
+            $result['message'] = "ok";
             $result['data'] = $this->jamaahService->getById($id);
         } catch (Exception $e) {
             $result = [
