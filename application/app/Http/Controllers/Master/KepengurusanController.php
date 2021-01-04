@@ -20,11 +20,11 @@ class KepengurusanController extends Controller
         $this->kepengurusanService = $kepengurusanService;
     }
     /**
-     * Show Setup Kepengurusan information
+     * Show List Master Kepengurusan
      *
      * @OA\Get(
      *     path="/api/master/kepengurusan",
-     *     tags={"master"},
+     *     tags={"master/kepengurusan"},
      *     operationId="master/kepengurusan",
      *     @OA\Response(
      *         response=400,
@@ -49,7 +49,7 @@ class KepengurusanController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
 
@@ -72,13 +72,33 @@ class KepengurusanController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
 
         return response()->json($result, $result['status']);
     }
 
+    /**
+     * Show Detail Master Kepengurusan
+     *
+     * @OA\Get(
+     *     path="/api/master/kepengurusan/{id}",
+     *     tags={"master/kepengurusan"},
+     *     operationId="master/kepengurusan/id",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
     public function show($id)
     {
         $result = ['status' => 200];
@@ -88,7 +108,7 @@ class KepengurusanController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
         return response()->json($result, $result['status']);
@@ -111,7 +131,7 @@ class KepengurusanController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
 

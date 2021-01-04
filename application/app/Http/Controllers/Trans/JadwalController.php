@@ -20,12 +20,12 @@ class JadwalController extends Controller
         $this->jadwalService = $jadwalService;
     }
     /**
-     * Show Setup Jadwal information
+     * Show List Trans Jadwal
      *
      * @OA\Get(
-     *     path="/api/master/jadwal",
-     *     tags={"master"},
-     *     operationId="master/jadwal",
+     *     path="/api/trans/jadwal",
+     *     tags={"trans/jadwal"},
+     *     operationId="trans/jadwal",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"
@@ -49,7 +49,7 @@ class JadwalController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
 
@@ -72,13 +72,33 @@ class JadwalController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
 
         return response()->json($result, $result['status']);
     }
 
+     /**
+     * Show Detail Trans Jadwal
+     *
+     * @OA\Get(
+     *     path="/api/trans/jadwal/{id}",
+     *     tags={"trans/jadwal"},
+     *     operationId="trans/jadwal/id",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
     public function show($id)
     {
         $result = ['status' => 200];
@@ -88,7 +108,7 @@ class JadwalController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
         return response()->json($result, $result['status']);
@@ -110,7 +130,7 @@ class JadwalController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
 

@@ -47,7 +47,7 @@ class JamaahController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
 
@@ -63,7 +63,7 @@ class JamaahController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
         return response()->json($result, $result['status']);

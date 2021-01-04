@@ -75,7 +75,7 @@ class KegiatanController extends Controller
      *     },
      *    	@OA\RequestBody(
      *    		@OA\MediaType(
-     *    			mediaType="application/json",
+     *    			mediaType="multipart/form-data",
      *    			@OA\Schema(
      *                  @OA\Property(property="id",
      *    					type="string",
@@ -85,7 +85,6 @@ class KegiatanController extends Controller
      *                  @OA\Property(property="deskripsi",
      *    					type="string",
      *    					example="Pengajian Muda-Mudi Daerah",
-     *    					description="max length 16"
      *                  ),
      *    				 @OA\Property(property="st_level_id",
      *    					type="string",
@@ -176,7 +175,7 @@ class KegiatanController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
         return response()->json($result, $result['status']);
@@ -202,7 +201,7 @@ class KegiatanController extends Controller
      *     },
      *    	@OA\RequestBody(
      *    		@OA\MediaType(
-     *    			mediaType="application/json",
+     *    			mediaType="application/x-www-form-urlencoded",
      *    			@OA\Schema(
      *                  @OA\Property(property="id",
      *    					type="string",
@@ -212,7 +211,6 @@ class KegiatanController extends Controller
      *                  @OA\Property(property="deskripsi",
      *    					type="string",
      *    					example="Pengajian Muda-Mudi Daerah",
-     *    					description="max length 16"
      *                  ),
      *    				 @OA\Property(property="st_level_id",
      *    					type="string",
@@ -264,7 +262,7 @@ class KegiatanController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
 

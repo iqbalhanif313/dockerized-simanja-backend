@@ -304,7 +304,7 @@
                 "operationId": "storekegiatan",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "properties": {
                                     "id": {
@@ -313,7 +313,7 @@
                                         "example": "P-R-DRH"
                                     },
                                     "deskripsi": {
-                                        "description": "max length 16",
+                                        "description": "Store Master Kegiatan",
                                         "type": "string",
                                         "example": "Pengajian Muda-Mudi Daerah"
                                     },
@@ -398,6 +398,100 @@
                 "operationId": "updatekegiatan",
                 "requestBody": {
                     "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "max length 25",
+                                        "type": "string",
+                                        "example": "P-R-DRH"
+                                    },
+                                    "deskripsi": {
+                                        "description": "Update Master Kegiatan",
+                                        "type": "string",
+                                        "example": "Pengajian Muda-Mudi Daerah"
+                                    },
+                                    "st_level_id": {
+                                        "description": "Lihat Tabel st_level",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "st_jenis_kegiatan_id": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "P"
+                                    },
+                                    "st_kategori_jamaah_id": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "R"
+                                    },
+                                    "st_desa_id": {
+                                        "description": "optional",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "md_kelompok_id": {
+                                        "description": "optional",
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/master/kelompok": {
+            "get": {
+                "tags": [
+                    "master/kelompok"
+                ],
+                "summary": "Show List Kelompok",
+                "operationId": "master/kelompok",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "master/kelompok"
+                ],
+                "summary": "Store Master Kelompok",
+                "operationId": "master/kelompok/store",
+                "requestBody": {
+                    "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
@@ -460,13 +554,13 @@
                 ]
             }
         },
-        "/api/master/kelompok": {
+        "/api/master/kelompok/id": {
             "get": {
                 "tags": [
-                    "master"
+                    "master/kelompok"
                 ],
-                "summary": "Show Setup Kelompok information",
-                "operationId": "master/kelompok",
+                "summary": "Show Detail Kelompok",
+                "operationId": "master/kelompok/id",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -488,10 +582,35 @@
         "/api/master/kepengurusan": {
             "get": {
                 "tags": [
-                    "master"
+                    "master/kepengurusan"
                 ],
-                "summary": "Show Setup Kepengurusan information",
+                "summary": "Show List Master Kepengurusan",
                 "operationId": "master/kepengurusan",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/master/kepengurusan/{id}": {
+            "get": {
+                "tags": [
+                    "master/kepengurusan"
+                ],
+                "summary": "Show Detail Master Kepengurusan",
+                "operationId": "master/kepengurusan/id",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -885,13 +1004,38 @@
                 ]
             }
         },
-        "/api/master/jadwal": {
+        "/api/trans/jadwal": {
             "get": {
                 "tags": [
-                    "master"
+                    "trans/jadwal"
                 ],
-                "summary": "Show Setup Jadwal information",
-                "operationId": "master/jadwal",
+                "summary": "Show List Trans Jadwal",
+                "operationId": "trans/jadwal",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/trans/jadwal/{id}": {
+            "get": {
+                "tags": [
+                    "trans/jadwal"
+                ],
+                "summary": "Show Detail Trans Jadwal",
+                "operationId": "trans/jadwal/id",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -913,9 +1057,9 @@
         "/api/trans/kepengurusan": {
             "get": {
                 "tags": [
-                    "trans"
+                    "trans/kepengurusan"
                 ],
-                "summary": "Show Setup TransKepengurusan information",
+                "summary": "Show List Trans Kepengurusan",
                 "operationId": "trans/kepengurusan",
                 "responses": {
                     "400": {
@@ -935,13 +1079,88 @@
                 ]
             }
         },
-        "/api/master/presensi": {
+        "/api/trans/kepengurusan/{id}": {
             "get": {
                 "tags": [
-                    "master"
+                    "trans/kepengurusan"
                 ],
-                "summary": "Show Setup Presensi information",
-                "operationId": "master/presensi",
+                "summary": "Show Detail Trans Kepengurusan",
+                "operationId": "trans/kepengurusan/id",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/trans/presensi": {
+            "get": {
+                "tags": [
+                    "trans/presensi"
+                ],
+                "summary": "Show List Presensi",
+                "operationId": "trans/presensi",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/trans/presensi/{id}": {
+            "get": {
+                "tags": [
+                    "trans/presensi"
+                ],
+                "summary": "Show Detail Presensi By ID",
+                "operationId": "trans/presensi/byId",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/trans/presensi/{trans_jadwal_id}": {
+            "get": {
+                "tags": [
+                    "trans/presensi"
+                ],
+                "summary": "Show List Presensi By Trans Jadwal Id",
+                "operationId": "trans/presensi/{trans_jadwal_id}",
                 "responses": {
                     "400": {
                         "description": "Bad Request"

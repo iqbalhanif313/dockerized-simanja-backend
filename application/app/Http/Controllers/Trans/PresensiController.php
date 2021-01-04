@@ -20,12 +20,12 @@ class PresensiController extends Controller
         $this->presensiService = $presensiService;
     }
     /**
-     * Show Setup Presensi information
+     * Show List Presensi
      *
      * @OA\Get(
-     *     path="/api/master/presensi",
-     *     tags={"master"},
-     *     operationId="master/presensi",
+     *     path="/api/trans/presensi",
+     *     tags={"trans/presensi"},
+     *     operationId="trans/presensi",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"
@@ -49,7 +49,7 @@ class PresensiController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
 
@@ -72,12 +72,33 @@ class PresensiController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
 
         return response()->json($result, $result['status']);
     }
+
+    /**
+     * Show Detail Presensi By ID
+     *
+     * @OA\Get(
+     *     path="/api/trans/presensi/{id}",
+     *     tags={"trans/presensi"},
+     *     operationId="trans/presensi/byId",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
 
     public function show($id)
     {
@@ -88,11 +109,32 @@ class PresensiController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
         return response()->json($result, $result['status']);
     }
+
+    /**
+     * Show List Presensi By Trans Jadwal Id
+     *
+     * @OA\Get(
+     *     path="/api/trans/presensi/{trans_jadwal_id}",
+     *     tags={"trans/presensi"},
+     *     operationId="trans/presensi/{trans_jadwal_id}",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
 
     public function getByTransJadwalId($trans_jadwal_id)
     {
@@ -103,7 +145,7 @@ class PresensiController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
         return response()->json($result, $result['status']);
@@ -125,7 +167,7 @@ class PresensiController extends Controller
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
-                'error' => $e->getMessage()
+                'message' => $e->getMessage()
             ];
         }
 
