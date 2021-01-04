@@ -77,43 +77,25 @@ class KelompokController extends Controller
      *     },
      *    	@OA\RequestBody(
      *    		@OA\MediaType(
-     *    			mediaType="application/json",
+     *    			mediaType="multipart/form-data",
      *    			@OA\Schema(
      *                  @OA\Property(property="id",
      *    					type="string",
-     *    					example="P-R-DRH",
-     *    					description="max length 25"
-     *                  ),
-     *                  @OA\Property(property="deskripsi",
-     *    					type="string",
-     *    					example="Pengajian Muda-Mudi Daerah",
-     *    					description="max length 16"
-     *                  ),
-     *    				 @OA\Property(property="st_level_id",
-     *    					type="string",
-     *    					example="DRH",
-     *    					description="Lihat Tabel st_level"
-     *    				),
-     *    				 @OA\Property(property="st_jenis_kegiatan_id",
-     *    					type="string",
-     *    					example="P",
-     *    					description=""
-     *                  ),
-     *                  
-     *                  @OA\Property(property="st_kategori_jamaah_id",
-     *    					type="string",
-     *    					example="R",
-     *    					description=""
+     *    					example="NGT",
      *                  ),
      *                  @OA\Property(property="st_desa_id",
      *    					type="string",
-     *    					example="",
-     *    					description="optional"
+     *    					example="NGD",
      *                  ),
-     *                  @OA\Property(property="md_kelompok_id",
+     *    				 @OA\Property(property="nama",
      *    					type="string",
-     *    					example="",
-     *    					description="optional"
+     *    					example="Nginden Timur",
+     *    					description=""
+     *    				),
+     *    				 @OA\Property(property="alamat",
+     *    					type="string",
+     *    					example="Jalan Nginden gang 3 Nomor 222 Surabaya",
+     *    					description=""
      *                  ),
      *    			),
      *    		),
@@ -182,6 +164,51 @@ class KelompokController extends Controller
         return response()->json($result, $result['status']);
     }
 
+    /**
+     * Update Master Kelompok
+     *
+     * @OA\Put(
+     *     path="/api/master/kelompok/{id}",
+     *     tags={"master/kelompok"},
+     *     operationId="master/kelompok/update",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *    	@OA\RequestBody(
+     *    		@OA\MediaType(
+     *    			mediaType="application/x-www-form-urlencoded",
+     *    			@OA\Schema(
+     *                  @OA\Property(property="id",
+     *    					type="string",
+     *    					example="NGT",
+     *                  ),
+     *                  @OA\Property(property="st_desa_id",
+     *    					type="string",
+     *    					example="NGD",
+     *                  ),
+     *    				 @OA\Property(property="nama",
+     *    					type="string",
+     *    					example="Nginden Timur",
+     *    					description=""
+     *    				),
+     *    				 @OA\Property(property="alamat",
+     *    					type="string",
+     *    					example="Jalan Nginden gang 3 Nomor 222 Surabaya",
+     *    					description=""
+     *                  ),
+     *    			),
+     *    		),
+     *    	),
+     *   ),
+     */
     public function update(Request $request, $id)
     {
         $data = $request->only([

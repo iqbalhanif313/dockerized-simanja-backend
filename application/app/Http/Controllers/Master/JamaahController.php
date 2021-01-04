@@ -54,6 +54,26 @@ class JamaahController extends Controller
         return response()->json($result, $result['status']);
     }
 
+    /**
+     * Show Detail Jamaah
+     *
+     * @OA\Get(
+     *     path="/api/master/jamaah/{id}",
+     *     tags={"master/jamaah"},
+     *     operationId="master/jamaah/{id}",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
     public function show($id)
     {
         $result = ['status' => 200];
@@ -75,7 +95,7 @@ class JamaahController extends Controller
      * @OA\Post(
      *     path="/api/master/jamaah/store",
      *     tags={"master/jamaah"},
-     *     operationId="register",
+     *     operationId="store",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"

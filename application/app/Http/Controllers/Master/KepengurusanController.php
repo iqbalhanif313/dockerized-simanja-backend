@@ -56,6 +56,51 @@ class KepengurusanController extends Controller
         return response()->json($result, $result['status']);
     }
 
+    /**
+     * Store Master Kepengurusan
+     *
+     * @OA\Post(
+     *     path="/api/master/kepengurusan",
+     *     tags={"master/kepengurusan"},
+     *     operationId="master/kepengurusan/store",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *    	@OA\RequestBody(
+     *    		@OA\MediaType(
+     *    			mediaType="multipart/form-data",
+     *    			@OA\Schema(
+     *                  @OA\Property(property="id",
+     *    					type="string",
+     *    					example="KUDRH",
+     *                  ),
+     *                  @OA\Property(property="nama",
+     *    					type="string",
+     *    					example="KU Daerah",
+     *                  ),
+     *    				 @OA\Property(property="st_kepengurusan_id",
+     *    					type="string",
+     *    					example="4S",
+     *    					description=""
+     *    				),
+     *    				 @OA\Property(property="st_level_id",
+     *    					type="string",
+     *    					example="DRH",
+     *    					description=""
+     *                  ),
+     *    			),
+     *    		),
+     *    	),
+     *   ),
+     */
     public function store(Request $request)
     {
         $data = $request->only([
@@ -114,6 +159,51 @@ class KepengurusanController extends Controller
         return response()->json($result, $result['status']);
     }
 
+    /**
+     * Update Master Kepengurusan
+     *
+     * @OA\Put(
+     *     path="/api/master/kepengurusan",
+     *     tags={"master/kepengurusan"},
+     *     operationId="master/kepengurusan/update",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *    	@OA\RequestBody(
+     *    		@OA\MediaType(
+     *    			mediaType="application/x-www-form-urlencoded",
+     *    			@OA\Schema(
+     *                  @OA\Property(property="id",
+     *    					type="string",
+     *    					example="KUDRH",
+     *                  ),
+     *                  @OA\Property(property="nama",
+     *    					type="string",
+     *    					example="KU Daerah",
+     *                  ),
+     *    				 @OA\Property(property="st_kepengurusan_id",
+     *    					type="string",
+     *    					example="4S",
+     *    					description=""
+     *    				),
+     *    				 @OA\Property(property="st_level_id",
+     *    					type="string",
+     *    					example="DRH",
+     *    					description=""
+     *                  ),
+     *    			),
+     *    		),
+     *    	),
+     *   ),
+     */
     public function update(Request $request, $id)
     {
         $data = $request->only([

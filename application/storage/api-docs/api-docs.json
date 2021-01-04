@@ -161,13 +161,38 @@
                 ]
             }
         },
+        "/api/master/jamaah/{id}": {
+            "get": {
+                "tags": [
+                    "master/jamaah"
+                ],
+                "summary": "Show Detail Jamaah",
+                "operationId": "master/jamaah/{id}",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
         "/api/master/jamaah/store": {
             "post": {
                 "tags": [
                     "master/jamaah"
                 ],
                 "summary": "Create Jamaah information",
-                "operationId": "register",
+                "operationId": "store",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -492,43 +517,28 @@
                 "operationId": "master/kelompok/store",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "properties": {
                                     "id": {
-                                        "description": "max length 25",
+                                        "description": "Store Master Kelompok",
                                         "type": "string",
-                                        "example": "P-R-DRH"
-                                    },
-                                    "deskripsi": {
-                                        "description": "max length 16",
-                                        "type": "string",
-                                        "example": "Pengajian Muda-Mudi Daerah"
-                                    },
-                                    "st_level_id": {
-                                        "description": "Lihat Tabel st_level",
-                                        "type": "string",
-                                        "example": "DRH"
-                                    },
-                                    "st_jenis_kegiatan_id": {
-                                        "description": "",
-                                        "type": "string",
-                                        "example": "P"
-                                    },
-                                    "st_kategori_jamaah_id": {
-                                        "description": "",
-                                        "type": "string",
-                                        "example": "R"
+                                        "example": "NGT"
                                     },
                                     "st_desa_id": {
-                                        "description": "optional",
+                                        "description": "Store Master Kelompok",
                                         "type": "string",
-                                        "example": ""
+                                        "example": "NGD"
                                     },
-                                    "md_kelompok_id": {
-                                        "description": "optional",
+                                    "nama": {
+                                        "description": "",
                                         "type": "string",
-                                        "example": ""
+                                        "example": "Nginden Timur"
+                                    },
+                                    "alamat": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "Jalan Nginden gang 3 Nomor 222 Surabaya"
                                     }
                                 },
                                 "type": "object"
@@ -579,6 +589,62 @@
                 ]
             }
         },
+        "/api/master/kelompok/{id}": {
+            "put": {
+                "tags": [
+                    "master/kelompok"
+                ],
+                "summary": "Update Master Kelompok",
+                "operationId": "master/kelompok/update",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Update Master Kelompok",
+                                        "type": "string",
+                                        "example": "NGT"
+                                    },
+                                    "st_desa_id": {
+                                        "description": "Update Master Kelompok",
+                                        "type": "string",
+                                        "example": "NGD"
+                                    },
+                                    "nama": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "Nginden Timur"
+                                    },
+                                    "alamat": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "Jalan Nginden gang 3 Nomor 222 Surabaya"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
         "/api/master/kepengurusan": {
             "get": {
                 "tags": [
@@ -586,6 +652,114 @@
                 ],
                 "summary": "Show List Master Kepengurusan",
                 "operationId": "master/kepengurusan",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "master/kepengurusan"
+                ],
+                "summary": "Update Master Kepengurusan",
+                "operationId": "master/kepengurusan/update",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Update Master Kepengurusan",
+                                        "type": "string",
+                                        "example": "KUDRH"
+                                    },
+                                    "nama": {
+                                        "description": "Update Master Kepengurusan",
+                                        "type": "string",
+                                        "example": "KU Daerah"
+                                    },
+                                    "st_kepengurusan_id": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "4S"
+                                    },
+                                    "st_level_id": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "master/kepengurusan"
+                ],
+                "summary": "Store Master Kepengurusan",
+                "operationId": "master/kepengurusan/store",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Store Master Kepengurusan",
+                                        "type": "string",
+                                        "example": "KUDRH"
+                                    },
+                                    "nama": {
+                                        "description": "Store Master Kepengurusan",
+                                        "type": "string",
+                                        "example": "KU Daerah"
+                                    },
+                                    "st_kepengurusan_id": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "4S"
+                                    },
+                                    "st_level_id": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "400": {
                         "description": "Bad Request"
