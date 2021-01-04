@@ -56,6 +56,41 @@ class KepengurusanController extends Controller
         return response()->json($result, $result['status']);
     }
 
+    /**
+     * Store Trans Kepengurusan
+     *
+     * @OA\Post(
+     *     path="/api/trans/kepengurusan",
+     *     tags={"trans/kepengurusan"},
+     *     operationId="trans/kepengurusan/store",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *    	@OA\RequestBody(
+     *    		@OA\MediaType(
+     *    			mediaType="multipart/form-data",
+     *    			@OA\Schema(
+     *                  @OA\Property(property="md_jamaah_nik",
+     *    					type="string",
+     *    					example="",
+     *                  ),
+     *                  @OA\Property(property="md_kepengurusan_id",
+     *    					type="string",
+     *    					example="",
+     *                  ),
+     *    			),
+     *    		),
+     *    	),
+     *   ),
+     */
     public function store(Request $request)
     {
         $data = $request->only([
@@ -112,6 +147,41 @@ class KepengurusanController extends Controller
         return response()->json($result, $result['status']);
     }
 
+    /**
+     * Update Trans Kepengurusan
+     *
+     * @OA\Put(
+     *     path="/api/trans/kepengurusan/{id}",
+     *     tags={"trans/kepengurusan"},
+     *     operationId="trans/kepengurusan/update",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *    	@OA\RequestBody(
+     *    		@OA\MediaType(
+     *    			mediaType="multipart/form-data",
+     *    			@OA\Schema(
+     *                  @OA\Property(property="md_jamaah_nik",
+     *    					type="string",
+     *    					example="",
+     *                  ),
+     *                  @OA\Property(property="md_kepengurusan_id",
+     *    					type="string",
+     *    					example="",
+     *                  ),
+     *    			),
+     *    		),
+     *    	),
+     *   ),
+     */
     public function update(Request $request, $id)
     {
         $data = $request->only([

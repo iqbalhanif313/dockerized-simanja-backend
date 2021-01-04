@@ -20,11 +20,11 @@ class DesaController extends Controller
         $this->desaService = $desaService;
     }
     /**
-     * Show Setup Desa information
+     * Show List Setup Desa
      *
      * @OA\Get(
      *     path="/api/setup/desa",
-     *     tags={"setup"},
+     *     tags={"setup/desa"},
      *     operationId="setup/desa",
      *     @OA\Response(
      *         response=400,
@@ -57,6 +57,41 @@ class DesaController extends Controller
         return response()->json($result, $result['status']);
     }
 
+    /**
+     * Store Setup Desa
+     *
+     * @OA\Post(
+     *     path="/api/setup/desa",
+     *     tags={"setup/desa"},
+     *     operationId="setup/desa/store",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *    	@OA\RequestBody(
+     *    		@OA\MediaType(
+     *    			mediaType="multipart/form-data",
+     *    			@OA\Schema(
+     *                  @OA\Property(property="id",
+     *    					type="string",
+     *    					example="SPR",
+     *                  ),
+     *                  @OA\Property(property="nama",
+     *    					type="string",
+     *    					example="Semampir",
+     *                  ),
+     *    			),
+     *    		),
+     *    	),
+     *   ),
+     */
     public function store(Request $request)
     {
         $data = $request->only([
@@ -78,6 +113,26 @@ class DesaController extends Controller
         return response()->json($result, $result['status']);
     }
 
+        /**
+     * Show Detail Setup Desa
+     *
+     * @OA\Get(
+     *     path="/api/setup/desa/{id}",
+     *     tags={"setup/desa"},
+     *     operationId="setup/desa/{id}",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
     public function show($id)
     {
         $result = ['status' => 200];
@@ -93,6 +148,41 @@ class DesaController extends Controller
         return response()->json($result, $result['status']);
     }
 
+     /**
+     * Update Setup Desa
+     *
+     * @OA\Put(
+     *     path="/api/setup/desa/{id}",
+     *     tags={"setup/desa"},
+     *     operationId="setup/desa/update",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *    	@OA\RequestBody(
+     *    		@OA\MediaType(
+     *    			mediaType="multipart/form-data",
+     *    			@OA\Schema(
+     *                  @OA\Property(property="id",
+     *    					type="string",
+     *    					example="SPR",
+     *                  ),
+     *                  @OA\Property(property="nama",
+     *    					type="string",
+     *    					example="Semampir",
+     *                  ),
+     *    			),
+     *    		),
+     *    	),
+     *   ),
+     */
     public function update(Request $request, $id)
     {
         $data = $request->only([

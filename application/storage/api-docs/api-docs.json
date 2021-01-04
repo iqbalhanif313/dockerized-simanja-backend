@@ -831,10 +831,123 @@
         "/api/setup/desa": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/desa"
                 ],
-                "summary": "Show Setup Desa information",
+                "summary": "Show List Setup Desa",
                 "operationId": "setup/desa",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "setup/desa"
+                ],
+                "summary": "Store Setup Desa",
+                "operationId": "setup/desa/store",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Store Setup Desa",
+                                        "type": "string",
+                                        "example": "SPR"
+                                    },
+                                    "nama": {
+                                        "description": "Store Setup Desa",
+                                        "type": "string",
+                                        "example": "Semampir"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/desa/{id}": {
+            "get": {
+                "tags": [
+                    "setup/desa"
+                ],
+                "summary": "Show Detail Setup Desa",
+                "operationId": "setup/desa/{id}",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "setup/desa"
+                ],
+                "summary": "Update Setup Desa",
+                "operationId": "setup/desa/update",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Update Setup Desa",
+                                        "type": "string",
+                                        "example": "SPR"
+                                    },
+                                    "nama": {
+                                        "description": "Update Setup Desa",
+                                        "type": "string",
+                                        "example": "Semampir"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -1201,6 +1314,60 @@
                         ]
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "trans/jadwal"
+                ],
+                "summary": "Store Trans Jadwal",
+                "operationId": "trans/jadwal/store",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "tanggal": {
+                                        "description": "Store Trans Jadwal",
+                                        "type": "date",
+                                        "example": "2020-12-22"
+                                    },
+                                    "jam_mulai": {
+                                        "description": "Store Trans Jadwal",
+                                        "type": "time",
+                                        "example": "19:30:00"
+                                    },
+                                    "jam_selesai": {
+                                        "description": "",
+                                        "type": "time",
+                                        "example": "21:30:00"
+                                    },
+                                    "md_kegiatan_id": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "P-U-DRH"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
             }
         },
         "/api/trans/jadwal/{id}": {
@@ -1210,6 +1377,60 @@
                 ],
                 "summary": "Show Detail Trans Jadwal",
                 "operationId": "trans/jadwal/id",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "trans/jadwal"
+                ],
+                "summary": "Update Trans Jadwal",
+                "operationId": "trans/jadwal/update",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "tanggal": {
+                                        "description": "Update Trans Jadwal",
+                                        "type": "date",
+                                        "example": "2020-12-22"
+                                    },
+                                    "jam_mulai": {
+                                        "description": "Update Trans Jadwal",
+                                        "type": "time",
+                                        "example": "19:30:00"
+                                    },
+                                    "jam_selesai": {
+                                        "description": "",
+                                        "type": "time",
+                                        "example": "21:30:00"
+                                    },
+                                    "md_kegiatan_id": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "P-U-DRH"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -1251,6 +1472,50 @@
                         ]
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "trans/kepengurusan"
+                ],
+                "summary": "Store Trans Kepengurusan",
+                "operationId": "trans/kepengurusan/store",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "md_jamaah_nik": {
+                                        "description": "Store Trans Kepengurusan",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "md_kepengurusan_id": {
+                                        "description": "Store Trans Kepengurusan",
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
             }
         },
         "/api/trans/kepengurusan/{id}": {
@@ -1260,6 +1525,50 @@
                 ],
                 "summary": "Show Detail Trans Kepengurusan",
                 "operationId": "trans/kepengurusan/id",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "trans/kepengurusan"
+                ],
+                "summary": "Update Trans Kepengurusan",
+                "operationId": "trans/kepengurusan/update",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "md_jamaah_nik": {
+                                        "description": "Update Trans Kepengurusan",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "md_kepengurusan_id": {
+                                        "description": "Update Trans Kepengurusan",
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "400": {
                         "description": "Bad Request"

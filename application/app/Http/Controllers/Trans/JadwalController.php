@@ -56,6 +56,51 @@ class JadwalController extends Controller
         return response()->json($result, $result['status']);
     }
 
+    /**
+     * Store Trans Jadwal
+     *
+     * @OA\Post(
+     *     path="/api/trans/jadwal",
+     *     tags={"trans/jadwal"},
+     *     operationId="trans/jadwal/store",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *    	@OA\RequestBody(
+     *    		@OA\MediaType(
+     *    			mediaType="multipart/form-data",
+     *    			@OA\Schema(
+     *                  @OA\Property(property="tanggal",
+     *    					type="date",
+     *    					example="2020-12-22",
+     *                  ),
+     *                  @OA\Property(property="jam_mulai",
+     *    					type="time",
+     *    					example="19:30:00",
+     *                  ),
+     *    				 @OA\Property(property="jam_selesai",
+     *    					type="time",
+     *    					example="21:30:00",
+     *    					description=""
+     *    				),
+     *    				 @OA\Property(property="md_kegiatan_id",
+     *    					type="string",
+     *    					example="P-U-DRH",
+     *    					description=""
+     *                  ),
+     *    			),
+     *    		),
+     *    	),
+     *   ),
+     */
     public function store(Request $request)
     {
         $data = $request->only([
@@ -79,7 +124,7 @@ class JadwalController extends Controller
         return response()->json($result, $result['status']);
     }
 
-     /**
+    /**
      * Show Detail Trans Jadwal
      *
      * @OA\Get(
@@ -114,6 +159,51 @@ class JadwalController extends Controller
         return response()->json($result, $result['status']);
     }
 
+     /**
+     * Update Trans Jadwal
+     *
+     * @OA\Put(
+     *     path="/api/trans/jadwal/{id}",
+     *     tags={"trans/jadwal"},
+     *     operationId="trans/jadwal/update",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *    	@OA\RequestBody(
+     *    		@OA\MediaType(
+     *    			mediaType="application/x-www-form-urlencoded",
+     *    			@OA\Schema(
+     *                  @OA\Property(property="tanggal",
+     *    					type="date",
+     *    					example="2020-12-22",
+     *                  ),
+     *                  @OA\Property(property="jam_mulai",
+     *    					type="time",
+     *    					example="19:30:00",
+     *                  ),
+     *    				 @OA\Property(property="jam_selesai",
+     *    					type="time",
+     *    					example="21:30:00",
+     *    					description=""
+     *    				),
+     *    				 @OA\Property(property="md_kegiatan_id",
+     *    					type="string",
+     *    					example="P-U-DRH",
+     *    					description=""
+     *                  ),
+     *    			),
+     *    		),
+     *    	),
+     *   ),
+     */
     public function update(Request $request, $id)
     {
         $data = $request->only([
