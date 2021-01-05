@@ -14,11 +14,11 @@ class KabSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('kab')->insert([
+        DB::table('st_kab')->insert([
             [
                 "id" => 1,
                 "nama" => "Surabaya",
-                "provinsi_id" => 1
+                "st_provinsi_id" => 1
             ]
         ]);
     }

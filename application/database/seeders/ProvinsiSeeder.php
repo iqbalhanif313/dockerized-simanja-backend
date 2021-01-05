@@ -14,7 +14,7 @@ class ProvinsiSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('provinsi')->insert([
+        DB::table('st_provinsi')->insert([
             [
                 "id" => 1,
                 "nama" => "Jawa Timur"

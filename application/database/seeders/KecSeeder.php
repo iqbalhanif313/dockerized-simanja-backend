@@ -14,11 +14,11 @@ class KecSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('kec')->insert([
+        DB::table('st_kec')->insert([
             [
                 "id" => 1,
                 "nama" => "Sukolilo",
-                "kab_id" => 1
+                "st_kab_id" => 1
             ]
         ]);
     }
