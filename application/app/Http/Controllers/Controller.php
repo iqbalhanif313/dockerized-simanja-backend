@@ -33,14 +33,25 @@ class Controller extends BaseController
         ],401);
     }
 
+    public function handleErrorRequest($message){
+        return response()->json([
+            'error'=> true,
+            'message'=>$message
+        ],500);
+    }
+
     public function success($message){
         return response()->json([
-            'error'=>true,
+            'error'=>false,
             'message'=>$message
-        ]);
+        ],201);
     }
 
     public function data($data){
-        return response()->json($data);
+        return response()->json([
+            'error'=>false,
+            'data'=>$data,
+            'message'=>"data retrieved"
+        ]);
     }
 }

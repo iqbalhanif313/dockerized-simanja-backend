@@ -14,7 +14,7 @@ class User extends Model implements JWTSubject,AuthenticatableContract, Authoriz
 {
     use Authenticatable, Authorizable, HasFactory;
 
-    protected $table= 'users';
+    protected $table= 'user';
     /**
      * The attributes that are mass assignable.
      *

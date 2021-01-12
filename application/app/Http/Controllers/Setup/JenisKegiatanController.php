@@ -3,13 +3,24 @@
 
 namespace App\Http\Controllers\Setup;
 
-use Illuminate\Http\Client\Request;
-use Illuminate\Support\Facades\App;
+use App\Http\Request\CreateJenisKegiatanRequest;
+use App\Http\Request\UpdateDesaRequest;
+use App\Http\Request\UpdateJenisKegiatanRequest;
+use App\Services\JenisKegiatan\JenisKegiatanService;
 use App\Http\Controllers\Controller;
 use DB;
 
 class JenisKegiatanController extends Controller
 {
+    /**
+     * @var JenisKegiatanService
+     */
+    private $jenisKegiatanService;
+
+    public function __construct()
+    {
+        $this->jenisKegiatanService = new JenisKegiatanService();
+    }
 
 
     /**
@@ -35,8 +46,48 @@ class JenisKegiatanController extends Controller
 
     public function index()
     {
-        $query = "SELECT * FROM st_jenis_kegiatan";
-        $data = DB::select($query);
-        return response()->json($data);
+        try{
+            $data = $this->jenisKegiatanService->getAll();
+            return $this->data($data);
+        }catch (\Exception $e){
+            return $this->handleErrorRequest($e->getMessage());
+        }
+
     }
+
+    public function delete($id){
+        try{
+            $this->jenisKegiatanService->deleteById($id);
+        }catch (\Exception $e){
+            return $this->handleErrorRequest($e->getMessage());
+        }
+    }
+
+    public function store(CreateJenisKegiatanRequest $request){
+        $data = $request->only([
+            'nama',
+        ]);
+        try {
+            $this->jenisKegiatanService->saveData($data);
+        } catch (\Exception $e) {
+            return $this->handleErrorRequest($e->getMessage());
+        }
+        return $this->success("Jenis Kegiatan berhasil dibuat");
+    }
+
+    public function update(UpdateJenisKegiatanRequest $request, $id){
+        $data = $request->only([
+            'id',
+            'nama'
+        ]);
+
+        try{
+            if(!$this->jenisKegiatanService->updateData($data, $id)){
+                return $this->handleBadRequest("Bad Request");
+            }
+        }catch (\Exception $e){
+            return $this->handleErrorRequest($e->getMessage());
+        }
+    }
+
 }

@@ -3,6 +3,8 @@
 
 namespace App\Http\Controllers\Setup;
 
+use App\Http\Request\CreateDesaRequest;
+use App\Http\Request\UpdateDesaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
@@ -42,19 +44,13 @@ class DesaController extends Controller
 
     public function index()
     {
-        $result = ['status' => 200];
-
+        $result = [];
         try {
-            $result['message'] = "ok";
-            $result['data'] = $this->desaService->getAll();
+            $result =  $this->desaService->getAll();
         } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
-            ];
+            $this->handleErrorRequest( $e->getMessage());
         }
-
-        return response()->json($result, $result['status']);
+        return $this->data($result);
     }
 
     /**
@@ -92,25 +88,17 @@ class DesaController extends Controller
      *    	),
      *   ),
      */
-    public function store(Request $request)
+    public function store(CreateDesaRequest $request)
     {
         $data = $request->only([
-            'id',
             'nama',
         ]);
-
-        $result = ['status' => 200];
-
         try {
-            $result['data'] = $this->desaService->saveData($data);
+            $this->desaService->saveData($data);
         } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
-            ];
+            return $this->handleErrorRequest($e->getMessage());
         }
-
-        return response()->json($result, $result['status']);
+        return $this->success("desa berhasil dibuat");
     }
 
         /**
@@ -135,17 +123,21 @@ class DesaController extends Controller
      */
     public function show($id)
     {
-        $result = ['status' => 200];
-
         try {
-            $result['data'] = $this->desaService->getById($id);
+            return $this->data($this->desaService->getById($id));
         } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
-            ];
+            $this->handleErrorRequest($e);
         }
-        return response()->json($result, $result['status']);
+    }
+
+    public function delete($id)
+    {
+        try {
+            $this->desaService->deleteById($id);
+            return $this->success("desa berhasil dihapus");
+        } catch (Exception $e) {
+            return $this->handleErrorRequest($e->getMessage());
+        }
     }
 
      /**
@@ -183,26 +175,22 @@ class DesaController extends Controller
      *    	),
      *   ),
      */
-    public function update(Request $request, $id)
+    public function update(UpdateDesaRequest $request, $id)
     {
         $data = $request->only([
             'id',
             'nama'
         ]);
 
-        $result = ['status' => 200];
-
         try {
-            $result['data'] = $this->desaService->updateData($data, $id);
-
+            if(!$this->desaService->updateData($data, $id)){
+                return $this->handleBadRequest("Bad Request");
+            }
         } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
-            ];
+            return $this->handleErrorRequest($e->getMessage());
         }
 
-        return response()->json($result, $result['status']);
+        return $this->success("Desa berhasil diupdate");
 
     }
 

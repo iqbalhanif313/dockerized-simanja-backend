@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers\Setup;
 
+use App\Services\Kabupaten\KabupatenService;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
@@ -10,6 +11,11 @@ use DB;
 
 class KabupatenController extends Controller
 {
+    private $kabupatenService;
+    public function __construct()
+    {
+        $this->kabupatenService = new KabupatenService();
+    }
 
 
     /**
@@ -35,9 +41,15 @@ class KabupatenController extends Controller
 
     public function index()
     {
-        $query = "SELECT * FROM st_kab";
-        $data = DB::select($query);
-        return response()->json($data);
+
+        try{
+            $data =  $this->kabupatenService->getAll();
+            return $this->data($data);
+        }catch (\Exception $e){
+            return $this->handleErrorRequest($e->getMessage());
+        }
+
+
     }
 
 
