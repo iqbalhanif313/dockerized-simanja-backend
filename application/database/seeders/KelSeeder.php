@@ -16,9 +16,9 @@ class KelSeeder extends Seeder
     {
         DB::table('st_kel')->insert([
             [
-                "id" => 1,
-                "nama" => "Medokan Semampir",
-                "st_kec_id" => 1
+                "id" => "1101010001",
+                "nama" => "LATIUNG",
+                "st_kec_id" => "1101010"
             ]
         ]);
     }

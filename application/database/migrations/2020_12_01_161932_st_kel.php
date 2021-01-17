@@ -14,10 +14,12 @@ class StKel extends Migration
     public function up()
     {
         Schema::create('st_kel', function (Blueprint $table) {
-            $table->id();
+            $table->string('id',10)->primary();
             $table->string('nama');
-            $table->unsignedBigInteger('st_kec_id');
+            $table->string('st_kec_id',7);
             $table->foreign('st_kec_id')->references('id')->on('st_kec');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

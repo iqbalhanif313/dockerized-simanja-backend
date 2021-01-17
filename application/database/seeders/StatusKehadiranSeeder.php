@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class KecSeeder extends Seeder
+class StatusKehadiranSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,11 +14,14 @@ class KecSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('st_kec')->insert([
+        DB::table('st_status_kehadiran')->insert([
             [
-                "id" => "1101010",
-                "nama" => "TEUPAH SELATAN",
-                "st_kab_id" => "1101"
+                "id" => "H",
+                "nama" => "Hadir"
+            ],
+            [
+                "id" => "I",
+                "nama" => "Izin"
             ]
         ]);
     }

@@ -14,8 +14,10 @@ class StDesa extends Migration
     public function up()
     {
         Schema::create('st_desa', function (Blueprint $table) {
-            $table->id();
+            $table->string('id',4)->primary();
             $table->string('nama');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

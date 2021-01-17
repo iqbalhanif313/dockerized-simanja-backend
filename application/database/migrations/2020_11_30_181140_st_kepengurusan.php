@@ -14,10 +14,10 @@ class StKepengurusan extends Migration
     public function up()
     {
         Schema::create('st_kepengurusan', function (Blueprint $table) {
-            $table->id();
-            $table->string('deskripsi');
-            // $table->unsignedBigInteger('st_level_id');
-            // $table->foreign('st_level_id')->references('id')->on('st_level');
+            $table->string('id',4)->primary();
+            $table->string('nama');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -12,12 +12,12 @@ class JenisKegiatanSeeder extends Seeder
     public function run(){
         DB::table('st_jenis_kegiatan')->insert([
             [
-                'id' => 1,
-                'nama'=>'Desa',
+                'id' => "P",
+                'nama'=>"Pengajian",
             ],
             [
-                'id' => 2,
-                'nama'=>'Kelompok',
+                'id' => "M",
+                'nama'=>"Musyawaroh",
             ],
         ]);
     }

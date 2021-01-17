@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class StKelompok extends Migration
+class MdKelompok extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class StKelompok extends Migration
      */
     public function up()
     {
-        Schema::create('st_kelompok', function (Blueprint $table) {
-            $table->id();
+        Schema::create('md_kelompok', function (Blueprint $table) {
+            $table->string('id',4)->primary();
             $table->string('nama');
             $table->string('alamat')->nullable();
-            $table->unsignedBigInteger('st_desa_id');
+            $table->string('st_desa_id',4);
             $table->foreign('st_desa_id')->references('id')->on('st_desa');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

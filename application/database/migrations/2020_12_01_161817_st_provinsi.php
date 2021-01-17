@@ -14,8 +14,10 @@ class StProvinsi extends Migration
     public function up()
     {
         Schema::create('st_provinsi', function (Blueprint $table) {
-            $table->id();
+            $table->string('id',2)->primary();
             $table->string('nama');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

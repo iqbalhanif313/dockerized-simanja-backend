@@ -14,10 +14,12 @@ class StKab extends Migration
     public function up()
     {
         Schema::create('st_kab', function (Blueprint $table) {
-            $table->id();
+            $table->string('id',4)->primary();
             $table->string('nama');
-            $table->unsignedBigInteger('st_provinsi_id');
+            $table->string('st_provinsi_id',2);
             $table->foreign('st_provinsi_id')->references('id')->on('st_provinsi');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -14,8 +14,10 @@ class StJenisKegiatan extends Migration
     public function up()
     {
         Schema::create('st_jenis_kegiatan', function (Blueprint $table) {
-            $table->id();
+            $table->string('id',4)->primary();
             $table->string('nama');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -4,8 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
-class DesaSeeder extends Seeder
+class LevelSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,18 +13,18 @@ class DesaSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('st_desa')->insert([
+        DB::table('st_level')->insert([
             [
-                "id" => "SPR",
-                "nama" => "Semampir"
+                "id" => "DRH",
+                "nama" => "Daerah"
             ],
             [
-                "id" => "NGD",
-                "nama" => "Nginden"
+                "id" => "DS",
+                "nama" => "Desa"
             ],
             [
-                "id" => "KRK",
-                "nama" => "Krukah"
+                "id" => "KLP",
+                "nama" => "Kelompok"
             ]
         ]);
     }

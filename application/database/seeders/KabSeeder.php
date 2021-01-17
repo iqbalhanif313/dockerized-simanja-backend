@@ -16,10 +16,15 @@ class KabSeeder extends Seeder
     {
         DB::table('st_kab')->insert([
             [
-                "id" => 1,
-                "nama" => "Surabaya",
-                "st_provinsi_id" => 1
-            ]
+                "id" => "1101",
+                "nama" => "KABUPATEN SIMEULUE",
+                "st_provinsi_id" => "11"
+            ],
+            [
+                "id" => "1102",
+                "nama" => "KABUPATEN ACEH SINGKIL",
+                "st_provinsi_id" => "11"
+            ],
         ]);
     }
 }

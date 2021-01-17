@@ -16,12 +16,12 @@ class ProvinsiSeeder extends Seeder
     {
         DB::table('st_provinsi')->insert([
             [
-                "id" => 1,
-                "nama" => "Jawa Timur"
+                "id" => "11",
+                "nama" => "ACEH"
             ],
             [
-                "id" => 2,
-                "nama" => "Madura"
+                "id" => "12",
+                "nama" => "SUMATERA UTARA"
             ]
         ]);
     }

@@ -14,30 +14,18 @@ class KelompokSeeder extends Seeder
      */
     public function run()
     {
-        //"id","st_desa_id","nama","alamat"
-        // 1,1,"Keputih",NULL
-        // 2,1,"Praja",NULL
-        // 3,2,"Nginden Utara",NULL
-        // 4,2,"Nginden Timur",NULL
-        // 5,2,"Nginden Selatan",NULL
-        // 6,4,"Ngagel Rejo",NULL
-        // 7,4,"Ngagel Mulyo",NULL
-        // 8,4,"Bratang",NULL
-        // 9,1,"Semampir",NULL
-        // 10,3,"Krukah",NULL
-        // 11,3,"Gubeng",NULL
-        DB::table('st_kelompok')->insert([
+        DB::table('md_kelompok')->insert([
             [
-                "id" => 1,
-                "nama" => "Keputih",
+                "id" => "KRK",
+                "nama" => "Krukah",
                 "alamat" => NULL,
-                "st_desa_id" => 1
+                "st_desa_id" => "KRK"
             ],
             [
-                "id" => 2,
-                "nama" => "Praja",
+                "id" => "NTM",
+                "nama" => "Nginden Timur",
                 "alamat" => NULL,
-                "st_desa_id" => 1
+                "st_desa_id" => "NGD"
             ]
         ]);
     }

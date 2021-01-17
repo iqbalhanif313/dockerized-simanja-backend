@@ -14,19 +14,22 @@ class KategoriJamaahSeeder extends Seeder
      */
     public function run()
     {
-        // "id","deskripsi"
-        // 1,"Remaja"
-        // 2,"Pra Remaja"
-        // 3,"Caberawit"
-        // 4,"Dewasa"
         DB::table('st_kategori_jamaah')->insert([
             [
-                "id" => 1,
-                "deskripsi" => "Remaja"
+                "id" => "R",
+                "nama" => "Remaja"
             ],
             [
-                "id" => 2,
-                "deskripsi" => "Pra Remaja"
+                "id" => "PR",
+                "nama" => "Pra Remaja"
+            ],
+            [
+                "id" => "CR",
+                "nama" => "Caberawit"
+            ],
+            [
+                "id" => "D",
+                "nama" => "Dewasa"
             ]
         ]);
 

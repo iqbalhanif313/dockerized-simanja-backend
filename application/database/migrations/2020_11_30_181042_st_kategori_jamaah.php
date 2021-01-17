@@ -14,8 +14,10 @@ class StKategoriJamaah extends Migration
     public function up()
     {
         Schema::create('st_kategori_jamaah', function (Blueprint $table) {
-            $table->id();
-            $table->string('deskripsi');
+            $table->string('id',4)->primary();
+            $table->string('nama');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

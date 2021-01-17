@@ -16,12 +16,12 @@ class StatusJamaahSeeder extends Seeder
     {
         DB::table('st_status_jamaah')->insert([
             [
-                "id" => 1,
-                "nama" => "aktif"
+                "id" => "P",
+                "nama" => "Pengurus"
             ],
             [
-                "id" => 2,
-                "nama" => "tidak aktif"
+                "id" => "R",
+                "nama" => "Royah"
             ]
         ]);
     }

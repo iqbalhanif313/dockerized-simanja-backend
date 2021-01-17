@@ -14,10 +14,12 @@ class StKec extends Migration
     public function up()
     {
         Schema::create('st_kec', function (Blueprint $table) {
-            $table->id();
+            $table->string('id',7)->primary();
             $table->string('nama');
-            $table->unsignedBigInteger('st_kab_id');
+            $table->string('st_kab_id',4);
             $table->foreign('st_kab_id')->references('id')->on('st_kab');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

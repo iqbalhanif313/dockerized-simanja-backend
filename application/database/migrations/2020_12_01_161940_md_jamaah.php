@@ -14,8 +14,7 @@ class MdJamaah extends Migration
     public function up()
     {
         Schema::create('md_jamaah', function (Blueprint $table) {
-            // $table->id();
-            $table->bigInteger('nik')->primary();
+            $table->string('nik',16)->primary();
             $table->string('nama');
             $table->string('jenis_kelamin');
             $table->string('tempat_lahir');
@@ -24,21 +23,22 @@ class MdJamaah extends Migration
             $table->string('alamat');
             $table->unsignedBigInteger('users_id');
             $table->foreign('users_id')->references('id')->on('user');
-            $table->unsignedBigInteger('st_kelompok_id');
-            $table->foreign('st_kelompok_id')->references('id')->on('st_kelompok');
-            $table->unsignedBigInteger('st_kategori_jamaah_id');
+            $table->string('md_kelompok_id',4);
+            $table->foreign('md_kelompok_id')->references('id')->on('md_kelompok');
+            $table->string('st_kategori_jamaah_id',4);
             $table->foreign('st_kategori_jamaah_id')->references('id')->on('st_kategori_jamaah');
-            $table->unsignedBigInteger('st_status_jamaah_id');
+            $table->string('st_status_jamaah_id',4);
             $table->foreign('st_status_jamaah_id')->references('id')->on('st_status_jamaah');
-            $table->unsignedBigInteger('st_provinsi_id');
+            $table->string('st_provinsi_id',2);
             $table->foreign('st_provinsi_id')->references('id')->on('st_provinsi');
-            $table->unsignedBigInteger('st_kab_id');
+            $table->string('st_kab_id',4);
             $table->foreign('st_kab_id')->references('id')->on('st_kab');
-            $table->unsignedBigInteger('st_kec_id');
+            $table->string('st_kec_id',7);
             $table->foreign('st_kec_id')->references('id')->on('st_kec');
-            $table->unsignedBigInteger('st_kel_id');
+            $table->string('st_kel_id',10);
             $table->foreign('st_kel_id')->references('id')->on('st_kel');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
