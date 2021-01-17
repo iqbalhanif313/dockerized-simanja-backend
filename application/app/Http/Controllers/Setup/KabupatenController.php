@@ -3,18 +3,19 @@
 
 namespace App\Http\Controllers\Setup;
 
-use App\Services\Kabupaten\KabupatenService;
-use Illuminate\Http\Client\Request;
-use Illuminate\Support\Facades\App;
+use App\Http\Request\CreateKabupatenRequest;
+use App\Http\Request\UpdateKabupatenRequest;
 use App\Http\Controllers\Controller;
-use DB;
+use Exception;
+use App\Services\Kabupaten\KabupatenService;
 
 class KabupatenController extends Controller
 {
-    private $kabupatenService;
-    public function __construct()
+    protected $kabupatenService;
+
+    public function __construct(KabupatenService $kabupatenService)
     {
-        $this->kabupatenService = new KabupatenService();
+        $this->kabupatenService = $kabupatenService;
     }
 
 
@@ -41,15 +42,12 @@ class KabupatenController extends Controller
 
     public function index()
     {
-
         try{
             $data =  $this->kabupatenService->getAll();
             return $this->data($data);
         }catch (\Exception $e){
             return $this->handleErrorRequest($e->getMessage());
         }
-
-
     }
 
 
@@ -73,7 +71,7 @@ class KabupatenController extends Controller
      *     },
      *   ),
      */
-    public function getById($st_provinsi_id)
+    public function filter($st_provinsi_id)
     {
         $query = "SELECT * FROM st_kab WHERE st_provinsi_id ='$st_provinsi_id'";
         $data = DB::select($query);

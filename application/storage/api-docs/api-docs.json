@@ -860,7 +860,7 @@
                 "operationId": "setup/desa/store",
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/json": {
                             "schema": {
                                 "properties": {
                                     "id": {
@@ -929,7 +929,7 @@
                 "operationId": "setup/desa/update",
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/json": {
                             "schema": {
                                 "properties": {
                                     "id": {
@@ -948,6 +948,29 @@
                         }
                     }
                 },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "setup/desa"
+                ],
+                "summary": "Delete Setup Desa",
+                "operationId": "setup/desa/{id}/delete",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -1048,6 +1071,142 @@
                 ],
                 "summary": "Show Setup Jenis Kegiatan information",
                 "operationId": "setup/kategori-jamaah",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "setup/kategori-jamaah"
+                ],
+                "summary": "Store Setup KategoriJamaah",
+                "operationId": "setup/kategori-jamaah/store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Store Setup KategoriJamaah",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "nama": {
+                                        "description": "Store Setup KategoriJamaah",
+                                        "type": "string",
+                                        "example": "Daerah"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/kategori-jamaah/{id}": {
+            "get": {
+                "tags": [
+                    "setup/kategori-jamaah"
+                ],
+                "summary": "Show Detail Setup KategoriJamaah",
+                "operationId": "setup/kategori-jamaah/{id}",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "setup/kategori-jamaah"
+                ],
+                "summary": "Update Setup KategoriJamaah",
+                "operationId": "setup/kategori-jamaah/update",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Update Setup KategoriJamaah",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "nama": {
+                                        "description": "Update Setup KategoriJamaah",
+                                        "type": "string",
+                                        "example": "Daerah"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "setup/kategori-jamaah"
+                ],
+                "summary": "Delete Setup KategoriJamaah",
+                "operationId": "setup/kategori-jamaah/{id}/delete",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -1189,15 +1348,287 @@
                         ]
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "setup/level"
+                ],
+                "summary": "Store Setup Level",
+                "operationId": "setup/level/store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Store Setup Level",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "nama": {
+                                        "description": "Store Setup Level",
+                                        "type": "string",
+                                        "example": "Daerah"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/level/{id}": {
+            "get": {
+                "tags": [
+                    "setup/level"
+                ],
+                "summary": "Show Detail Setup Level",
+                "operationId": "setup/level/{id}",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "setup/level"
+                ],
+                "summary": "Update Setup Level",
+                "operationId": "setup/level/update",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Update Setup Level",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "nama": {
+                                        "description": "Update Setup Level",
+                                        "type": "string",
+                                        "example": "Daerah"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "setup/level"
+                ],
+                "summary": "Delete Setup Level",
+                "operationId": "setup/level/{id}/delete",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
             }
         },
         "/api/setup/provinsi": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/provinsi"
                 ],
                 "summary": "Show Setup Provinsi information",
                 "operationId": "provinsi",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "setup/provinsi"
+                ],
+                "summary": "Store Setup Provinsi",
+                "operationId": "setup/provinsi/store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Store Setup Provinsi",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "nama": {
+                                        "description": "Store Setup Provinsi",
+                                        "type": "string",
+                                        "example": "Daerah"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/provinsi/{id}": {
+            "get": {
+                "tags": [
+                    "setup/provinsi"
+                ],
+                "summary": "Show Detail Setup Provinsi",
+                "operationId": "setup/provinsi/{id}",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "setup/provinsi"
+                ],
+                "summary": "Update Setup Provinsi",
+                "operationId": "setup/provinsi/update",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Update Setup Provinsi",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "nama": {
+                                        "description": "Update Setup Provinsi",
+                                        "type": "string",
+                                        "example": "Daerah"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "setup/provinsi"
+                ],
+                "summary": "Delete Setup Provinsi",
+                "operationId": "setup/provinsi/{id}/delete",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -1219,10 +1650,146 @@
         "/api/setup/status-jamaah": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/status-jamaah"
                 ],
                 "summary": "Show Setup StatusJamaah information",
                 "operationId": "setup/status-jamaah",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "setup/status-jamaah"
+                ],
+                "summary": "Store Setup StatusJamaah",
+                "operationId": "setup/status-jamaah/store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Store Setup StatusJamaah",
+                                        "type": "string",
+                                        "example": "SPR"
+                                    },
+                                    "nama": {
+                                        "description": "Store Setup StatusJamaah",
+                                        "type": "string",
+                                        "example": "Semampir"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/status-jamaah/{id}": {
+            "get": {
+                "tags": [
+                    "setup/status-jamaah"
+                ],
+                "summary": "Show Detail Setup StatusJamaah",
+                "operationId": "setup/status-jamaah/{id}",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "setup/status-jamaah"
+                ],
+                "summary": "Update Setup StatusJamaah",
+                "operationId": "setup/status-jamaah/update",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Update Setup StatusJamaah",
+                                        "type": "string",
+                                        "example": "SPR"
+                                    },
+                                    "nama": {
+                                        "description": "Update Setup StatusJamaah",
+                                        "type": "string",
+                                        "example": "Semampir"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "setup/status-jamaah"
+                ],
+                "summary": "Delete Setup StatusJamaah",
+                "operationId": "setup/status-jamaah/{id}/delete",
                 "responses": {
                     "400": {
                         "description": "Bad Request"

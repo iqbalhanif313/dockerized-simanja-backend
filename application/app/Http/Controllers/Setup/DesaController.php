@@ -5,10 +5,7 @@ namespace App\Http\Controllers\Setup;
 
 use App\Http\Request\CreateDesaRequest;
 use App\Http\Request\UpdateDesaRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
-use DB;
 use Exception;
 use App\Services\Desa\DesaService;
 
@@ -48,7 +45,7 @@ class DesaController extends Controller
         try {
             $result =  $this->desaService->getAll();
         } catch (Exception $e) {
-            $this->handleErrorRequest( $e->getMessage());
+            $this->handleErrorRequest($e->getMessage());
         }
         return $this->data($result);
     }
@@ -73,7 +70,7 @@ class DesaController extends Controller
      *     },
      *    	@OA\RequestBody(
      *    		@OA\MediaType(
-     *    			mediaType="multipart/form-data",
+     *    			mediaType="application/json",
      *    			@OA\Schema(
      *                  @OA\Property(property="id",
      *    					type="string",
@@ -91,6 +88,7 @@ class DesaController extends Controller
     public function store(CreateDesaRequest $request)
     {
         $data = $request->only([
+            'id',
             'nama',
         ]);
         try {
@@ -101,7 +99,7 @@ class DesaController extends Controller
         return $this->success("desa berhasil dibuat");
     }
 
-        /**
+    /**
      * Show Detail Setup Desa
      *
      * @OA\Get(
@@ -130,6 +128,26 @@ class DesaController extends Controller
         }
     }
 
+    /**
+     * Delete Setup Desa
+     *
+     * @OA\Delete(
+     *     path="/api/setup/desa/{id}",
+     *     tags={"setup/desa"},
+     *     operationId="setup/desa/{id}/delete",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
     public function delete($id)
     {
         try {
@@ -140,7 +158,7 @@ class DesaController extends Controller
         }
     }
 
-     /**
+    /**
      * Update Setup Desa
      *
      * @OA\Put(
@@ -160,7 +178,7 @@ class DesaController extends Controller
      *     },
      *    	@OA\RequestBody(
      *    		@OA\MediaType(
-     *    			mediaType="multipart/form-data",
+     *    			mediaType="application/json",
      *    			@OA\Schema(
      *                  @OA\Property(property="id",
      *    					type="string",
@@ -183,7 +201,7 @@ class DesaController extends Controller
         ]);
 
         try {
-            if(!$this->desaService->updateData($data, $id)){
+            if (!$this->desaService->updateData($data, $id)) {
                 return $this->handleBadRequest("Bad Request");
             }
         } catch (Exception $e) {
@@ -191,7 +209,5 @@ class DesaController extends Controller
         }
 
         return $this->success("Desa berhasil diupdate");
-
     }
-
 }

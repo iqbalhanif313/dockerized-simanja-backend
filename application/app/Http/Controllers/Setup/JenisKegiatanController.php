@@ -55,6 +55,15 @@ class JenisKegiatanController extends Controller
 
     }
 
+    public function show($id)
+    {
+        try {
+            return $this->data($this->jenisKegiatanService->getById($id));
+        } catch (Exception $e) {
+            $this->handleErrorRequest($e);
+        }
+    }
+
     public function delete($id){
         try{
             $this->jenisKegiatanService->deleteById($id);

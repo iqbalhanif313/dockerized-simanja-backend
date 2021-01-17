@@ -13,6 +13,10 @@ class JenisKegiatanService
        return JenisKegiatan::all();
     }
 
+    public function getById($id)
+    {
+        return JenisKegiatan::find($id);
+    }
     public function deleteById($id){
         DB::transaction(function()use($id){
             $jenisKegiatan = JenisKegiatan::find($id);

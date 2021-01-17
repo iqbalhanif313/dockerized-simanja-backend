@@ -3,14 +3,20 @@
 
 namespace App\Http\Controllers\Setup;
 
-use Illuminate\Http\Client\Request;
-use Illuminate\Support\Facades\App;
+use App\Http\Request\CreateKecamatanRequest;
+use App\Http\Request\UpdateKecamatanRequest;
 use App\Http\Controllers\Controller;
-use DB;
+use Exception;
+use App\Services\Kecamatan\KecamatanService;
 
 class KecamatanController extends Controller
 {
+    protected $kecamatanService;
 
+    public function __construct(KecamatanService $kecamatanService)
+    {
+        $this->kecamatanService = $kecamatanService;
+    }
 
     /**
      * Show Setup Kecamatan information
@@ -35,9 +41,12 @@ class KecamatanController extends Controller
 
     public function index()
     {
-        $query = "SELECT * FROM st_kec";
-        $data = DB::select($query);
-        return response()->json($data);
+        try{
+            $data =  $this->kecamatanService->getAll();
+            return $this->data($data);
+        }catch (\Exception $e){
+            return $this->handleErrorRequest($e->getMessage());
+        }
     }
 
 
@@ -61,7 +70,7 @@ class KecamatanController extends Controller
      *     },
      *   ),
      */
-    public function getById($st_kab_id)
+    public function filter($st_kab_id)
     {
         $query = "SELECT * FROM st_kec WHERE st_kab_id ='$st_kab_id'";
         $data = DB::select($query);

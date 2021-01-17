@@ -16,6 +16,11 @@ class DesaService
     {
         DB::transaction(function()use($id){
             $desa = Desa::find($id);
+            // if(!$desa){
+            //     return false;
+            // }
+            // $desa->nama = $data['nama'];
+            // $desa->save();
             $desa->delete();
         });
     }
@@ -48,6 +53,7 @@ class DesaService
     {
         DB::transaction(function()use($data){
             $desa = new Desa();
+            $desa->id = $data['id'];
             $desa->nama = $data['nama'];
             $desa->save();
         });

@@ -3,14 +3,20 @@
 
 namespace App\Http\Controllers\Setup;
 
-use Illuminate\Http\Client\Request;
-use Illuminate\Support\Facades\App;
+use App\Http\Request\CreateKelurahanRequest;
+use App\Http\Request\UpdateKelurahanRequest;
 use App\Http\Controllers\Controller;
-use DB;
+use Exception;
+use App\Services\Kelurahan\KelurahanService;
 
 class KelurahanController extends Controller
 {
+    protected $kelurahanService;
 
+    public function __construct(KelurahanService $kelurahanService)
+    {
+        $this->kelurahanService = $kelurahanService;
+    }
 
     /**
      * Show Setup Kelurahan information
@@ -35,9 +41,12 @@ class KelurahanController extends Controller
 
     public function index()
     {
-        $query = "SELECT * FROM st_kel";
-        $data = DB::select($query);
-        return response()->json($data);
+        try{
+            $data =  $this->kelurahanService->getAll();
+            return $this->data($data);
+        }catch (\Exception $e){
+            return $this->handleErrorRequest($e->getMessage());
+        }
     }
 
 
@@ -61,7 +70,7 @@ class KelurahanController extends Controller
      *     },
      *   ),
      */
-    public function getById($st_kec_id)
+    public function filter($st_kec_id)
     {
         $query = "SELECT * FROM st_kel WHERE st_kec_id ='$st_kec_id'";
         $data = DB::select($query);
