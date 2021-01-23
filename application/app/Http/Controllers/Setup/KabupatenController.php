@@ -24,7 +24,7 @@ class KabupatenController extends Controller
      *
      * @OA\Get(
      *     path="/api/setup/kabupaten",
-     *     tags={"setup"},
+     *     tags={"setup/kabupaten"},
      *     operationId="setup/kabupaten",
      *     @OA\Response(
      *         response=400,
@@ -56,7 +56,7 @@ class KabupatenController extends Controller
      *
      * @OA\Get(
      *     path="/api/setup/kabupaten/{st_provinsi_id}",
-     *     tags={"setup"},
+     *     tags={"setup/kabupaten"},
      *     operationId="setup/kabupaten/id",
      *     @OA\Response(
      *         response=400,
@@ -73,8 +73,15 @@ class KabupatenController extends Controller
      */
     public function filter($st_provinsi_id)
     {
-        $query = "SELECT * FROM st_kab WHERE st_provinsi_id ='$st_provinsi_id'";
-        $data = DB::select($query);
-        return response()->json($data);
+        // $query = "SELECT * FROM st_kab WHERE st_provinsi_id ='$st_provinsi_id'";
+        // $data = DB::select($query);
+        // return response()->json($data);
+
+        try{
+            $data =  $this->kabupatenService->getByFilter($st_provinsi_id);
+            return $this->data($data);
+        }catch (\Exception $e){
+            return $this->handleErrorRequest($e->getMessage());
+        }
     }
 }

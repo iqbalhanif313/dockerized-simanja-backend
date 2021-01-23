@@ -1039,10 +1039,35 @@
                 ]
             }
         },
+        "/api/ref/jenis-kegiatan": {
+            "get": {
+                "tags": [
+                    "references"
+                ],
+                "summary": "Show Ref Setup Jenis Kegiatan information",
+                "operationId": "ref/jenis-kegiatan",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
         "/api/setup/kabupaten": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/kabupaten"
                 ],
                 "summary": "Show Setup Kabupaten information",
                 "operationId": "setup/kabupaten",
@@ -1067,7 +1092,7 @@
         "/api/setup/kabupaten/{st_provinsi_id}": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/kabupaten"
                 ],
                 "summary": "Show Setup Kabupaten information",
                 "operationId": "setup/kabupaten/id",

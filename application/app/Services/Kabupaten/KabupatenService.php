@@ -17,6 +17,9 @@ class KabupatenService
     public function getAll(){
         return $this->kabupatenRepository->getAll();
     }
+    public function getByFilter(){
+        return $this->kabupatenRepository->getAll();
+    }
     public function getRef()
     {
         return $this->kabupatenRepository->getRef();

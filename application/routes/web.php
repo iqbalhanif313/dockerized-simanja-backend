@@ -98,9 +98,15 @@ $router->group([
     $router->post('/setup/jenis-kegiatan', 'Setup\JenisKegiatanController@store');
     $router->delete('/setup/jenis-kegiatan/{id}', 'Setup\JenisKegiatanController@delete');
     $router->put('/setup/jenis-kegiatan/{id}', 'Setup\JenisKegiatanController@update');
+    $router->get('/ref/jenis-kegiatan', 'Setup\JenisKegiatanController@getRef');
 
     $router->get('/setup/kabupaten', 'Setup\KabupatenController@index');
-    $router->get('/setup/kabupaten/{st_provinsi_id}', 'Setup\KabupatenController@filter');
+    $router->get('/setup/kabupaten/filter/{st_provinsi_id}', 'Setup\KabupatenController@filter');
+    $router->get('/setup/kabupaten/{id}', 'Setup\KabupatenController@show');
+    $router->post('/setup/kabupaten', 'Setup\KabupatenController@store');
+    $router->put('/setup/kabupaten/{id}', 'Setup\KabupatenController@update');
+    $router->delete('/setup/kabupaten/{id}', 'Setup\KabupatenController@delete');
+    $router->get('/ref/kabupaten', 'Setup\KabupatenController@getRef');
     
     $router->get('/setup/kecamatan', 'Setup\KecamatanController@index');
     $router->get('/setup/kecamatan/{st_kab_id}', 'Setup\KecamatanController@filter');

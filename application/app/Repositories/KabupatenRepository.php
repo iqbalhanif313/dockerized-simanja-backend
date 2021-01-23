@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Kabupaten;
-use DB;
 
 class KabupatenRepository
 {
@@ -21,11 +20,11 @@ class KabupatenRepository
     {
         $response = [];
         $datas = Kabupaten::all();
-        foreach ($datas as $data){
+        foreach ($datas as $data) {
             $response[] = [
                 "id" => $data->id,
                 "nama" => $data->nama,
-                "provinsi"=>$data->provinsi->nama,
+                "provinsi" => $data->provinsi->nama,
             ];
         }
         return $response;
@@ -35,11 +34,11 @@ class KabupatenRepository
     {
         $response = [];
         $datas = Kabupaten::all();
-        foreach ($datas as $data){
+        foreach ($datas as $data) {
             $response[] = [
                 "id" => $data->id,
                 "nama" => $data->nama,
-                "id_nama" => $data->id.' - '.$data->nama
+                "id_nama" => $data->id . ' - ' . $data->nama
             ];
         }
         return $response;
@@ -47,9 +46,11 @@ class KabupatenRepository
 
     public function getById($id)
     {
-        return $this->kabupaten
-            ->where('id', $id)
-            ->get();
+        return $this->kabupaten->where('id', $id)->get();
     }
 
+    public function getByFilter($st_provinsi_id)
+    {
+        return $this->kabupaten->where('st_provinsi_id', $st_provinsi_id)->get();
+    }
 }
