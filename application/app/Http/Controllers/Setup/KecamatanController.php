@@ -23,7 +23,7 @@ class KecamatanController extends Controller
      *
      * @OA\Get(
      *     path="/api/setup/kecamatan",
-     *     tags={"setup"},
+     *     tags={"setup/kecamatan"},
      *     operationId="setup/kecamatan",
      *     @OA\Response(
      *         response=400,
@@ -51,12 +51,12 @@ class KecamatanController extends Controller
 
 
     /**
-     * Show Setup Kecamatan information
+     * Show Setup Kecamatan Filter
      *
      * @OA\Get(
-     *     path="/api/setup/kecamatan/{st_kab_id}",
-     *     tags={"setup"},
-     *     operationId="setup/kecamatan/id",
+     *     path="/api/setup/kecamatan/filter/{st_kab_id}",
+     *     tags={"setup/kecamatan"},
+     *     operationId="setup/kecamatan/st_kab_id",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"
@@ -72,8 +72,207 @@ class KecamatanController extends Controller
      */
     public function filter($st_kab_id)
     {
-        $query = "SELECT * FROM st_kec WHERE st_kab_id ='$st_kab_id'";
-        $data = DB::select($query);
-        return response()->json($data);
+
+        try{
+            $data =  $this->kecamatanService->getByFilter($st_kab_id);
+            return $this->data($data);
+        }catch (\Exception $e){
+            return $this->handleErrorRequest($e->getMessage());
+        }
+    }
+
+        /**
+     * Store Setup Kecamatan
+     *
+     * @OA\Post(
+     *     path="/api/setup/kecamatan",
+     *     tags={"setup/kecamatan"},
+     *     operationId="setup/kecamatan/store",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *    	@OA\RequestBody(
+     *    		@OA\MediaType(
+     *    			mediaType="application/json",
+     *    			@OA\Schema(
+     *                  @OA\Property(property="id",
+     *    					type="string",
+     *    					example="DRH",
+     *                  ),
+     *                  @OA\Property(property="nama",
+     *    					type="string",
+     *    					example="Daerah",
+     *                  ),
+     *    			),
+     *    		),
+     *    	),
+     *   ),
+     */
+    public function store(CreateKecamatanRequest $request)
+    {
+        $data = $request->only([
+            'id',
+            'nama',
+            'st_kab_id'
+        ]);
+        try {
+            $this->kecamatanService->saveData($data);
+        } catch (Exception $e) {
+            return $this->handleErrorRequest($e->getMessage());
+        }
+        return $this->success("Kecamatan berhasil dibuat");
+    }
+
+    /**
+     * Show Detail Setup Kecamatan
+     *
+     * @OA\Get(
+     *     path="/api/setup/kecamatan/{id}",
+     *     tags={"setup/kecamatan"},
+     *     operationId="setup/kecamatan/{id}",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function show($id)
+    {
+        try {
+            return $this->data($this->kecamatanService->getById($id));
+        } catch (Exception $e) {
+            $this->handleErrorRequest($e);
+        }
+    }
+
+    /**
+     * Delete Setup Kecamatan
+     *
+     * @OA\Delete(
+     *     path="/api/setup/kecamatan/{id}",
+     *     tags={"setup/kecamatan"},
+     *     operationId="setup/kecamatan/{id}/delete",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function delete($id)
+    {
+        try {
+            $this->kecamatanService->deleteById($id);
+            return $this->success("kecamatan berhasil dihapus");
+        } catch (Exception $e) {
+            return $this->handleErrorRequest($e->getMessage());
+        }
+    }
+
+    /**
+     * Update Setup Kecamatan
+     *
+     * @OA\Put(
+     *     path="/api/setup/kecamatan/{id}",
+     *     tags={"setup/kecamatan"},
+     *     operationId="setup/kecamatan/update",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *    	@OA\RequestBody(
+     *    		@OA\MediaType(
+     *    			mediaType="application/json",
+     *    			@OA\Schema(
+     *                  @OA\Property(property="id",
+     *    					type="string",
+     *    					example="",
+     *                  ),
+     *                  @OA\Property(property="nama",
+     *    					type="string",
+     *    					example="",
+     *                  ),
+     *    			),
+     *    		),
+     *    	),
+     *   ),
+     */
+    public function update(UpdateKecamatanRequest $request, $id)
+    {
+        $data = $request->only([
+            'id',
+            'nama',
+            'st_kab_id'
+        ]);
+
+        try {
+            if (!$this->kecamatanService->updateData($data, $id)) {
+                return $this->handleBadRequest("Bad Request");
+            }
+        } catch (Exception $e) {
+            return $this->handleErrorRequest($e->getMessage());
+        }
+
+        return $this->success("Kecamatan berhasil diupdate");
+    }
+
+    /**
+     * Show Ref Setup Kecamatan information
+     *
+     * @OA\Get(
+     *     path="/api/ref/kecamatan",
+     *     tags={"references"},
+     *     operationId="ref/kecamatan",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+
+    public function getRef()
+    {
+        $result = [];
+        try {
+            $result =  $this->kecamatanService->getRef();
+        } catch (Exception $e) {
+            $this->handleErrorRequest($e->getMessage());
+        }
+        return $this->data($result);
     }
 }

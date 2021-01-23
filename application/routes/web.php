@@ -109,10 +109,20 @@ $router->group([
     $router->get('/ref/kabupaten', 'Setup\KabupatenController@getRef');
     
     $router->get('/setup/kecamatan', 'Setup\KecamatanController@index');
-    $router->get('/setup/kecamatan/{st_kab_id}', 'Setup\KecamatanController@filter');
+    $router->get('/setup/kecamatan/filter/{st_kab_id}', 'Setup\KecamatanController@filter');
+    $router->get('/setup/kecamatan/{id}', 'Setup\KecamatanController@show');
+    $router->post('/setup/kecamatan', 'Setup\KecamatanController@store');
+    $router->put('/setup/kecamatan/{id}', 'Setup\KecamatanController@update');
+    $router->delete('/setup/kecamatan/{id}', 'Setup\KecamatanController@delete');
+    $router->get('/ref/kecamatan', 'Setup\KecamatanController@getRef');
 
     $router->get('/setup/kelurahan', 'Setup\KelurahanController@index');
-    $router->get('/setup/kelurahan/{st_kec_id}', 'Setup\KelurahanController@filter');
+    $router->get('/setup/kelurahan/filter/{st_kec_id}', 'Setup\KelurahanController@filter');
+    $router->get('/setup/kelurahan/{id}', 'Setup\KelurahanController@show');
+    $router->post('/setup/kelurahan', 'Setup\KelurahanController@store');
+    $router->put('/setup/kelurahan/{id}', 'Setup\KelurahanController@update');
+    $router->delete('/setup/kelurahan/{id}', 'Setup\KelurahanController@delete');
+    $router->get('/ref/kelurahan', 'Setup\KelurahanController@getRef');
 
     
     

@@ -803,31 +803,6 @@
                 ]
             }
         },
-        "/api/setup/st-kepengurusan": {
-            "get": {
-                "tags": [
-                    "setup"
-                ],
-                "summary": "Show setup kepengurusan information",
-                "operationId": "info",
-                "responses": {
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    }
-                },
-                "security": [
-                    {
-                        "api_key": [
-                            "write:user",
-                            "read:user"
-                        ]
-                    }
-                ]
-            }
-        },
         "/api/setup/desa": {
             "get": {
                 "tags": [
@@ -1017,7 +992,7 @@
         "/api/setup/jenis-kegiatan": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/jenis-kegiatan"
                 ],
                 "summary": "Show Setup Jenis Kegiatan information",
                 "operationId": "setup/jenis-kegiatan",
@@ -1087,15 +1062,176 @@
                         ]
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "setup/kabupaten"
+                ],
+                "summary": "Store Setup Kabupaten",
+                "operationId": "setup/kabupaten/store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Store Setup Kabupaten",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "nama": {
+                                        "description": "Store Setup Kabupaten",
+                                        "type": "string",
+                                        "example": "Daerah"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
             }
         },
-        "/api/setup/kabupaten/{st_provinsi_id}": {
+        "/api/setup/kabupaten/filter/{st_provinsi_id}": {
             "get": {
                 "tags": [
                     "setup/kabupaten"
                 ],
-                "summary": "Show Setup Kabupaten information",
-                "operationId": "setup/kabupaten/id",
+                "summary": "Show Setup Kabupaten Filter",
+                "operationId": "setup/kabupaten/st_provinsi_id",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/kabupaten/{id}": {
+            "get": {
+                "tags": [
+                    "setup/kabupaten"
+                ],
+                "summary": "Show Detail Setup Kabupaten",
+                "operationId": "setup/kabupaten/{id}",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "setup/kabupaten"
+                ],
+                "summary": "Update Setup Kabupaten",
+                "operationId": "setup/kabupaten/update",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Update Setup Kabupaten",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "nama": {
+                                        "description": "Update Setup Kabupaten",
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "setup/kabupaten"
+                ],
+                "summary": "Delete Setup Kabupaten",
+                "operationId": "setup/kabupaten/{id}/delete",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/ref/kabupaten": {
+            "get": {
+                "tags": [
+                    "references"
+                ],
+                "summary": "Show Ref Setup Kabupaten information",
+                "operationId": "ref/kabupaten",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -1303,7 +1439,7 @@
         "/api/setup/kecamatan": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/kecamatan"
                 ],
                 "summary": "Show Setup Kecamatan information",
                 "operationId": "setup/kecamatan",
@@ -1323,15 +1459,176 @@
                         ]
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "setup/kecamatan"
+                ],
+                "summary": "Store Setup Kecamatan",
+                "operationId": "setup/kecamatan/store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Store Setup Kecamatan",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "nama": {
+                                        "description": "Store Setup Kecamatan",
+                                        "type": "string",
+                                        "example": "Daerah"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
             }
         },
-        "/api/setup/kecamatan/{st_kab_id}": {
+        "/api/setup/kecamatan/filter/{st_kab_id}": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/kecamatan"
                 ],
-                "summary": "Show Setup Kecamatan information",
-                "operationId": "setup/kecamatan/id",
+                "summary": "Show Setup Kecamatan Filter",
+                "operationId": "setup/kecamatan/st_kab_id",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/kecamatan/{id}": {
+            "get": {
+                "tags": [
+                    "setup/kecamatan"
+                ],
+                "summary": "Show Detail Setup Kecamatan",
+                "operationId": "setup/kecamatan/{id}",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "setup/kecamatan"
+                ],
+                "summary": "Update Setup Kecamatan",
+                "operationId": "setup/kecamatan/update",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Update Setup Kecamatan",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "nama": {
+                                        "description": "Update Setup Kecamatan",
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "setup/kecamatan"
+                ],
+                "summary": "Delete Setup Kecamatan",
+                "operationId": "setup/kecamatan/{id}/delete",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/ref/kecamatan": {
+            "get": {
+                "tags": [
+                    "references"
+                ],
+                "summary": "Show Ref Setup Kecamatan information",
+                "operationId": "ref/kecamatan",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -1353,7 +1650,7 @@
         "/api/setup/kelurahan": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/kelurahan"
                 ],
                 "summary": "Show Setup Kelurahan information",
                 "operationId": "setup/kelurahan",
@@ -1373,15 +1670,176 @@
                         ]
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "setup/kelurahan"
+                ],
+                "summary": "Store Setup Kelurahan",
+                "operationId": "setup/kelurahan/store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Store Setup Kelurahan",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "nama": {
+                                        "description": "Store Setup Kelurahan",
+                                        "type": "string",
+                                        "example": "Daerah"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
             }
         },
-        "/api/setup/kelurahan/{st_kab_id}": {
+        "/api/setup/kelurahan/filter/{st_kec_id}": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/kelurahan"
                 ],
-                "summary": "Show Setup Kelurahan information",
-                "operationId": "setup/kelurahan/id",
+                "summary": "Show Setup Kelurahan Filter",
+                "operationId": "setup/kelurahan/st_kec_id",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/kelurahan/{id}": {
+            "get": {
+                "tags": [
+                    "setup/kelurahan"
+                ],
+                "summary": "Show Detail Setup Kelurahan",
+                "operationId": "setup/kelurahan/{id}",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "setup/kelurahan"
+                ],
+                "summary": "Update Setup Kelurahan",
+                "operationId": "setup/kelurahan/update",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Update Setup Kelurahan",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "nama": {
+                                        "description": "Update Setup Kelurahan",
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "setup/kelurahan"
+                ],
+                "summary": "Delete Setup Kelurahan",
+                "operationId": "setup/kelurahan/{id}/delete",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/ref/kelurahan": {
+            "get": {
+                "tags": [
+                    "references"
+                ],
+                "summary": "Show Ref Setup Kelurahan information",
+                "operationId": "ref/kelurahan",
                 "responses": {
                     "400": {
                         "description": "Bad Request"

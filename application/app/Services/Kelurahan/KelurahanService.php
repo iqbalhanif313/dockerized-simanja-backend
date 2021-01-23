@@ -42,6 +42,10 @@ class KelurahanService
         return Kelurahan::find($id);
     }
 
+    public function getByFilter($st_kec_id){
+        return $this->kelurahanRepository->getByFilter($st_kec_id);
+    }
+
     public function updateData($data, $id)
     {
         DB::transaction(function()use($data,$id){
@@ -62,6 +66,7 @@ class KelurahanService
             $kelurahan = new Kelurahan();
             $kelurahan->id = $data['id'];
             $kelurahan->nama = $data['nama'];
+            $kelurahan->st_kec_id = $data['st_kec_id'];
             $kelurahan->save();
         });
     }

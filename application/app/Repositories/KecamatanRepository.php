@@ -52,4 +52,18 @@ class KecamatanRepository
             ->get();
     }
 
+    public function getByFilter($st_kab_id)
+    {
+        $response = [];
+        $datas = Kecamatan::where('st_kab_id', $st_kab_id)->get();;
+        foreach ($datas as $data) {
+            $response[] = [
+                "id" => $data->id,
+                "nama" => $data->nama,
+                "id_nama" => $data->id . ' - ' . $data->nama
+            ];
+        }
+        return $response;
+    }
+
 }

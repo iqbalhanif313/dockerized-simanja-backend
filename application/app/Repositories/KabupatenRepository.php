@@ -51,6 +51,15 @@ class KabupatenRepository
 
     public function getByFilter($st_provinsi_id)
     {
-        return $this->kabupaten->where('st_provinsi_id', $st_provinsi_id)->get();
+        $response = [];
+        $datas = Kabupaten::where('st_provinsi_id', $st_provinsi_id)->get();;
+        foreach ($datas as $data) {
+            $response[] = [
+                "id" => $data->id,
+                "nama" => $data->nama,
+                "id_nama" => $data->id . ' - ' . $data->nama
+            ];
+        }
+        return $response;
     }
 }

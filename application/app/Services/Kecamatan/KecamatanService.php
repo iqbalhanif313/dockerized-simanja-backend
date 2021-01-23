@@ -32,6 +32,10 @@ class KecamatanService
         return $this->kecamatanRepository->getAll();
     }
 
+    public function getByFilter($st_kab_id){
+        return $this->kecamatanRepository->getByFilter($st_kab_id);
+    }
+
     public function getRef()
     {
         return $this->kecamatanRepository->getRef();
@@ -50,6 +54,7 @@ class KecamatanService
                 return false;
             }
             $kecamatan->nama = $data['nama'];
+            $kecamatan->st_kab_id = $data['st_kab_id'];
             $kecamatan->save();
         });
         return true;
@@ -62,6 +67,7 @@ class KecamatanService
             $kecamatan = new Kecamatan();
             $kecamatan->id = $data['id'];
             $kecamatan->nama = $data['nama'];
+            $kecamatan->st_kab_id = $data['st_kab_id'];
             $kecamatan->save();
         });
     }

@@ -28,7 +28,7 @@ class JenisKegiatanController extends Controller
      *
      * @OA\Get(
      *     path="/api/setup/jenis-kegiatan",
-     *     tags={"setup"},
+     *     tags={"setup/jenis-kegiatan"},
      *     operationId="setup/jenis-kegiatan",
      *     @OA\Response(
      *         response=400,
@@ -99,7 +99,7 @@ class JenisKegiatanController extends Controller
         }
     }
 
-        /**
+    /**
      * Show Ref Setup Jenis Kegiatan information
      *
      * @OA\Get(
