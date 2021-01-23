@@ -124,11 +124,19 @@ $router->group([
     $router->delete('/setup/kelurahan/{id}', 'Setup\KelurahanController@delete');
     $router->get('/ref/kelurahan', 'Setup\KelurahanController@getRef');
 
-    
-    
-    
     $router->get('/setup/status-kehadiran', 'Setup\StatusKehadiranController@index');
+    $router->get('/setup/status-kehadiran/{id}', 'Setup\StatusKehadiranController@show');
+    $router->post('/setup/status-kehadiran', 'Setup\StatusKehadiranController@store');
+    $router->put('/setup/status-kehadiran/{id}', 'Setup\StatusKehadiranController@update');
+    $router->delete('/setup/status-kehadiran/{id}', 'Setup\StatusKehadiranController@delete');
+    $router->get('/ref/status-kehadiran', 'Setup\StatusKehadiranController@getRef');
+
     $router->get('/setup/tipe-mutasi', 'Setup\TipeMutasiController@index');
+    $router->get('/setup/tipe-mutasi/{id}', 'Setup\TipeMutasiController@show');
+    $router->post('/setup/tipe-mutasi', 'Setup\TipeMutasiController@store');
+    $router->put('/setup/tipe-mutasi/{id}', 'Setup\TipeMutasiController@update');
+    $router->delete('/setup/tipe-mutasi/{id}', 'Setup\TipeMutasiController@delete');
+    $router->get('/ref/tipe-mutasi', 'Setup\TipeMutasiController@getRef');
 
     //transactional
     $router->get('/trans/jadwal', 'Trans\JadwalController@index');

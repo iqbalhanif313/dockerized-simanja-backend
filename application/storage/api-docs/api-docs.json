@@ -2419,10 +2419,171 @@
         "/api/setup/status-kehadiran": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/status-kehadiran"
                 ],
                 "summary": "Show Setup StatusKehadiran information",
                 "operationId": "setup/status-kehadiran",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "setup/status-kehadiran"
+                ],
+                "summary": "Store Setup StatusKehadiran",
+                "operationId": "setup/status-kehadiran/store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Store Setup StatusKehadiran",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "nama": {
+                                        "description": "Store Setup StatusKehadiran",
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/status-kehadiran/{id}": {
+            "get": {
+                "tags": [
+                    "setup/status-kehadiran"
+                ],
+                "summary": "Show Detail Setup StatusKehadiran",
+                "operationId": "setup/status-kehadiran/{id}",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "setup/status-kehadirann"
+                ],
+                "summary": "Update Setup StatusKehadiran",
+                "operationId": "setup/status-kehadiran/update",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Update Setup StatusKehadiran",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "nama": {
+                                        "description": "Update Setup StatusKehadiran",
+                                        "type": "string",
+                                        "example": "Daerah"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "setup/status-kehadiran"
+                ],
+                "summary": "Delete Setup StatusKehadiran",
+                "operationId": "setup/status-kehadiran/{id}/delete",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/ref/status-kehadiran": {
+            "get": {
+                "tags": [
+                    "references"
+                ],
+                "summary": "Show Ref Setup StatusKehadiran information",
+                "operationId": "ref/status-kehadiran",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -2444,10 +2605,171 @@
         "/api/setup/tipe-mutasi": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/tipe-mutasi"
                 ],
                 "summary": "Show Setup TipeMutasi information",
                 "operationId": "setup/tipe-mutasi",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "setup/tipe-mutasi"
+                ],
+                "summary": "Store Setup TipeMutasi",
+                "operationId": "setup/tipe-mutasi/store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Store Setup TipeMutasi",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "nama": {
+                                        "description": "Store Setup TipeMutasi",
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/setup/tipe-mutasi/{id}": {
+            "get": {
+                "tags": [
+                    "setup/tipe-mutasi"
+                ],
+                "summary": "Show Detail Setup TipeMutasi",
+                "operationId": "setup/tipe-mutasi/{id}",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "setup/tipe-mutasin"
+                ],
+                "summary": "Update Setup TipeMutasi",
+                "operationId": "setup/tipe-mutasi/update",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Update Setup TipeMutasi",
+                                        "type": "string",
+                                        "example": "DRH"
+                                    },
+                                    "nama": {
+                                        "description": "Update Setup TipeMutasi",
+                                        "type": "string",
+                                        "example": "Daerah"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "setup/tipe-mutasi"
+                ],
+                "summary": "Delete Setup TipeMutasi",
+                "operationId": "setup/tipe-mutasi/{id}/delete",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/ref/tipe-mutasi": {
+            "get": {
+                "tags": [
+                    "references"
+                ],
+                "summary": "Show Ref Setup TipeMutasi information",
+                "operationId": "ref/tipe-mutasi",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
