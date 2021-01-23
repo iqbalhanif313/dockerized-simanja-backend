@@ -28,6 +28,11 @@ class StatusJamaahService
         return $this->statusJamaahRepository->getAll();
     }
 
+    public function getRef()
+    {
+        return $this->statusJamaahRepository->getRef();
+    }
+
     public function getById($id)
     {
         return StatusJamaah::find($id);

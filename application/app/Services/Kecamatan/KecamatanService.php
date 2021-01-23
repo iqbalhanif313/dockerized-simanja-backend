@@ -32,6 +32,11 @@ class KecamatanService
         return $this->kecamatanRepository->getAll();
     }
 
+    public function getRef()
+    {
+        return $this->kecamatanRepository->getRef();
+    }
+
     public function getById($id)
     {
         return Kecamatan::find($id);

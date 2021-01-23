@@ -23,6 +23,20 @@ class LevelRepository
         return $data;
     }
 
+    public function getRef()
+    {
+        $response = [];
+        $datas = Level::all();
+        foreach ($datas as $data){
+            $response[] = [
+                "id" => $data->id,
+                "nama" => $data->nama,
+                "id_nama" => $data->id.' - '.$data->nama
+            ];
+        }
+        return $response;
+    }
+
     public function getById($id)
     {
         return $this->level

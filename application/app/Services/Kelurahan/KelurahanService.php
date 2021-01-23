@@ -32,6 +32,11 @@ class KelurahanService
         return $this->kelurahanRepository->getAll();
     }
 
+    public function getRef()
+    {
+        return $this->kelurahanRepository->getRef();
+    }
+
     public function getById($id)
     {
         return Kelurahan::find($id);

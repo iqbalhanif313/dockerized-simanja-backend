@@ -23,7 +23,7 @@ class KategoriJamaahController extends Controller
      *
      * @OA\Get(
      *     path="/api/setup/kategori-jamaah",
-     *     tags={"setup"},
+     *     tags={"setup/kategori-jamaah"},
      *     operationId="setup/kategori-jamaah",
      *     @OA\Response(
      *         response=400,
@@ -209,5 +209,37 @@ class KategoriJamaahController extends Controller
         }
 
         return $this->success("KategoriJamaah berhasil diupdate");
+    }
+
+    /**
+     * Show Ref Setup Kategori Jamaah information
+     *
+     * @OA\Get(
+     *     path="/api/ref/kategori-jamaah",
+     *     tags={"references"},
+     *     operationId="ref/kategori-jamaah",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+
+    public function getRef()
+    {
+        $result = [];
+        try {
+            $result =  $this->kategoriJamaahService->getRef();
+        } catch (Exception $e) {
+            $this->handleErrorRequest($e->getMessage());
+        }
+        return $this->data($result);
     }
 }

@@ -210,4 +210,36 @@ class ProvinsiController extends Controller
 
         return $this->success("Provinsi berhasil diupdate");
     }
+
+    /**
+     * Show Ref Setup Provinsi information
+     *
+     * @OA\Get(
+     *     path="/api/ref/provinsi",
+     *     tags={"references"},
+     *     operationId="ref/provinsi",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+
+    public function getRef()
+    {
+        $result = [];
+        try {
+            $result =  $this->provinsiService->getRef();
+        } catch (Exception $e) {
+            $this->handleErrorRequest($e->getMessage());
+        }
+        return $this->data($result);
+    }
 }

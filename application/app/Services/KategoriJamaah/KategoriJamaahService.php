@@ -28,6 +28,11 @@ class KategoriJamaahService
         return $this->kategoriJamaahRepository->getAll();
     }
 
+    public function getRef()
+    {
+        return $this->kategoriJamaahRepository->getRef();
+    }
+
     public function getById($id)
     {
         return KategoriJamaah::find($id);

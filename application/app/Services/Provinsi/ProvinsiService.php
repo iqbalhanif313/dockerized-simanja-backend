@@ -28,6 +28,12 @@ class ProvinsiService
         return $this->provinsiRepository->getAll();
     }
 
+    public function getRef()
+    {
+        return $this->provinsiRepository->getRef();
+    }
+
+
     public function getById($id)
     {
         return Provinsi::find($id);

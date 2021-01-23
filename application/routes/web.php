@@ -62,30 +62,36 @@ $router->group([
     $router->post('/setup/desa', 'Setup\DesaController@store');
     $router->put('/setup/desa/{id}', 'Setup\DesaController@update');
     $router->delete('/setup/desa/{id}', 'Setup\DesaController@delete');
+    $router->get('/ref/desa', 'Setup\DesaController@getRef');
 
     $router->get('/setup/status-jamaah', 'Setup\StatusJamaahController@index');
     $router->get('/setup/status-jamaah/{id}', 'Setup\StatusJamaahController@show');
     $router->post('/setup/status-jamaah', 'Setup\StatusJamaahController@store');
     $router->put('/setup/status-jamaah/{id}', 'Setup\StatusJamaahController@update');
     $router->delete('/setup/status-jamaah/{id}', 'Setup\StatusJamaahController@delete');
+    $router->get('/ref/status-jamaah', 'Setup\StatusJamaahController@getRef');
 
     $router->get('/setup/level', 'Setup\LevelController@index');
     $router->get('/setup/level/{id}', 'Setup\LevelController@show');
     $router->post('/setup/level', 'Setup\LevelController@store');
     $router->put('/setup/level/{id}', 'Setup\LevelController@update');
     $router->delete('/setup/level/{id}', 'Setup\LevelController@delete');
+    $router->get('/ref/level', 'Setup\LevelController@getRef');
     
     $router->get('/setup/provinsi', 'Setup\ProvinsiController@index');
     $router->get('/setup/provinsi/{id}', 'Setup\ProvinsiController@show');
     $router->post('/setup/provinsi', 'Setup\ProvinsiController@store');
     $router->put('/setup/provinsi/{id}', 'Setup\ProvinsiController@update');
     $router->delete('/setup/provinsi/{id}', 'Setup\ProvinsiController@delete');
+    $router->get('/ref/provinsi', 'Setup\ProvinsiController@getRef');
+    
 
     $router->get('/setup/kategori-jamaah', 'Setup\KategoriJamaahController@index');
     $router->get('/setup/kategori-jamaah/{id}', 'Setup\KategoriJamaahController@show');
     $router->post('/setup/kategori-jamaah', 'Setup\KategoriJamaahController@store');
     $router->put('/setup/kategori-jamaah/{id}', 'Setup\KategoriJamaahController@update');
     $router->delete('/setup/kategori-jamaah/{id}', 'Setup\KategoriJamaahController@delete');
+    $router->get('/ref/kategori-jamaah', 'Setup\KategoriJamaahController@getRef');
 
     $router->get('/setup/jenis-kegiatan', 'Setup\JenisKegiatanController@index');
     $router->get('/setup/jenis-kegiatan/{id}', 'Setup\JenisKegiatanController@show');

@@ -211,4 +211,36 @@ class StatusJamaahController extends Controller
         return $this->success("Status Jamaah berhasil diupdate");
     }
 
+    /**
+     * Show Ref Setup Status Jamaah
+     *
+     * @OA\Get(
+     *     path="/api/ref/status-jamaah",
+     *     tags={"references"},
+     *     operationId="ref/status-jamaah",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+
+    public function getRef()
+    {
+        $result = [];
+        try {
+            $result =  $this->statusJamaahService->getRef();
+        } catch (Exception $e) {
+            $this->handleErrorRequest($e->getMessage());
+        }
+        return $this->data($result);
+    }
+
 }

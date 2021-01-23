@@ -23,7 +23,7 @@ class LevelController extends Controller
      *
      * @OA\Get(
      *     path="/api/setup/level",
-     *     tags={"setup"},
+     *     tags={"setup/level"},
      *     operationId="setup/level",
      *     @OA\Response(
      *         response=400,
@@ -209,5 +209,37 @@ class LevelController extends Controller
         }
 
         return $this->success("Level berhasil diupdate");
+    }
+
+    /**
+     * Show Ref Setup Level information
+     *
+     * @OA\Get(
+     *     path="/api/ref/level",
+     *     tags={"references"},
+     *     operationId="ref/level",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+
+    public function getRef()
+    {
+        $result = [];
+        try {
+            $result =  $this->levelService->getRef();
+        } catch (Exception $e) {
+            $this->handleErrorRequest($e->getMessage());
+        }
+        return $this->data($result);
     }
 }

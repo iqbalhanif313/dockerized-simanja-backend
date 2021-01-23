@@ -31,6 +31,20 @@ class KelurahanRepository
         return $response;
     }
 
+    public function getRef()
+    {
+        $response = [];
+        $datas = Kelurahan::all();
+        foreach ($datas as $data){
+            $response[] = [
+                "id" => $data->id,
+                "nama" => $data->nama,
+                "id_nama" => $data->id.' - '.$data->nama
+            ];
+        }
+        return $response;
+    }
+
     public function getById($id)
     {
         return $this->kelurahan

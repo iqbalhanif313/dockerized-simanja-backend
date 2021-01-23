@@ -32,6 +32,11 @@ class LevelService
         return $this->levelRepository->getAll();
     }
 
+    public function getRef()
+    {
+        return $this->levelRepository->getRef();
+    }
+
     public function getById($id)
     {
         return Level::find($id);

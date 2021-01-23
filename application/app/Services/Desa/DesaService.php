@@ -30,6 +30,20 @@ class DesaService
         return Desa::all();
     }
 
+    public function getRef()
+    {
+        $response = [];
+        $datas = Desa::all();
+        foreach ($datas as $data){
+            $response[] = [
+                "id" => $data->id,
+                "nama" => $data->nama,
+                "id_nama" => $data->id.' - '.$data->nama
+            ];
+        }
+        return $response;
+    }
+
     public function getById($id)
     {
         return Desa::find($id);

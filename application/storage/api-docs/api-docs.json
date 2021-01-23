@@ -989,6 +989,31 @@
                 ]
             }
         },
+        "/api/ref/desa": {
+            "get": {
+                "tags": [
+                    "references"
+                ],
+                "summary": "Show Ref Setup Desa",
+                "operationId": "ref/desa",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
         "/api/setup/jenis-kegiatan": {
             "get": {
                 "tags": [
@@ -1067,7 +1092,7 @@
         "/api/setup/kategori-jamaah": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/kategori-jamaah"
                 ],
                 "summary": "Show Setup Jenis Kegiatan information",
                 "operationId": "setup/kategori-jamaah",
@@ -1225,6 +1250,31 @@
                 ]
             }
         },
+        "/api/ref/kategori-jamaah": {
+            "get": {
+                "tags": [
+                    "references"
+                ],
+                "summary": "Show Ref Setup Kategori Jamaah information",
+                "operationId": "ref/kategori-jamaah",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
         "/api/setup/kecamatan": {
             "get": {
                 "tags": [
@@ -1328,7 +1378,7 @@
         "/api/setup/level": {
             "get": {
                 "tags": [
-                    "setup"
+                    "setup/level"
                 ],
                 "summary": "Show Setup Level information",
                 "operationId": "setup/level",
@@ -1468,6 +1518,31 @@
                 ],
                 "summary": "Delete Setup Level",
                 "operationId": "setup/level/{id}/delete",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/ref/level": {
+            "get": {
+                "tags": [
+                    "references"
+                ],
+                "summary": "Show Ref Setup Level information",
+                "operationId": "ref/level",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
@@ -1647,6 +1722,31 @@
                 ]
             }
         },
+        "/api/ref/provinsi": {
+            "get": {
+                "tags": [
+                    "references"
+                ],
+                "summary": "Show Ref Setup Provinsi information",
+                "operationId": "ref/provinsi",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
         "/api/setup/status-jamaah": {
             "get": {
                 "tags": [
@@ -1790,6 +1890,31 @@
                 ],
                 "summary": "Delete Setup StatusJamaah",
                 "operationId": "setup/status-jamaah/{id}/delete",
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": [
+                            "write:user",
+                            "read:user"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/ref/status-jamaah": {
+            "get": {
+                "tags": [
+                    "references"
+                ],
+                "summary": "Show Ref Setup Status Jamaah",
+                "operationId": "ref/status-jamaah",
                 "responses": {
                     "400": {
                         "description": "Bad Request"
