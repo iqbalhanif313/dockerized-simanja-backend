@@ -90,7 +90,7 @@ class JamaahController extends Controller
      * Create Jamaah information
      *
      * @OA\Post(
-     *     path="/api/master/jamaah/store",
+     *     path="/api/master/jamaah",
      *     tags={"master/jamaah"},
      *     operationId="store",
      *     @OA\Response(
@@ -190,12 +190,39 @@ class JamaahController extends Controller
      *   ),
      */
 
+    // public function store(CreateJamaahRequest $request)
+    // {
+    //     if (!$this->jamaahService->handleJamaahCreation($request)) {
+    //         $this->handleBadRequest("Bad request at jamaah creation");
+    //     }
+
+    //     return $this->success("jamaah creation succeed");
+    // }
+
     public function store(CreateJamaahRequest $request)
     {
-        if (!$this->jamaahService->handleJamaahCreation($request)) {
-            $this->handleBadRequest("Bad request at jamaah creation");
+        $data = $request->only([
+            'nik',
+            'nama',       
+            'jenis_kelamin',
+            'tempat_lahir',
+            'tanggal_lahir',
+            'hp',
+            'alamat',
+            'st_provinsi_id',
+            'st_kab_id',
+            'st_kec_id',
+            'st_kel_id',
+            'md_kelompok_id',
+            'st_kategori_jamaah_id',
+            'st_status_jamaah_id'
+        ]);
+        try {
+            $this->jamaahService->saveData($data);
+        } catch (Exception $e) {
+            return $this->handleErrorRequest($e->getMessage());
         }
-
-        return $this->success("jamaah creation succeed");
+        return $this->success("Data Jamaah berhasil dibuat");
     }
+    
 }

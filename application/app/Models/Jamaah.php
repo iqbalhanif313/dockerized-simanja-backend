@@ -13,18 +13,18 @@ class Jamaah extends Model
     public $incrementing = false;
     protected $dates = ['deleted_at'];
     
-    public function kel()
+    public function kelurahan()
     {
-        return $this->belongsTo(Kel::class, 'st_kel_id');
+        return $this->belongsTo(Kelurahan::class, 'st_kel_id');
     }
-    public function kec()
+    public function kecamatan()
     {
-        return $this->belongsTo(Kel::class, 'st_kec_id');
+        return $this->belongsTo(Kecamatan::class, 'st_kec_id');
     }
 
-    public function kab()
+    public function kabupaten()
     {
-        return $this->belongsTo(Kab::class,'st_kab_id');
+        return $this->belongsTo(Kabupaten::class,'st_kab_id');
     }
 
     public function provinsi()
@@ -37,8 +37,13 @@ class Jamaah extends Model
         return $this->belongsTo(Kelompok::class,'md_kelompok_id');
     }
 
-    public function status()
+    public function kategori_jamaah()
     {
-        return $this->belongsTo(Status::class,'st_status_jamaah_id');
+        return $this->belongsTo(KategoriJamaah::class,'st_kategori_jamaah_id');
+    }
+
+    public function status_jamaah()
+    {
+        return $this->belongsTo(StatusJamaah::class,'st_status_jamaah_id');
     }
 }

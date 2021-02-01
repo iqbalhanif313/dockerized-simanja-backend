@@ -32,8 +32,28 @@ class JamaahRepository
         //         WHERE md_jamaah.deleted_at IS NULL";
         // $data = DB::select($query);
         // return response()->json($data);
-        $data = Jamaah::all();
-        return $data;
+        // $data = Jamaah::all();
+        $response = [];
+        $datas = Jamaah::all();
+        foreach ($datas as $data){
+            $response[] = [
+                "nik" => $data->nik,
+                "nama" => $data->nama,
+                "jenis_kelamin" => $data->jenis_kelamin,
+                "tempat_lahir" => $data->tempat_lahir,
+                "tanggal_lahir" => $data->tanggal_lahir,
+                "hp" => $data->hp,
+                "alamat" => $data->alamat,
+                "provinsi" => $data->provinsi->nama,
+                "kabupaten" => $data->kabupaten->nama,
+                "kecamatan" => $data->kecamatan->nama,
+                "kelurahan" => $data->kelurahan->nama,
+                "kelompok" => $data->kelompok->nama,
+                "kategori" => $data->kategori_jamaah->nama,
+                "status" => $data->status_jamaah->nama,
+            ];
+        }
+        return $response;
     }
 
     public function getById($id)

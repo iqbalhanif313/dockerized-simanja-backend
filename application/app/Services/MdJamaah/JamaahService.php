@@ -32,11 +32,35 @@ class JamaahService
     {
         return $this->jamaahRepository->getById($id)->original;
     }
+    public function saveData($data)
+    {
+        DB::transaction(function()use($data){
+            $jamaah = new Jamaah();
+                $jamaah->nik = $data['nik'];
+                // $jamaah->users_id = $credential['users_id'];
+                $jamaah->nama = $data['nama'];
+                $jamaah->jenis_kelamin = $data['jenis_kelamin'];
+                $jamaah->tempat_lahir = $data['tempat_lahir'];
+                $jamaah->tanggal_lahir = $data['tanggal_lahir'];
+                $jamaah->hp = $data['hp'];
+                $jamaah->alamat = $data['alamat'];
+                $jamaah->st_provinsi_id = $data['st_provinsi_id'];
+                $jamaah->st_kab_id = $data['st_kab_id'];
+                $jamaah->st_kec_id = $data['st_kec_id'];
+                $jamaah->st_kel_id = $data['st_kel_id'];
+                $jamaah->md_kelompok_id = $data['md_kelompok_id'];
+                $jamaah->st_kategori_jamaah_id = $data['st_kategori_jamaah_id'];
+                $jamaah->st_status_jamaah_id = $data['st_status_jamaah_id'];
+                
+                $jamaah->save();
+
+        });
+    }
     public function handleJamaahCreation($request)
     {
         $credential = $request->only(
             'nik',
-            'users_id',
+            // 'users_id',
             'nama',       
             'jenis_kelamin',
             'tempat_lahir',
@@ -53,10 +77,10 @@ class JamaahService
             
         );
 
-        $users_id = User::where('id', $credential['users_id'])->first();
-        if (!$users_id) {
-            return false;
-        }
+        // $users_id = User::where('id', $credential['users_id'])->first();
+        // if (!$users_id) {
+        //     return false;
+        // }
 
         $st_kelompok = Kelompok::where('id', $credential['md_kelompok_id'])->first();
         if (!$st_kelompok) {
@@ -97,7 +121,7 @@ class JamaahService
             DB::transaction(function () use ($credential) {
                 $jamaah = new Jamaah();
                 $jamaah->nik = $credential['nik'];
-                $jamaah->users_id = $credential['users_id'];
+                // $jamaah->users_id = $credential['users_id'];
                 $jamaah->nama = $credential['nama'];
                 $jamaah->jenis_kelamin = $credential['jenis_kelamin'];
                 $jamaah->tempat_lahir = $credential['tempat_lahir'];
