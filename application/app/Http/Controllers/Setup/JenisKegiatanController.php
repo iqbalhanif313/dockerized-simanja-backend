@@ -55,6 +55,26 @@ class JenisKegiatanController extends Controller
 
     }
 
+    /**
+     * Show Detail Setup Jenis Kegiatan
+     *
+     * @OA\Get(
+     *     path="/api/setup/jenis-kegiatan/{id}",
+     *     tags={"setup/jenis-kegiatan"},
+     *     operationId="setup/jenis-kegiatan/{id}",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
     public function show($id)
     {
         try {
@@ -74,6 +94,7 @@ class JenisKegiatanController extends Controller
 
     public function store(CreateJenisKegiatanRequest $request){
         $data = $request->only([
+            'id',
             'nama',
         ]);
         try {

@@ -42,6 +42,7 @@ class JenisKegiatanService
 
     public function saveData($data){
         $jenisKegiatan = new JenisKegiatan();
+        $jenisKegiatan->id = $data['id'];
         $jenisKegiatan->nama = $data['nama'];
         $jenisKegiatan->save();
     }
