@@ -40,19 +40,14 @@ class JamaahController extends Controller
 
     public function index()
     {
-        $result = ['status' => 200];
 
+        $result = [];
         try {
-            $result['message'] = "ok";
-            $result['data'] = $this->jamaahService->getAll();
+            $result =  $this->jamaahService->getAll();
         } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
+            $this->handleErrorRequest($e->getMessage());
         }
-
-        return response()->json($result, $result['status']);
+        return $this->data($result);
     }
 
     /**

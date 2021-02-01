@@ -25,7 +25,7 @@ class JamaahService
     }
     public function getAll()
     {
-        return $this->jamaahRepository->getAll()->original;
+        return $this->jamaahRepository->getAll();
     }
 
     public function getById($id)

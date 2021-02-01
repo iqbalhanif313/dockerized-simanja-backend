@@ -50,6 +50,7 @@ $router->group([
     $router->get('master/kelompok/{id}', 'Master\KelompokController@show');
     $router->post('master/kelompok', 'Master\KelompokController@store');
     $router->put('master/kelompok/{id}', 'Master\KelompokController@update');
+    $router->get('/ref/kelompok', 'Master\KelompokController@getRef');
 
     $router->get('master/kepengurusan', 'Master\KepengurusanController@index');
     $router->get('master/kepengurusan/{id}', 'Master\KepengurusanController@show');

@@ -45,6 +45,11 @@ class KelompokService
         return $this->kelompokRepository->getAll();
     }
 
+    public function getRef()
+    {
+        return $this->kelompokRepository->getRef();
+    }
+
     public function getById($id)
     {
         return $this->kelompokRepository->getById($id);

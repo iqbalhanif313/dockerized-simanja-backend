@@ -26,6 +26,20 @@ class KelompokRepository
         return $data;
     }
 
+    public function getRef()
+    {
+        $response = [];
+        $datas = Kelompok::all();
+        foreach ($datas as $data){
+            $response[] = [
+                "id" => $data->id,
+                "nama" => $data->nama,
+                "text" => $data->id.' - '.$data->nama
+            ];
+        }
+        return $response;
+    }
+
     public function getById($id)
     {
         $query = "SELECT CONCAT(md_kelompok.id,'- ',md_kelompok.nama) as id_nama, md_kelompok.*,st_desa.nama as desa

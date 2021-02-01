@@ -231,4 +231,36 @@ class KelompokController extends Controller
 
         return response()->json($result, $result['status']);
     }
+
+    /**
+     * Show Ref Setup Kelompok information
+     *
+     * @OA\Get(
+     *     path="/api/ref/kelompok",
+     *     tags={"references"},
+     *     operationId="ref/kelompok",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+
+    public function getRef()
+    {
+        $result = [];
+        try {
+            $result =  $this->kelompokService->getRef();
+        } catch (Exception $e) {
+            $this->handleErrorRequest($e->getMessage());
+        }
+        return $this->data($result);
+    }
 }

@@ -39,7 +39,7 @@ class KelurahanRepository
             $response[] = [
                 "id" => $data->id,
                 "nama" => $data->nama,
-                "id_nama" => $data->id.' - '.$data->nama
+                "text" => $data->id.' - '.$data->nama
             ];
         }
         return $response;
