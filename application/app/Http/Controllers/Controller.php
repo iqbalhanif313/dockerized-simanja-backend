@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ResponseHelper;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -35,16 +36,16 @@ class Controller extends BaseController
 
     public function handleErrorRequest($message){
         return response()->json([
-            'error'=> true,
-            'message'=>$message
-        ],500);
+            'error' => true,
+            'message' => $message
+        ],ResponseHelper::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    public function success($message){
+    public function success($message, $status = ResponseHelper::HTTP_OK){
         return response()->json([
-            'error'=>false,
-            'message'=>$message
-        ],201);
+            'error' => false,
+            'message' => $message
+        ], $status);
     }
 
     public function data($data){

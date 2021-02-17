@@ -45,6 +45,7 @@ $router->group([
     $router->get('master/kegiatan/{id}', 'Master\KegiatanController@show');
     $router->post('master/kegiatan', 'Master\KegiatanController@store');
     $router->put('master/kegiatan/{id}', 'Master\KegiatanController@update');
+    $router->get('ref/master/kegiatan', 'Master\KegiatanController@getRef');
 
     $router->get('master/kelompok', 'Master\KelompokController@index');
     $router->get('master/kelompok/{id}', 'Master\KelompokController@show');
@@ -78,14 +79,14 @@ $router->group([
     $router->put('/setup/level/{id}', 'Setup\LevelController@update');
     $router->delete('/setup/level/{id}', 'Setup\LevelController@delete');
     $router->get('/ref/level', 'Setup\LevelController@getRef');
-    
+
     $router->get('/setup/provinsi', 'Setup\ProvinsiController@index');
     $router->get('/setup/provinsi/{id}', 'Setup\ProvinsiController@show');
     $router->post('/setup/provinsi', 'Setup\ProvinsiController@store');
     $router->put('/setup/provinsi/{id}', 'Setup\ProvinsiController@update');
     $router->delete('/setup/provinsi/{id}', 'Setup\ProvinsiController@delete');
     $router->get('/ref/provinsi', 'Setup\ProvinsiController@getRef');
-    
+
 
     $router->get('/setup/kategori-jamaah', 'Setup\KategoriJamaahController@index');
     $router->get('/setup/kategori-jamaah/{id}', 'Setup\KategoriJamaahController@show');
@@ -108,7 +109,7 @@ $router->group([
     $router->put('/setup/kabupaten/{id}', 'Setup\KabupatenController@update');
     $router->delete('/setup/kabupaten/{id}', 'Setup\KabupatenController@delete');
     $router->get('/ref/kabupaten', 'Setup\KabupatenController@getRef');
-    
+
     $router->get('/setup/kecamatan', 'Setup\KecamatanController@index');
     $router->get('/setup/kecamatan/filter/{st_kab_id}', 'Setup\KecamatanController@filter');
     $router->get('/setup/kecamatan/{id}', 'Setup\KecamatanController@show');
@@ -144,6 +145,7 @@ $router->group([
     $router->get('/trans/jadwal/{id}', 'Trans\JadwalController@show');
     $router->post('/trans/jadwal', 'Trans\JadwalController@store');
     $router->put('/trans/jadwal/{id}', 'Trans\JadwalController@update');
+    $router->delete('/trans/jadwal/{id}', 'Trans\JadwalController@delete');
 
     $router->get('/trans/kepengurusan', 'Trans\KepengurusanController@index');
     $router->get('/trans/kepengurusan/{id}', 'Trans\KepengurusanController@show');

@@ -24,11 +24,18 @@ class KegiatanRepository
         LEFT JOIN st_jenis_kegiatan ON md_kegiatan.st_jenis_kegiatan_id = st_jenis_kegiatan.id
         LEFT JOIN st_kategori_jamaah ON md_kegiatan.st_kategori_jamaah_id = st_kategori_jamaah.id
         LEFT JOIN st_level ON md_kegiatan.st_level_id = st_level.id
-        LEFT JOIN md_kelompok ON md_kegiatan.md_kelompok_id = md_kelompok.id 
-        LEFT JOIN st_desa ON md_kegiatan.st_desa_id = st_desa.id  
+        LEFT JOIN md_kelompok ON md_kegiatan.md_kelompok_id = md_kelompok.id
+        LEFT JOIN st_desa ON md_kegiatan.st_desa_id = st_desa.id
         WHERE md_kegiatan.deleted_at IS NULL";
         $data = DB::select($query);
         return $data;
+    }
+
+    public function getRef() {
+        return $this->kegiatan->newQuery()
+            ->selectRaw("id, deskripsi as text")
+            ->whereNull('deleted_at')
+            ->get();
     }
 
     public function getById($id)
@@ -38,9 +45,9 @@ class KegiatanRepository
         LEFT JOIN st_jenis_kegiatan ON md_kegiatan.st_jenis_kegiatan_id = st_jenis_kegiatan.id
         LEFT JOIN st_kategori_jamaah ON md_kegiatan.st_kategori_jamaah_id = st_kategori_jamaah.id
         LEFT JOIN st_level ON md_kegiatan.st_level_id = st_level.id
-        LEFT JOIN md_kelompok ON md_kegiatan.md_kelompok_id = md_kelompok.id 
-        LEFT JOIN st_desa ON md_kegiatan.st_desa_id = st_desa.id  
-        WHERE md_kegiatan.id = '$id' 
+        LEFT JOIN md_kelompok ON md_kegiatan.md_kelompok_id = md_kelompok.id
+        LEFT JOIN st_desa ON md_kegiatan.st_desa_id = st_desa.id
+        WHERE md_kegiatan.id = '$id'
         AND md_kegiatan.deleted_at IS NULL";
         $data = DB::select($query);
         return $data;
@@ -64,7 +71,7 @@ class KegiatanRepository
 
     public function update($data, $id)
     {
-        
+
         $kegiatan = $this->kegiatan->find($id);
 
         $kegiatan->id = $data['id'];
@@ -82,10 +89,8 @@ class KegiatanRepository
 
     public function delete($id)
     {
-        
         $kegiatan = $this->kegiatan->find($id);
         $kegiatan->delete();
-
         return $kegiatan;
     }
 

@@ -37,12 +37,15 @@ class KegiatanService
         DB::commit();
 
         return $kegiatan;
-
     }
 
     public function getAll()
     {
         return $this->kegiatanRepository->getAll();
+    }
+
+    public function getRef() {
+        return $this->kegiatanRepository->getRef();
     }
 
     public function getById($id)

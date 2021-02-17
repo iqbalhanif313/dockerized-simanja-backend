@@ -10,7 +10,6 @@ use App\Services\Kegiatan\KegiatanService;
 
 class KegiatanController extends Controller
 {
-
     protected $kegiatanService;
 
     public function __construct(KegiatanService $kegiatanService)
@@ -96,7 +95,7 @@ class KegiatanController extends Controller
      *    					example="P",
      *    					description=""
      *                  ),
-     *                  
+     *
      *                  @OA\Property(property="st_kategori_jamaah_id",
      *    					type="string",
      *    					example="R",
@@ -222,7 +221,7 @@ class KegiatanController extends Controller
      *    					example="P",
      *    					description=""
      *                  ),
-     *                  
+     *
      *                  @OA\Property(property="st_kategori_jamaah_id",
      *    					type="string",
      *    					example="R",
@@ -267,5 +266,35 @@ class KegiatanController extends Controller
         }
 
         return response()->json($result, $result['status']);
+    }
+
+    /**
+     * Show Ref Master Kegiatan
+     *
+     * @OA\Get(
+     *     path="/api/ref/master/kegiatan",
+     *     tags={"references"},
+     *     operationId="ref/master/kegiatan",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function getRef()
+    {
+        try {
+            $result = $this->kegiatanService->getRef();
+        } catch (Exception $exception) {
+            return $this->handleErrorRequest($exception->getMessage());
+        }
+        return $this->data($result);
     }
 }

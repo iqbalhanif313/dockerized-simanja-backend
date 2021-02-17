@@ -2,7 +2,7 @@
 
 namespace App\Services\Jadwal;
 
-use App\Models\Jadwal;
+use App\Helpers\DateTimeHelper;
 use App\Repositories\JadwalRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +12,6 @@ use InvalidArgumentException;
 
 class JadwalService
 {
-
     protected $jadwalRepository;
 
     public function __construct(JadwalRepository $jadwalRepository)
@@ -25,19 +24,16 @@ class JadwalService
         DB::beginTransaction();
 
         try {
-            $jadwal = $this->jadwalRepository->delete($id);
-
+            $this->jadwalRepository->delete($id);
         } catch (Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
-
-            throw new InvalidArgumentException('Unable to delete jadwal data');
+            return false;
         }
 
         DB::commit();
 
-        return $jadwal;
-
+        return true;
     }
 
     public function getAll()
@@ -63,22 +59,22 @@ class JadwalService
             throw new InvalidArgumentException($validator->errors()->first());
         }
 
+        $timediff = DateTimeHelper::diff($data['jam_mulai'], $data['jam_selesai'], 'sign');
+        if ($timediff == '-') throw new InvalidArgumentException('Jam selesai kurang dari jam mulai');
+
         DB::beginTransaction();
 
         try {
             $jadwal = $this->jadwalRepository->update($data, $id);
-
         } catch (Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
-
             throw new InvalidArgumentException('Unable to update jadwal data');
         }
 
         DB::commit();
 
         return $jadwal;
-
     }
 
     public function saveData($data)

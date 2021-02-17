@@ -3,12 +3,14 @@
 
 namespace App\Http\Controllers\Trans;
 
+use App\Helpers\DateTimeHelper;
+use App\Helpers\ResponseHelper;
+use App\Services\Jadwal\JadwalService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use DB;
 use Exception;
-use App\Services\Jadwal\JadwalService;
 
 class JadwalController extends Controller
 {
@@ -206,6 +208,7 @@ class JadwalController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $data = $request->only([
             'tanggal',
             'jam_mulai',
@@ -213,17 +216,37 @@ class JadwalController extends Controller
             'md_kegiatan_id'
         ]);
 
-        $result = ['status' => 200];
-
         try {
-            $result['data'] = $this->jadwalService->updateData($data, $id);
+            $this->jadwalService->updateData($data, $id);
         } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
+            return $this->handleErrorRequest($e->getMessage());
         }
 
-        return response()->json($result, $result['status']);
+        return $this->success('Data berhasil diupdate!');
+    }
+
+    /**
+     * Delete Setup Desa
+     *
+     * @OA\Delete(
+     *     path="/api/setup/desa/{id}",
+     *     tags={"setup/desa"},
+     *     operationId="setup/desa/{id}/delete",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function delete($id) {
+        $result = $this->jadwalService->deleteById($id);
+        return $result ? $this->success('data berhasil dihapus') : $this->handleErrorRequest('data gagal dihapus');
     }
 }
