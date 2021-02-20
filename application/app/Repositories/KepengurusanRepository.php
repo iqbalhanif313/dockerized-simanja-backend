@@ -10,11 +10,11 @@ class KepengurusanRepository
     /**
      * @var Kepengurusan
      */
-    protected $kepengurusan;
+    protected $model;
 
     public function __construct(Kepengurusan $kepengurusan)
     {
-        $this->kepengurusan = $kepengurusan;
+        $this->model = $kepengurusan;
     }
 
     public function getAll()
@@ -25,6 +25,13 @@ class KepengurusanRepository
         LEFT JOIN st_level ON md_kepengurusan.st_level_id = st_level.id";
         $data = DB::select($query);
         return $data;
+    }
+
+    public function getRef() {
+        return $this->model->newQuery()
+            ->selectRaw("id, concat(id, ' - ', nama) as text")
+            ->whereNull('deleted_at')
+            ->get();
     }
 
     public function getById($id)
@@ -40,7 +47,7 @@ class KepengurusanRepository
 
     public function save($data)
     {
-        $kepengurusan = new $this->kepengurusan;
+        $kepengurusan = new $this->model;
 
         $kepengurusan->id = $data['id'];
         $kepengurusan->st_level_id = $data['st_level_id'];
@@ -53,8 +60,8 @@ class KepengurusanRepository
 
     public function update($data, $id)
     {
-        
-        $kepengurusan = $this->kepengurusan->find($id);
+
+        $kepengurusan = $this->model->find($id);
 
         $kepengurusan->id = $data['id'];
         $kepengurusan->st_level_id = $data['st_level_id'];
@@ -69,8 +76,8 @@ class KepengurusanRepository
 
     public function delete($id)
     {
-        
-        $kepengurusan = $this->kepengurusan->find($id);
+
+        $kepengurusan = $this->model->find($id);
         $kepengurusan->delete();
 
         return $kepengurusan;

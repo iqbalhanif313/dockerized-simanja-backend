@@ -90,7 +90,17 @@ class JadwalService
             throw new InvalidArgumentException($validator->errors()->first());
         }
 
-        $result = $this->jadwalRepository->save($data);
+        DB::beginTransaction();
+
+        try {
+            $result = $this->jadwalRepository->save($data);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::info($e->getMessage());
+            throw new InvalidArgumentException('Unable to create jadwal data');
+        }
+
+        DB::commit();
 
         return $result;
     }

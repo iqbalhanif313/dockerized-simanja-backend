@@ -10,11 +10,11 @@ class JamaahRepository
     /**
      * @var Jamaah
      */
-    protected $jamaah;
+    protected $model;
 
     public function __construct(Jamaah $jamaah)
     {
-        $this->jamaah = $jamaah;
+        $this->model = $jamaah;
     }
 
     public function getAll()
@@ -54,6 +54,13 @@ class JamaahRepository
             ];
         }
         return $response;
+    }
+
+    public function getRef() {
+        return $this->model->newQuery()
+            ->selectRaw("nik as id, concat(nik, ' - ', nama) as text")
+            ->whereNull('deleted_at')
+            ->get();
     }
 
     public function getById($id)

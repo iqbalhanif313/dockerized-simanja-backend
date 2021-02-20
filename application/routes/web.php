@@ -40,6 +40,7 @@ $router->group([
     $router->get('master/jamaah', 'Master\JamaahController@index');
     $router->get('master/jamaah/{id}', 'Master\JamaahController@show');
     $router->post('master/jamaah', 'Master\JamaahController@store');
+    $router->get('ref/master/jamaah', 'Master\JamaahController@getRef');
 
     $router->get('master/kegiatan', 'Master\KegiatanController@index');
     $router->get('master/kegiatan/{id}', 'Master\KegiatanController@show');
@@ -57,6 +58,7 @@ $router->group([
     $router->get('master/kepengurusan/{id}', 'Master\KepengurusanController@show');
     $router->post('master/kepengurusan', 'Master\KepengurusanController@store');
     $router->put('master/kepengurusan/{id}', 'Master\KepengurusanController@update');
+    $router->get('ref/master/kepengurusan', 'Master\KepengurusanController@getRef');
 
     //setup
     $router->get('/setup/desa', 'Setup\DesaController@index');
@@ -151,6 +153,7 @@ $router->group([
     $router->get('/trans/kepengurusan/{id}', 'Trans\KepengurusanController@show');
     $router->post('/trans/kepengurusan', 'Trans\KepengurusanController@store');
     $router->put('/trans/kepengurusan/{id}', 'Trans\KepengurusanController@update');
+    $router->delete('/trans/kepengurusan/{id}', 'Trans\KepengurusanController@delete');
 
     $router->get('/trans/presensi', 'Trans\PresensiController@index');
     $router->get('/trans/presensi/{id}', 'Trans\PresensiController@show');

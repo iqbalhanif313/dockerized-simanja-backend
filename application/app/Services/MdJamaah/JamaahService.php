@@ -23,9 +23,14 @@ class JamaahService
     {
         $this->jamaahRepository = $jamaahRepository;
     }
+
     public function getAll()
     {
         return $this->jamaahRepository->getAll();
+    }
+
+    public function getRef() {
+        return $this->jamaahRepository->getRef();
     }
 
     public function getById($id)
@@ -51,7 +56,7 @@ class JamaahService
                 $jamaah->md_kelompok_id = $data['md_kelompok_id'];
                 $jamaah->st_kategori_jamaah_id = $data['st_kategori_jamaah_id'];
                 $jamaah->st_status_jamaah_id = $data['st_status_jamaah_id'];
-                
+
                 $jamaah->save();
 
         });
@@ -61,7 +66,7 @@ class JamaahService
         $credential = $request->only(
             'nik',
             // 'users_id',
-            'nama',       
+            'nama',
             'jenis_kelamin',
             'tempat_lahir',
             'tanggal_lahir',
@@ -74,7 +79,7 @@ class JamaahService
             'md_kelompok_id',
             'st_kategori_jamaah_id',
             'st_status_jamaah_id'
-            
+
         );
 
         // $users_id = User::where('id', $credential['users_id'])->first();
@@ -135,7 +140,7 @@ class JamaahService
                 $jamaah->md_kelompok_id = $credential['md_kelompok_id'];
                 $jamaah->st_kategori_jamaah_id = $credential['st_kategori_jamaah_id'];
                 $jamaah->st_status_jamaah_id = $credential['st_status_jamaah_id'];
-                
+
                 $jamaah->save();
 
             });

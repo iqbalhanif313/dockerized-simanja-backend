@@ -45,6 +45,10 @@ class KepengurusanService
         return $this->kepengurusanRepository->getAll();
     }
 
+    public function getRef() {
+        return $this->kepengurusanRepository->getRef();
+    }
+
     public function getById($id)
     {
         return $this->kepengurusanRepository->getById($id);
@@ -53,7 +57,7 @@ class KepengurusanService
     public function updateData($data, $id)
     {
         $validator = Validator::make($data, [
-            'nama' => 'bail|max:255',        
+            'nama' => 'bail|max:255',
         ]);
 
         if ($validator->fails()) {

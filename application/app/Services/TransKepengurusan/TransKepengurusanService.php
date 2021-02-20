@@ -13,11 +13,11 @@ use InvalidArgumentException;
 class TransKepengurusanService
 {
 
-    protected $transKepengurusanRepository;
+    protected $repository;
 
-    public function __construct(TransKepengurusanRepository $transKepengurusanRepository)
+    public function __construct(TransKepengurusanRepository $repository)
     {
-        $this->transKepengurusanRepository = $transKepengurusanRepository;
+        $this->repository = $repository;
     }
 
     public function deleteById($id)
@@ -25,36 +25,34 @@ class TransKepengurusanService
         DB::beginTransaction();
 
         try {
-            $transKepengurusan = $this->transKepengurusanRepository->delete($id);
-
+            $this->repository->delete($id);
         } catch (Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
-
-            throw new InvalidArgumentException('Unable to delete transKepengurusan data');
+            return false;
         }
 
         DB::commit();
 
-        return $transKepengurusan;
+        return true;
 
     }
 
     public function getAll()
     {
-        return $this->transKepengurusanRepository->getAll();
+        return $this->repository->getAll();
     }
 
     public function getById($id)
     {
-        return $this->transKepengurusanRepository->getById($id);
+        return $this->repository->getById($id);
     }
 
     public function updateData($data, $id)
     {
         $validator = Validator::make($data, [
-            'md_jamaah_nik' => 'bail', 
-            'md_kepengurusan_id' => 'bail'       
+            'md_jamaah_nik' => 'bail',
+            'md_kepengurusan_id' => 'bail'
         ]);
 
         if ($validator->fails()) {
@@ -64,18 +62,16 @@ class TransKepengurusanService
         DB::beginTransaction();
 
         try {
-            $transKepengurusan = $this->transKepengurusanRepository->update($data, $id);
-
+            $result = $this->repository->update($data, $id);
         } catch (Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
-
             throw new InvalidArgumentException('Unable to update transKepengurusan data');
         }
 
         DB::commit();
 
-        return $transKepengurusan;
+        return $result;
 
     }
 
@@ -90,7 +86,17 @@ class TransKepengurusanService
             throw new InvalidArgumentException($validator->errors()->first());
         }
 
-        $result = $this->transKepengurusanRepository->save($data);
+        DB::beginTransaction();
+
+        try {
+            $result = $this->repository->save($data);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::info($e->getMessage());
+            throw new InvalidArgumentException('Unable to create kepengurusan data');
+        }
+
+        DB::commit();
 
         return $result;
     }

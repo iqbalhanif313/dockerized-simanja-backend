@@ -229,4 +229,33 @@ class KepengurusanController extends Controller
 
     }
 
+    /**
+     * Show Ref Master Kepengurusan
+     *
+     * @OA\Get(
+     *     path="/api/ref/master/kepengurusan",
+     *     tags={"references"},
+     *     operationId="ref/master/kepengurusan",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function getRef()
+    {
+        try {
+            $result = $this->kepengurusanService->getRef();
+        } catch (Exception $exception) {
+            return $this->handleErrorRequest($exception->getMessage());
+        }
+        return $this->data($result);
+    }
 }

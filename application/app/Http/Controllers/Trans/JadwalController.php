@@ -226,12 +226,12 @@ class JadwalController extends Controller
     }
 
     /**
-     * Delete Setup Desa
+     * Delete Trans Jadwal
      *
      * @OA\Delete(
-     *     path="/api/setup/desa/{id}",
-     *     tags={"setup/desa"},
-     *     operationId="setup/desa/{id}/delete",
+     *     path="/api/trans/jadwal/{id}",
+     *     tags={"trans/jadwal"},
+     *     operationId="trans/jadwal/{id}/delete",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"

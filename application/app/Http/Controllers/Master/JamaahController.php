@@ -123,7 +123,7 @@ class JamaahController extends Controller
      *    					example="L",
      *    					description="Tulis 'L' or 'P'"
      *                  ),
-     *                  
+     *
      *                  @OA\Property(property="tempat_lahir",
      *    					type="string",
      *    					example="",
@@ -203,7 +203,7 @@ class JamaahController extends Controller
     {
         $data = $request->only([
             'nik',
-            'nama',       
+            'nama',
             'jenis_kelamin',
             'tempat_lahir',
             'tanggal_lahir',
@@ -224,5 +224,34 @@ class JamaahController extends Controller
         }
         return $this->success("Data Jamaah berhasil dibuat");
     }
-    
+
+    /**
+     * Show Ref Master Jamaah
+     *
+     * @OA\Get(
+     *     path="/api/ref/master/jamaah",
+     *     tags={"references"},
+     *     operationId="ref/master/jamaah",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function getRef()
+    {
+        try {
+            $result = $this->jamaahService->getRef();
+        } catch (Exception $exception) {
+            return $this->handleErrorRequest($exception->getMessage());
+        }
+        return $this->data($result);
+    }
 }
