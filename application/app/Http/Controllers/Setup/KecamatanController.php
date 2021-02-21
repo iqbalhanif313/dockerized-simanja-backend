@@ -248,9 +248,9 @@ class KecamatanController extends Controller
      * Show Ref Setup Kecamatan information
      *
      * @OA\Get(
-     *     path="/api/ref/kecamatan",
+     *     path="/api/ref/setup/kecamatan",
      *     tags={"references"},
-     *     operationId="ref/kecamatan",
+     *     operationId="ref/setup/kecamatan",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"
@@ -265,13 +265,12 @@ class KecamatanController extends Controller
      *   ),
      */
 
-    public function getRef()
+    public function getRef(KecamatanService $service, $kab)
     {
-        $result = [];
         try {
-            $result =  $this->kecamatanService->getRef();
+            $result = $service->getRef($kab);
         } catch (Exception $e) {
-            $this->handleErrorRequest($e->getMessage());
+            return $this->handleErrorRequest($e->getMessage());
         }
         return $this->data($result);
     }

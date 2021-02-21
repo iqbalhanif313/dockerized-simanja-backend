@@ -52,7 +52,7 @@ $router->group([
     $router->get('master/kelompok/{id}', 'Master\KelompokController@show');
     $router->post('master/kelompok', 'Master\KelompokController@store');
     $router->put('master/kelompok/{id}', 'Master\KelompokController@update');
-    $router->get('/ref/kelompok', 'Master\KelompokController@getRef');
+    $router->get('/ref/master/kelompok', 'Master\KelompokController@getRef');
 
     $router->get('master/kepengurusan', 'Master\KepengurusanController@index');
     $router->get('master/kepengurusan/{id}', 'Master\KepengurusanController@show');
@@ -66,28 +66,28 @@ $router->group([
     $router->post('/setup/desa', 'Setup\DesaController@store');
     $router->put('/setup/desa/{id}', 'Setup\DesaController@update');
     $router->delete('/setup/desa/{id}', 'Setup\DesaController@delete');
-    $router->get('/ref/desa', 'Setup\DesaController@getRef');
+    $router->get('/ref/setup/desa', 'Setup\DesaController@getRef');
 
     $router->get('/setup/status-jamaah', 'Setup\StatusJamaahController@index');
     $router->get('/setup/status-jamaah/{id}', 'Setup\StatusJamaahController@show');
     $router->post('/setup/status-jamaah', 'Setup\StatusJamaahController@store');
     $router->put('/setup/status-jamaah/{id}', 'Setup\StatusJamaahController@update');
     $router->delete('/setup/status-jamaah/{id}', 'Setup\StatusJamaahController@delete');
-    $router->get('/ref/status-jamaah', 'Setup\StatusJamaahController@getRef');
+    $router->get('/ref/setup/status-jamaah', 'Setup\StatusJamaahController@getRef');
 
     $router->get('/setup/level', 'Setup\LevelController@index');
     $router->get('/setup/level/{id}', 'Setup\LevelController@show');
     $router->post('/setup/level', 'Setup\LevelController@store');
     $router->put('/setup/level/{id}', 'Setup\LevelController@update');
     $router->delete('/setup/level/{id}', 'Setup\LevelController@delete');
-    $router->get('/ref/level', 'Setup\LevelController@getRef');
+    $router->get('/ref/setup/level', 'Setup\LevelController@getRef');
 
     $router->get('/setup/provinsi', 'Setup\ProvinsiController@index');
     $router->get('/setup/provinsi/{id}', 'Setup\ProvinsiController@show');
     $router->post('/setup/provinsi', 'Setup\ProvinsiController@store');
     $router->put('/setup/provinsi/{id}', 'Setup\ProvinsiController@update');
     $router->delete('/setup/provinsi/{id}', 'Setup\ProvinsiController@delete');
-    $router->get('/ref/provinsi', 'Setup\ProvinsiController@getRef');
+    $router->get('/ref/setup/provinsi', 'Setup\ProvinsiController@getRef');
 
 
     $router->get('/setup/kategori-jamaah', 'Setup\KategoriJamaahController@index');
@@ -95,14 +95,14 @@ $router->group([
     $router->post('/setup/kategori-jamaah', 'Setup\KategoriJamaahController@store');
     $router->put('/setup/kategori-jamaah/{id}', 'Setup\KategoriJamaahController@update');
     $router->delete('/setup/kategori-jamaah/{id}', 'Setup\KategoriJamaahController@delete');
-    $router->get('/ref/kategori-jamaah', 'Setup\KategoriJamaahController@getRef');
+    $router->get('/ref/setup/kategori-jamaah', 'Setup\KategoriJamaahController@getRef');
 
     $router->get('/setup/jenis-kegiatan', 'Setup\JenisKegiatanController@index');
     $router->get('/setup/jenis-kegiatan/{id}', 'Setup\JenisKegiatanController@show');
     $router->post('/setup/jenis-kegiatan', 'Setup\JenisKegiatanController@store');
     $router->delete('/setup/jenis-kegiatan/{id}', 'Setup\JenisKegiatanController@delete');
     $router->put('/setup/jenis-kegiatan/{id}', 'Setup\JenisKegiatanController@update');
-    $router->get('/ref/jenis-kegiatan', 'Setup\JenisKegiatanController@getRef');
+    $router->get('/ref/setup/jenis-kegiatan', 'Setup\JenisKegiatanController@getRef');
 
     $router->get('/setup/kabupaten', 'Setup\KabupatenController@index');
     $router->get('/setup/kabupaten/filter/{st_provinsi_id}', 'Setup\KabupatenController@filter');
@@ -110,7 +110,7 @@ $router->group([
     $router->post('/setup/kabupaten', 'Setup\KabupatenController@store');
     $router->put('/setup/kabupaten/{id}', 'Setup\KabupatenController@update');
     $router->delete('/setup/kabupaten/{id}', 'Setup\KabupatenController@delete');
-    $router->get('/ref/kabupaten', 'Setup\KabupatenController@getRef');
+    $router->get('/ref/setup/kabupaten/{prov}', 'Setup\KabupatenController@getRef');
 
     $router->get('/setup/kecamatan', 'Setup\KecamatanController@index');
     $router->get('/setup/kecamatan/filter/{st_kab_id}', 'Setup\KecamatanController@filter');
@@ -118,7 +118,7 @@ $router->group([
     $router->post('/setup/kecamatan', 'Setup\KecamatanController@store');
     $router->put('/setup/kecamatan/{id}', 'Setup\KecamatanController@update');
     $router->delete('/setup/kecamatan/{id}', 'Setup\KecamatanController@delete');
-    $router->get('/ref/kecamatan', 'Setup\KecamatanController@getRef');
+    $router->get('/ref/setup/kecamatan/{kab}', 'Setup\KecamatanController@getRef');
 
     $router->get('/setup/kelurahan', 'Setup\KelurahanController@index');
     $router->get('/setup/kelurahan/filter/{st_kec_id}', 'Setup\KelurahanController@filter');
@@ -126,21 +126,21 @@ $router->group([
     $router->post('/setup/kelurahan', 'Setup\KelurahanController@store');
     $router->put('/setup/kelurahan/{id}', 'Setup\KelurahanController@update');
     $router->delete('/setup/kelurahan/{id}', 'Setup\KelurahanController@delete');
-    $router->get('/ref/kelurahan', 'Setup\KelurahanController@getRef');
+    $router->get('/ref/setup/kelurahan/{kec}', 'Setup\KelurahanController@getRef');
 
     $router->get('/setup/status-kehadiran', 'Setup\StatusKehadiranController@index');
     $router->get('/setup/status-kehadiran/{id}', 'Setup\StatusKehadiranController@show');
     $router->post('/setup/status-kehadiran', 'Setup\StatusKehadiranController@store');
     $router->put('/setup/status-kehadiran/{id}', 'Setup\StatusKehadiranController@update');
     $router->delete('/setup/status-kehadiran/{id}', 'Setup\StatusKehadiranController@delete');
-    $router->get('/ref/status-kehadiran', 'Setup\StatusKehadiranController@getRef');
+    $router->get('/ref/setup/status-kehadiran', 'Setup\StatusKehadiranController@getRef');
 
     $router->get('/setup/tipe-mutasi', 'Setup\TipeMutasiController@index');
     $router->get('/setup/tipe-mutasi/{id}', 'Setup\TipeMutasiController@show');
     $router->post('/setup/tipe-mutasi', 'Setup\TipeMutasiController@store');
     $router->put('/setup/tipe-mutasi/{id}', 'Setup\TipeMutasiController@update');
     $router->delete('/setup/tipe-mutasi/{id}', 'Setup\TipeMutasiController@delete');
-    $router->get('/ref/tipe-mutasi', 'Setup\TipeMutasiController@getRef');
+    $router->get('/ref/setup/tipe-mutasi', 'Setup\TipeMutasiController@getRef');
 
     //transactional
     $router->get('/trans/jadwal', 'Trans\JadwalController@index');

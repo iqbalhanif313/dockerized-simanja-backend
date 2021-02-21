@@ -10,11 +10,11 @@ class KelurahanRepository
     /**
      * @var Kelurahan
      */
-    protected $kelurahan;
+    protected $model;
 
-    public function __construct(Kelurahan $kelurahan)
+    public function __construct(Kelurahan $model)
     {
-        $this->kelurahan = $kelurahan;
+        $this->model = $model;
     }
 
     public function getAll()
@@ -31,23 +31,17 @@ class KelurahanRepository
         return $response;
     }
 
-    public function getRef()
-    {
-        $response = [];
-        $datas = Kelurahan::all();
-        foreach ($datas as $data){
-            $response[] = [
-                "id" => $data->id,
-                "nama" => $data->nama,
-                "text" => $data->id.' - '.$data->nama
-            ];
-        }
-        return $response;
+    public function getRef($kec)
+    {return $this->model->newQuery()
+        ->selectRaw("id, concat(id, ' - ', nama) as text")
+        ->where('st_kec_id', $kec)
+        ->whereNull('deleted_at')
+        ->get();
     }
 
     public function getById($id)
     {
-        return $this->kelurahan
+        return $this->model
             ->where('id', $id)
             ->get();
     }

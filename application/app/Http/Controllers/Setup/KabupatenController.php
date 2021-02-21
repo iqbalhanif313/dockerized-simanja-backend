@@ -11,11 +11,11 @@ use App\Services\Kabupaten\KabupatenService;
 
 class KabupatenController extends Controller
 {
-    protected $kabupatenService;
+    protected $service;
 
-    public function __construct(KabupatenService $kabupatenService)
+    public function __construct(KabupatenService $service)
     {
-        $this->kabupatenService = $kabupatenService;
+        $this->service = $service;
     }
 
 
@@ -43,7 +43,7 @@ class KabupatenController extends Controller
     public function index()
     {
         try{
-            $data =  $this->kabupatenService->getAll();
+            $data =  $this->service->getAll();
             return $this->data($data);
         }catch (\Exception $e){
             return $this->handleErrorRequest($e->getMessage());
@@ -75,7 +75,7 @@ class KabupatenController extends Controller
     {
 
         try{
-            $data =  $this->kabupatenService->getByFilter($st_kabupaten_id);
+            $data =  $this->service->getByFilter($st_kabupaten_id);
             return $this->data($data);
         }catch (\Exception $e){
             return $this->handleErrorRequest($e->getMessage());
@@ -125,7 +125,7 @@ class KabupatenController extends Controller
             'st_provinsi_id'
         ]);
         try {
-            $this->kabupatenService->saveData($data);
+            $this->service->saveData($data);
         } catch (Exception $e) {
             return $this->handleErrorRequest($e->getMessage());
         }
@@ -155,7 +155,7 @@ class KabupatenController extends Controller
     public function show($id)
     {
         try {
-            return $this->data($this->kabupatenService->getById($id));
+            return $this->data($this->service->getById($id));
         } catch (Exception $e) {
             $this->handleErrorRequest($e);
         }
@@ -184,7 +184,7 @@ class KabupatenController extends Controller
     public function delete($id)
     {
         try {
-            $this->kabupatenService->deleteById($id);
+            $this->service->deleteById($id);
             return $this->success("kabupaten berhasil dihapus");
         } catch (Exception $e) {
             return $this->handleErrorRequest($e->getMessage());
@@ -235,7 +235,7 @@ class KabupatenController extends Controller
         ]);
 
         try {
-            if (!$this->kabupatenService->updateData($data, $id)) {
+            if (!$this->service->updateData($data, $id)) {
                 return $this->handleBadRequest("Bad Request");
             }
         } catch (Exception $e) {
@@ -249,9 +249,9 @@ class KabupatenController extends Controller
      * Show Ref Setup Kabupaten information
      *
      * @OA\Get(
-     *     path="/api/ref/kabupaten",
+     *     path="/api/ref/setup/kabupaten",
      *     tags={"references"},
-     *     operationId="ref/kabupaten",
+     *     operationId="ref/setup/kabupaten",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"
@@ -266,13 +266,12 @@ class KabupatenController extends Controller
      *   ),
      */
 
-    public function getRef()
+    public function getRef(KabupatenService $service, $prov)
     {
-        $result = [];
         try {
-            $result =  $this->kabupatenService->getRef();
+            $result = $service->getRef($prov);
         } catch (Exception $e) {
-            $this->handleErrorRequest($e->getMessage());
+            return $this->handleErrorRequest($e->getMessage());
         }
         return $this->data($result);
     }

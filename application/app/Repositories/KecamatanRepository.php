@@ -10,11 +10,11 @@ class KecamatanRepository
     /**
      * @var Kecamatan
      */
-    protected $kecamatan;
+    protected $model;
 
-    public function __construct(Kecamatan $kecamatan)
+    public function __construct(Kecamatan $model)
     {
-        $this->kecamatan = $kecamatan;
+        $this->model = $model;
     }
 
     public function getAll()
@@ -31,23 +31,18 @@ class KecamatanRepository
         return $response;
     }
 
-    public function getRef()
+    public function getRef($kab)
     {
-        $response = [];
-        $datas = Kecamatan::all();
-        foreach ($datas as $data){
-            $response[] = [
-                "id" => $data->id,
-                "nama" => $data->nama,
-                "text" => $data->id.' - '.$data->nama
-            ];
-        }
-        return $response;
+        return $this->model->newQuery()
+            ->selectRaw("id, concat(id, ' - ', nama) as text")
+            ->where('st_kab_id', $kab)
+            ->whereNull('deleted_at')
+            ->get();
     }
 
     public function getById($id)
     {
-        return $this->kecamatan
+        return $this->model
             ->where('id', $id)
             ->get();
     }

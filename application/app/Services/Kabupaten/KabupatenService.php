@@ -8,24 +8,24 @@ use Illuminate\Support\Facades\DB;
 
 class KabupatenService
 {
-    protected $kabupatenRepository;
+    protected $repository;
 
-    public function __construct(KabupatenRepository $kabupatenRepository)
+    public function __construct(KabupatenRepository $repository)
     {
-        $this->kabupatenRepository = $kabupatenRepository;
+        $this->repository = $repository;
     }
 
     public function getAll(){
-        return $this->kabupatenRepository->getAll();
+        return $this->repository->getAll();
     }
 
     public function getByFilter($st_kabupaten_id){
-        return $this->kabupatenRepository->getByFilter($st_kabupaten_id);
+        return $this->repository->getByFilter($st_kabupaten_id);
     }
 
-    public function getRef()
+    public function getRef($prov)
     {
-        return $this->kabupatenRepository->getRef();
+        return $this->repository->getRef($prov);
     }
 
     public function getById($id)

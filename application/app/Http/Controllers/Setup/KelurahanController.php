@@ -247,9 +247,9 @@ class KelurahanController extends Controller
      * Show Ref Setup Kelurahan information
      *
      * @OA\Get(
-     *     path="/api/ref/kelurahan",
+     *     path="/api/ref/setup/kelurahan",
      *     tags={"references"},
-     *     operationId="ref/kelurahan",
+     *     operationId="ref/setup/kelurahan",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"
@@ -264,13 +264,12 @@ class KelurahanController extends Controller
      *   ),
      */
 
-    public function getRef()
+    public function getRef(KelurahanService $service, $kec)
     {
-        $result = [];
         try {
-            $result =  $this->kelurahanService->getRef();
+            $result = $service->getRef($kec);
         } catch (Exception $e) {
-            $this->handleErrorRequest($e->getMessage());
+            return $this->handleErrorRequest($e->getMessage());
         }
         return $this->data($result);
     }

@@ -9,11 +9,11 @@ class KabupatenRepository
     /**
      * @var Kabupaten
      */
-    protected $kabupaten;
+    protected $model;
 
-    public function __construct(Kabupaten $kabupaten)
+    public function __construct(Kabupaten $model)
     {
-        $this->kabupaten = $kabupaten;
+        $this->model = $model;
     }
 
     public function getAll()
@@ -30,23 +30,18 @@ class KabupatenRepository
         return $response;
     }
 
-    public function getRef()
+    public function getRef($prov)
     {
-        $response = [];
-        $datas = Kabupaten::all();
-        foreach ($datas as $data) {
-            $response[] = [
-                "id" => $data->id,
-                "nama" => $data->nama,
-                "text" => $data->id . ' - ' . $data->nama
-            ];
-        }
-        return $response;
+        return $this->model->newQuery()
+            ->selectRaw("id, concat(id, ' - ', nama) as text")
+            ->where('st_provinsi_id', $prov)
+            ->whereNull('deleted_at')
+            ->get();
     }
 
     public function getById($id)
     {
-        return $this->kabupaten->where('id', $id)->get();
+        return $this->model->where('id', $id)->get();
     }
 
     public function getByFilter($st_provinsi_id)

@@ -12,11 +12,11 @@ use InvalidArgumentException;
 
 class KelurahanService
 {
-    protected $kelurahanRepository;
+    protected $repository;
 
-    public function __construct(KelurahanRepository $kelurahanRepository)
+    public function __construct(KelurahanRepository $repository)
     {
-        $this->kelurahanRepository = $kelurahanRepository;
+        $this->repository = $repository;
     }
 
     public function deleteById($id)
@@ -29,12 +29,12 @@ class KelurahanService
 
     public function getAll()
     {
-        return $this->kelurahanRepository->getAll();
+        return $this->repository->getAll();
     }
 
-    public function getRef()
+    public function getRef($kec)
     {
-        return $this->kelurahanRepository->getRef();
+        return $this->repository->getRef($kec);
     }
 
     public function getById($id)
@@ -43,7 +43,7 @@ class KelurahanService
     }
 
     public function getByFilter($st_kec_id){
-        return $this->kelurahanRepository->getByFilter($st_kec_id);
+        return $this->repository->getByFilter($st_kec_id);
     }
 
     public function updateData($data, $id)
