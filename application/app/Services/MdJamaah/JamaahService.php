@@ -3,151 +3,85 @@
 
 namespace App\Services\MdJamaah;
 
-use App\Models\Jamaah;
-use App\Models\Kab;
-use App\Models\KategoriJamaah;
-use App\Models\Kec;
-use App\Models\Kel;
-use App\Models\Kelompok;
-use App\Models\Provinsi;
-use App\Models\Status;
-use App\Models\User;
 use App\Repositories\JamaahRepository;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use InvalidArgumentException;
 
 class JamaahService
 {
-    protected $jamaahRepository;
+    protected $repository;
 
-    public function __construct(JamaahRepository $jamaahRepository)
+    public function __construct(JamaahRepository $repository)
     {
-        $this->jamaahRepository = $jamaahRepository;
+        $this->repository = $repository;
     }
 
     public function getAll()
     {
-        return $this->jamaahRepository->getAll();
+        return $this->repository->getAll();
     }
 
     public function getRef() {
-        return $this->jamaahRepository->getRef();
+        return $this->repository->getRef();
     }
 
     public function getById($id)
     {
-        return $this->jamaahRepository->getById($id)->original;
+        return $this->repository->getById($id)->original;
     }
-    public function saveData($data)
+
+    public function create($data)
     {
-        DB::transaction(function()use($data){
-            $jamaah = new Jamaah();
-                $jamaah->nik = $data['nik'];
-                // $jamaah->users_id = $credential['users_id'];
-                $jamaah->nama = $data['nama'];
-                $jamaah->jenis_kelamin = $data['jenis_kelamin'];
-                $jamaah->tempat_lahir = $data['tempat_lahir'];
-                $jamaah->tanggal_lahir = $data['tanggal_lahir'];
-                $jamaah->hp = $data['hp'];
-                $jamaah->alamat = $data['alamat'];
-                $jamaah->st_provinsi_id = $data['st_provinsi_id'];
-                $jamaah->st_kab_id = $data['st_kab_id'];
-                $jamaah->st_kec_id = $data['st_kec_id'];
-                $jamaah->st_kel_id = $data['st_kel_id'];
-                $jamaah->md_kelompok_id = $data['md_kelompok_id'];
-                $jamaah->st_kategori_jamaah_id = $data['st_kategori_jamaah_id'];
-                $jamaah->st_status_jamaah_id = $data['st_status_jamaah_id'];
-
-                $jamaah->save();
-
-        });
-    }
-    public function handleJamaahCreation($request)
-    {
-        $credential = $request->only(
-            'nik',
-            // 'users_id',
-            'nama',
-            'jenis_kelamin',
-            'tempat_lahir',
-            'tanggal_lahir',
-            'hp',
-            'alamat',
-            'st_provinsi_id',
-            'st_kab_id',
-            'st_kec_id',
-            'st_kel_id',
-            'md_kelompok_id',
-            'st_kategori_jamaah_id',
-            'st_status_jamaah_id'
-
-        );
-
-        // $users_id = User::where('id', $credential['users_id'])->first();
-        // if (!$users_id) {
-        //     return false;
-        // }
-
-        $st_kelompok = Kelompok::where('id', $credential['md_kelompok_id'])->first();
-        if (!$st_kelompok) {
-            return false;
-        }
-
-        $st_kategori_jamaah = KategoriJamaah::where('id', $credential['st_kategori_jamaah_id'])->first();
-        if (!$st_kategori_jamaah) {
-            return false;
-        }
-
-        $st_status_jamaah = Status::where('id', $credential['st_status_jamaah_id'])->first();
-        if (!$st_status_jamaah) {
-            return false;
-        }
-
-        // $provinsi = Provinsi::where('id', $credential['st_provinsi_id'])->first();
-        // if (!$provinsi) {
-        //     return false;
-        // }
-
-        // $kab = Kab::where('id', $credential['st_kab_id'])->first();
-        // if (!$kab) {
-        //     return false;
-        // }
-
-        // $kec = Kec::where('id', $credential['kec'])->first();
-        // if (!$kec) {
-        //     return false;
-        // }
-
-        // $kel = Kel::where('id', $credential['st_kel_id'])->first();
-        // if (!$kel) {
-        //     return false;
-        // }
+        DB::beginTransaction();
 
         try {
-            DB::transaction(function () use ($credential) {
-                $jamaah = new Jamaah();
-                $jamaah->nik = $credential['nik'];
-                // $jamaah->users_id = $credential['users_id'];
-                $jamaah->nama = $credential['nama'];
-                $jamaah->jenis_kelamin = $credential['jenis_kelamin'];
-                $jamaah->tempat_lahir = $credential['tempat_lahir'];
-                $jamaah->tanggal_lahir = $credential['tanggal_lahir'];
-                $jamaah->hp = $credential['hp'];
-                $jamaah->alamat = $credential['alamat'];
-                $jamaah->st_provinsi_id = $credential['st_provinsi_id'];
-                $jamaah->st_kab_id = $credential['st_kab_id'];
-                $jamaah->st_kec_id = $credential['st_kec_id'];
-                $jamaah->st_kel_id = $credential['st_kel_id'];
-                $jamaah->md_kelompok_id = $credential['md_kelompok_id'];
-                $jamaah->st_kategori_jamaah_id = $credential['st_kategori_jamaah_id'];
-                $jamaah->st_status_jamaah_id = $credential['st_status_jamaah_id'];
-
-                $jamaah->save();
-
-            });
+            $user_is_exist = $this->repository->checkIfUserExist($data['nik'], ($data['users_id'] ?? -1));
+            if ($user_is_exist) throw new InvalidArgumentException('ID User sudah ada!');
+            $result = $this->repository->create($data);
         } catch (\Exception $e) {
-            throw ($e);
+            DB::rollBack();
+            Log::info($e->getMessage());
+            throw new InvalidArgumentException('Unable to create jamaah data');
+        }
+
+        DB::commit();
+
+        return $result;
+    }
+
+    public function update($data, $nik) {
+        DB::beginTransaction();
+
+        try {
+            $user_is_exist = $this->repository->checkIfUserExist($data['nik'], ($data['user_id'] ?? -1));
+            if ($user_is_exist) throw new InvalidArgumentException('ID User sudah ada!');
+            $result = $this->repository->update($data, $nik);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::info($e->getMessage());
+            throw new InvalidArgumentException('Unable to update jamaah data');
+        }
+
+        DB::commit();
+
+        return $result;
+    }
+
+    public function delete($nik) {
+        DB::beginTransaction();
+
+        try {
+            $this->repository->delete($nik);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::info($e->getMessage());
             return false;
         }
+
+        DB::commit();
+
         return true;
     }
 }

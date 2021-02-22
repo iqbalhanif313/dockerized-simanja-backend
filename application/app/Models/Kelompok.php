@@ -9,8 +9,11 @@ class Kelompok extends Model
 {
     use SoftDeletes;
     protected $guarded = [];
-    public $table = "md_kelompok";
+    protected $table = 'md_kelompok';
     public $incrementing = false;
     protected $dates = ['deleted_at'];
 
+    public function jamaah() {
+        return $this->hasMany('App\Models\Jamaah', 'md_kelompok_id');
+    }
 }

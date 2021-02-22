@@ -38,8 +38,10 @@ $router->group([
 
     //master data
     $router->get('master/jamaah', 'Master\JamaahController@index');
-    $router->get('master/jamaah/{id}', 'Master\JamaahController@show');
+    $router->get('master/jamaah/{nik}', 'Master\JamaahController@show');
     $router->post('master/jamaah', 'Master\JamaahController@store');
+    $router->put('master/jamaah/{nik}', 'Master\JamaahController@update');
+    $router->delete('master/jamaah/{nik}', 'Master\JamaahController@delete');
     $router->get('ref/master/jamaah', 'Master\JamaahController@getRef');
 
     $router->get('master/kegiatan', 'Master\KegiatanController@index');
@@ -105,7 +107,6 @@ $router->group([
     $router->get('/ref/setup/jenis-kegiatan', 'Setup\JenisKegiatanController@getRef');
 
     $router->get('/setup/kabupaten', 'Setup\KabupatenController@index');
-    $router->get('/setup/kabupaten/filter/{st_provinsi_id}', 'Setup\KabupatenController@filter');
     $router->get('/setup/kabupaten/{id}', 'Setup\KabupatenController@show');
     $router->post('/setup/kabupaten', 'Setup\KabupatenController@store');
     $router->put('/setup/kabupaten/{id}', 'Setup\KabupatenController@update');
@@ -113,7 +114,6 @@ $router->group([
     $router->get('/ref/setup/kabupaten/{prov}', 'Setup\KabupatenController@getRef');
 
     $router->get('/setup/kecamatan', 'Setup\KecamatanController@index');
-    $router->get('/setup/kecamatan/filter/{st_kab_id}', 'Setup\KecamatanController@filter');
     $router->get('/setup/kecamatan/{id}', 'Setup\KecamatanController@show');
     $router->post('/setup/kecamatan', 'Setup\KecamatanController@store');
     $router->put('/setup/kecamatan/{id}', 'Setup\KecamatanController@update');
@@ -121,7 +121,6 @@ $router->group([
     $router->get('/ref/setup/kecamatan/{kab}', 'Setup\KecamatanController@getRef');
 
     $router->get('/setup/kelurahan', 'Setup\KelurahanController@index');
-    $router->get('/setup/kelurahan/filter/{st_kec_id}', 'Setup\KelurahanController@filter');
     $router->get('/setup/kelurahan/{id}', 'Setup\KelurahanController@show');
     $router->post('/setup/kelurahan', 'Setup\KelurahanController@store');
     $router->put('/setup/kelurahan/{id}', 'Setup\KelurahanController@update');

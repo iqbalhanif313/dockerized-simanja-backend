@@ -30,4 +30,8 @@ class DateTimeHelper
         }
         return 0;
     }
+
+    public static function format($date, $format = 'd M Y') {
+        return date($format, strtotime($date));
+    }
 }
