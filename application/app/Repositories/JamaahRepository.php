@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Helpers\DateTimeHelper;
 use App\Models\Jamaah;
 
 class JamaahRepository

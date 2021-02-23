@@ -35,6 +35,7 @@ $router->group([
 ], function ($router) {
     $router->post('/logout', 'AuthController@logout');
     $router->get('/info', 'BasicController@info');
+    $router->get('/ref/users', 'BasicController@refUsers');
 
     //master data
     $router->get('master/jamaah', 'Master\JamaahController@index');

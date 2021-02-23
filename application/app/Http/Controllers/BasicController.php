@@ -3,16 +3,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Auth\UserDataService;
 use App\Services\Auth\UserInfoService;
 use App\Models\Jamaah;
 use Illuminate\Support\Facades\App;
 
 class BasicController extends Controller
 {
-    protected $userInfoService;
-
     public function __construct(){
-        $this->userInfoService = new UserInfoService();
+
     }
     /**
      * Get user information
@@ -34,8 +33,37 @@ class BasicController extends Controller
      *     },
      *   ),
      */
-    public function info()
+    public function info(UserInfoService $service)
     {
-        return $this->userInfoService->buildResponse();
+        return $service->buildResponse();
+    }
+
+    /**
+     * Show Ref Users
+     *
+     * @OA\Get(
+     *     path="/api/ref/users",
+     *     tags={"references"},
+     *     operationId="ref/users",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function refUsers(UserDataService $service) {
+        try {
+            $result = $service->getRef();
+        } catch (\Exception $exception) {
+            return $this->handleErrorRequest($exception->getMessage());
+        }
+        return $this->data($result);
     }
 }

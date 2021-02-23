@@ -8,7 +8,6 @@ use App\Http\Request\UpdateJamaahRequest;
 use App\Services\MdJamaah\JamaahService;
 use App\Http\Controllers\Controller;
 use Exception;
-use Illuminate\Http\Request;
 
 class JamaahController extends Controller
 {
