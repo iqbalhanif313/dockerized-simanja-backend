@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Request;
+namespace App\Http\Request\Master\Jamaah;
 
 
 use Illuminate\Contracts\Validation\Validator;
@@ -11,13 +11,11 @@ class CreateJamaahRequest extends FormRequest
 {
     public $validator = null;
 
-    public function authorize()
-    {
+    public function authorize() {
         return true;
     }
 
-    public function rules()
-    {
+    public function rules() {
         return [
             "nama" => "required",
             "nik" => "required",

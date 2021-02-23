@@ -63,12 +63,6 @@ class TransKepengurusanRepository
         return $this->model->newQuery()
             ->find($id)
             ->update($data);
-//        $transKepengurusan = $this->model->find($id);
-//        $transKepengurusan->md_jamaah_nik = $data['md_jamaah_nik'];
-//        $transKepengurusan->md_kepengurusan_id = $data['md_kepengurusan_id'];
-//        $transKepengurusan->save();
-//        $transKepengurusan->update();
-//        return $transKepengurusan;
     }
 
     public function delete($id)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MsgHelper;
 use App\Helpers\ResponseHelper;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
@@ -23,14 +24,14 @@ class Controller extends BaseController
     public function handleBadRequest($message){
         return response()->json([
             'error'=> true,
-            'message'=>$message
+            'message'=> $message
         ],400);
     }
 
     public function handleUnauthorizedRequest($message){
         return response()->json([
             'error'=> true,
-            'message'=>$message
+            'message'=> $message
         ],401);
     }
 
@@ -50,9 +51,9 @@ class Controller extends BaseController
 
     public function data($data){
         return response()->json([
-            'error'=>false,
-            'data'=>$data,
-            'message'=>"data retrieved"
+            'error'=> false,
+            'data'=> $data,
+            'message'=> MsgHelper::LOAD_SUCCESS,
         ]);
     }
 }

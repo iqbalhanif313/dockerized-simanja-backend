@@ -2,102 +2,83 @@
 
 namespace App\Services\Kegiatan;
 
-use App\Models\Kegiatan;
+use App\Helpers\MsgHelper;
 use App\Repositories\KegiatanRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use InvalidArgumentException;
 
 class KegiatanService
 {
 
-    protected $kegiatanRepository;
+    protected $repository;
 
-    public function __construct(KegiatanRepository $kegiatanRepository)
+    public function __construct(KegiatanRepository $repository)
     {
-        $this->kegiatanRepository = $kegiatanRepository;
-    }
-
-    public function deleteById($id)
-    {
-        DB::beginTransaction();
-
-        try {
-            $kegiatan = $this->kegiatanRepository->delete($id);
-
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::info($e->getMessage());
-
-            throw new InvalidArgumentException('Unable to delete kegiatan data');
-        }
-
-        DB::commit();
-
-        return $kegiatan;
+        $this->repository = $repository;
     }
 
     public function getAll()
     {
-        return $this->kegiatanRepository->getAll();
+        return $this->repository->data();
     }
 
     public function getRef() {
-        return $this->kegiatanRepository->getRef();
+        return $this->repository->list();
     }
 
     public function getById($id)
     {
-        return $this->kegiatanRepository->getById($id);
+        return $this->repository->getById($id);
     }
 
-    public function updateData($data, $id)
-    {
-        $validator = Validator::make($data, [
-            'deskripsi' => 'bail|max:255'
-        ]);
-
-        if ($validator->fails()) {
-            throw new InvalidArgumentException($validator->errors()->first());
-        }
-
+    public function create($data) {
         DB::beginTransaction();
 
         try {
-            $kegiatan = $this->kegiatanRepository->update($data, $id);
-
+            $result = $this->repository->create($data);
         } catch (Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
-
-            throw new InvalidArgumentException('Unable to update kegiatan data');
+            throw new InvalidArgumentException(MsgHelper::CREATE_FAIL);
         }
 
         DB::commit();
 
-        return $kegiatan;
-
+        return $result;
     }
 
-    public function saveData($data)
-    {
-        $validator = Validator::make($data, [
-            'id' => 'required',
-            'deskripsi' => 'required',
-            'st_level_id' => 'required',
-            'st_jenis_kegiatan_id' => 'required',
-            'st_kategori_jamaah_id' => 'required'
-        ]);
+    public function update($data, $id) {
+        DB::beginTransaction();
 
-        if ($validator->fails()) {
-            throw new InvalidArgumentException($validator->errors()->first());
+        try {
+            $result = $this->repository->update($data, $id);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::info($e->getMessage());
+            throw new InvalidArgumentException(MsgHelper::UPDATE_FAIL);
         }
 
-        $result = $this->kegiatanRepository->save($data);
+        DB::commit();
 
         return $result;
     }
 
+    public function delete($id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $this->repository->delete($id);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::info($e->getMessage());
+            return false;
+        }
+
+        DB::commit();
+
+        return true;
+    }
 }

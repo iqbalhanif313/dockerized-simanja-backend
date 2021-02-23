@@ -3,19 +3,22 @@
 
 namespace App\Http\Controllers\Master;
 
-use Illuminate\Http\Request;
+use App\Helpers\MsgHelper;
+use App\Http\Request\Master\Kegiatan\CreateKegiatanRequest;
+use App\Http\Request\Master\Kegiatan\UpdateKegiatanRequest;
 use App\Http\Controllers\Controller;
 use Exception;
 use App\Services\Kegiatan\KegiatanService;
 
 class KegiatanController extends Controller
 {
-    protected $kegiatanService;
+    protected $service;
 
-    public function __construct(KegiatanService $kegiatanService)
+    public function __construct(KegiatanService $service)
     {
-        $this->kegiatanService = $kegiatanService;
+        $this->service = $service;
     }
+
     /**
      * Show List Master Kegiatan
      *
@@ -36,21 +39,50 @@ class KegiatanController extends Controller
      *     },
      *   ),
      */
-
     public function index()
+    {
+        try {
+            $result = $this->service->getAll();
+        } catch (Exception $e) {
+            return $this->handleErrorRequest($e->getMessage());
+        }
+
+        return $this->data($result);
+    }
+
+    /**
+     * Show Detail Master Kegiatan
+     *
+     * @OA\Get(
+     *     path="/api/master/kegiatan/{id}",
+     *     tags={"master/kegiatan"},
+     *     operationId="master/kegiatan/{id}",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function show($id)
     {
         $result = ['status' => 200];
 
         try {
             $result['message'] = "ok";
-            $result['data'] = $this->kegiatanService->getAll();
+            $result['data'] = $this->service->getById($id);
         } catch (Exception $e) {
             $result = [
                 'status' => 500,
                 'message' => $e->getMessage()
             ];
         }
-
         return response()->json($result, $result['status']);
     }
 
@@ -116,11 +148,13 @@ class KegiatanController extends Controller
      *    	),
      *   ),
      */
-
-    public function store(Request $request)
+    public function store(CreateKegiatanRequest $request)
     {
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
+        }
+
         $data = $request->only([
-            'id',
             'deskripsi',
             'st_level_id',
             'st_jenis_kegiatan_id',
@@ -129,55 +163,13 @@ class KegiatanController extends Controller
             'md_kelompok_id'
         ]);
 
-        $result = ['status' => 200];
-
         try {
-            $result['message'] = "ok";
-            $result['data'] = $this->kegiatanService->saveData($data);
+            $this->service->create($data);
         } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
+            return $this->handleErrorRequest($e->getMessage());
         }
 
-        return response()->json($result, $result['status']);
-    }
-
-    /**
-     * Show Detail Master Kegiatan
-     *
-     * @OA\Get(
-     *     path="/api/master/kegiatan/{id}",
-     *     tags={"master/kegiatan"},
-     *     operationId="master/kegiatan/{id}",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function show($id)
-    {
-        $result = ['status' => 200];
-
-        try {
-            $result['message'] = "ok";
-            $result['data'] = $this->kegiatanService->getById($id);
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-        return response()->json($result, $result['status']);
+        return $this->success(MsgHelper::CREATE_SUCCESS);
     }
 
     /**
@@ -242,10 +234,13 @@ class KegiatanController extends Controller
      *    	),
      *   ),
      */
-    public function update(Request $request, $id)
+    public function update(UpdateKegiatanRequest $request, $id)
     {
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
+        }
+
         $data = $request->only([
-            'id',
             'deskripsi',
             'st_level_id',
             'st_jenis_kegiatan_id',
@@ -254,18 +249,38 @@ class KegiatanController extends Controller
             'md_kelompok_id'
         ]);
 
-        $result = ['status' => 200];
-
         try {
-            $result['data'] = $this->kegiatanService->updateData($data, $id);
+            $this->service->update($data, $id);
         } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
+            return $this->handleErrorRequest($e->getMessage());
         }
 
-        return response()->json($result, $result['status']);
+        return $this->success(MsgHelper::UPDATE_SUCCESS);
+    }
+
+    /**
+     * Delete Master Kegiatan
+     *
+     * @OA\Delete(
+     *     path="/api/master/jamaah/{nik}",
+     *     tags={"master/jamaah"},
+     *     operationId="master/jamaah/{nik}/delete",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function delete($nik) {
+        $result = $this->service->delete($nik);
+        return $result ? $this->success(MsgHelper::DELETE_SUCCESS) : $this->handleErrorRequest(MsgHelper::DELETE_FAIL);
     }
 
     /**
@@ -291,7 +306,7 @@ class KegiatanController extends Controller
     public function getRef()
     {
         try {
-            $result = $this->kegiatanService->getRef();
+            $result = $this->service->getRef();
         } catch (Exception $exception) {
             return $this->handleErrorRequest($exception->getMessage());
         }

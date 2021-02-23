@@ -3,8 +3,8 @@
 
 namespace App\Http\Controllers\Master;
 
-use App\Http\Request\CreateJamaahRequest;
-use App\Http\Request\UpdateJamaahRequest;
+use App\Http\Request\Master\Jamaah\CreateJamaahRequest;
+use App\Http\Request\Master\Jamaah\UpdateJamaahRequest;
 use App\Services\MdJamaah\JamaahService;
 use App\Http\Controllers\Controller;
 use Exception;
@@ -217,7 +217,8 @@ class JamaahController extends Controller
         } catch (Exception $e) {
             return $this->handleErrorRequest($e->getMessage());
         }
-        return $this->success('Data Jamaah berhasil dibuat');
+
+        return $this->success('Data berhasil disimpan!');
     }
 
     /**
