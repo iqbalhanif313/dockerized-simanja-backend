@@ -3,22 +3,21 @@
 
 namespace App\Http\Controllers\Master;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
-use DB;
-use Exception;
-use App\Services\Kepengurusan\KepengurusanService;
+use App\Http\Request\Master\Kepengurusan\CreateKepengurusanRequest;
+use App\Http\Request\Master\Kepengurusan\UpdateKepengurusanRequest;
+use App\Services\Master\Kepengurusan\CreateKepengurusanService;
+use App\Services\Master\Kepengurusan\DataKepengurusanService;
+use App\Services\Master\Kepengurusan\DeleteKepengurusanService;
+use App\Services\Master\Kepengurusan\UpdateKepengurusanService;
 
 class KepengurusanController extends Controller
 {
-
-    protected $kepengurusanService;
-
-    public function __construct(KepengurusanService $kepengurusanService)
+    public function __construct()
     {
-        $this->kepengurusanService = $kepengurusanService;
+
     }
+
     /**
      * Show List Master Kepengurusan
      *
@@ -39,21 +38,38 @@ class KepengurusanController extends Controller
      *     },
      *   ),
      */
-
-    public function index()
+    public function index(DataKepengurusanService $service)
     {
-        $result = ['status' => 200];
+        $result = $service->getAll();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
+    }
 
-        try {
-            $result['data'] = $this->kepengurusanService->getAll();
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-
-        return response()->json($result, $result['status']);
+    /**
+     * Show Detail Master Kepengurusan
+     *
+     * @OA\Get(
+     *     path="/api/master/kepengurusan/{id}",
+     *     tags={"master/kepengurusan"},
+     *     operationId="master/kepengurusan/{id}",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function show(DataKepengurusanService $service, $id)
+    {
+        $result = $service->getByID($id);
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -76,94 +92,45 @@ class KepengurusanController extends Controller
      *     },
      *    	@OA\RequestBody(
      *    		@OA\MediaType(
-     *    			mediaType="multipart/form-data",
+     *    			mediaType="application/json",
      *    			@OA\Schema(
      *                  @OA\Property(property="id",
      *    					type="string",
-     *    					example="KUDRH",
+     *    					example="SPR",
      *                  ),
      *                  @OA\Property(property="nama",
      *    					type="string",
-     *    					example="KU Daerah",
-     *                  ),
-     *    				 @OA\Property(property="st_kepengurusan_id",
-     *    					type="string",
-     *    					example="4S",
-     *    					description=""
-     *    				),
-     *    				 @OA\Property(property="st_level_id",
-     *    					type="string",
-     *    					example="DRH",
-     *    					description=""
+     *    					example="Semampir",
      *                  ),
      *    			),
      *    		),
      *    	),
      *   ),
      */
-    public function store(Request $request)
+    public function store(CreateKepengurusanService $service, CreateKepengurusanRequest $request)
     {
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
+        }
+
         $data = $request->only([
             'id',
             'nama',
             'st_kepengurusan_id',
-            'st_level_id'
+            'st_level_id',
         ]);
 
-        $result = ['status' => 200];
+        $result = $service->create($data);
 
-        try {
-            $result['data'] = $this->kepengurusanService->saveData($data);
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-
-        return response()->json($result, $result['status']);
-    }
-
-    /**
-     * Show Detail Master Kepengurusan
-     *
-     * @OA\Get(
-     *     path="/api/master/kepengurusan/{id}",
-     *     tags={"master/kepengurusan"},
-     *     operationId="master/kepengurusan/id",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function show($id)
-    {
-        $result = ['status' => 200];
-
-        try {
-            $result['data'] = $this->kepengurusanService->getById($id);
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-        return response()->json($result, $result['status']);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
      * Update Master Kepengurusan
      *
      * @OA\Put(
-     *     path="/api/master/kepengurusan",
+     *     path="/api/master/kepengurusan/{id}",
      *     tags={"master/kepengurusan"},
      *     operationId="master/kepengurusan/update",
      *     @OA\Response(
@@ -179,54 +146,65 @@ class KepengurusanController extends Controller
      *     },
      *    	@OA\RequestBody(
      *    		@OA\MediaType(
-     *    			mediaType="application/x-www-form-urlencoded",
+     *    			mediaType="application/json",
      *    			@OA\Schema(
      *                  @OA\Property(property="id",
      *    					type="string",
-     *    					example="KUDRH",
+     *    					example="SPR",
      *                  ),
      *                  @OA\Property(property="nama",
      *    					type="string",
-     *    					example="KU Daerah",
-     *                  ),
-     *    				 @OA\Property(property="st_kepengurusan_id",
-     *    					type="string",
-     *    					example="4S",
-     *    					description=""
-     *    				),
-     *    				 @OA\Property(property="st_level_id",
-     *    					type="string",
-     *    					example="DRH",
-     *    					description=""
+     *    					example="Semampir",
      *                  ),
      *    			),
      *    		),
      *    	),
      *   ),
      */
-    public function update(Request $request, $id)
+    public function update(UpdateKepengurusanService $service, UpdateKepengurusanRequest $request, $id)
     {
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
+        }
+
         $data = $request->only([
             'id',
             'nama',
             'st_kepengurusan_id',
-            'st_level_id'
+            'st_level_id',
         ]);
 
-        $result = ['status' => 200];
+        $result = $service->update($data, $id);
 
-        try {
-            $result['data'] = $this->kepengurusanService->updateData($data, $id);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
+    }
 
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-
-        return response()->json($result, $result['status']);
-
+    /**
+     * Delete Master Kepengurusan
+     *
+     * @OA\Delete(
+     *     path="/api/master/kepengurusan/{id}",
+     *     tags={"master/kepengurusan"},
+     *     operationId="master/kepengurusan/{id}/delete",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function delete(DeleteKepengurusanService $service, $id)
+    {
+        $result = $service->delete($id);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -249,13 +227,10 @@ class KepengurusanController extends Controller
      *     },
      *   ),
      */
-    public function getRef()
+    public function getRef(DataKepengurusanService $service)
     {
-        try {
-            $result = $this->kepengurusanService->getRef();
-        } catch (Exception $exception) {
-            return $this->handleErrorRequest($exception->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->getRef();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 }

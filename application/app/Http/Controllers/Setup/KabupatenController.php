@@ -3,21 +3,20 @@
 
 namespace App\Http\Controllers\Setup;
 
-use App\Http\Request\CreateKabupatenRequest;
-use App\Http\Request\UpdateKabupatenRequest;
 use App\Http\Controllers\Controller;
-use Exception;
-use App\Services\Kabupaten\KabupatenService;
+use App\Http\Request\Setup\Kabupaten\CreateKabupatenRequest;
+use App\Http\Request\Setup\Kabupaten\UpdateKabupatenRequest;
+use App\Services\Setup\Kabupaten\CreateKabupatenService;
+use App\Services\Setup\Kabupaten\DataKabupatenService;
+use App\Services\Setup\Kabupaten\DeleteKabupatenService;
+use App\Services\Setup\Kabupaten\UpdateKabupatenService;
 
 class KabupatenController extends Controller
 {
-    protected $service;
-
-    public function __construct(KabupatenService $service)
+    public function __construct()
     {
-        $this->service = $service;
-    }
 
+    }
 
     /**
      * Show Setup Kabupaten information
@@ -39,25 +38,20 @@ class KabupatenController extends Controller
      *     },
      *   ),
      */
-
-    public function index()
+    public function index(DataKabupatenService $service)
     {
-        try{
-            $data =  $this->service->getAll();
-            return $this->data($data);
-        }catch (\Exception $e){
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        $result = $service->getAll();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
-
     /**
-     * Show Setup Kabupaten Filter
+     * Show Detail Setup Kabupaten
      *
      * @OA\Get(
-     *     path="/api/setup/kabupaten/filter/{st_provinsi_id}",
+     *     path="/api/setup/kabupaten/{id}",
      *     tags={"setup/kabupaten"},
-     *     operationId="setup/kabupaten/st_provinsi_id",
+     *     operationId="setup/kabupaten/{id}",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"
@@ -71,18 +65,14 @@ class KabupatenController extends Controller
      *     },
      *   ),
      */
-    public function filter($st_kabupaten_id)
+    public function show(DataKabupatenService $service, $id)
     {
-
-        try{
-            $data =  $this->service->getByFilter($st_kabupaten_id);
-            return $this->data($data);
-        }catch (\Exception $e){
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        $result = $service->getByID($id);
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
-        /**
+    /**
      * Store Setup Kabupaten
      *
      * @OA\Post(
@@ -117,78 +107,17 @@ class KabupatenController extends Controller
      *    	),
      *   ),
      */
-    public function store(CreateKabupatenRequest $request)
+    public function store(CreateKabupatenService $service, CreateKabupatenRequest $request)
     {
-        $data = $request->only([
-            'id',
-            'nama',
-            'st_provinsi_id'
-        ]);
-        try {
-            $this->service->saveData($data);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
-        return $this->success("Kabupaten berhasil dibuat");
-    }
 
-    /**
-     * Show Detail Setup Kabupaten
-     *
-     * @OA\Get(
-     *     path="/api/setup/kabupaten/{id}",
-     *     tags={"setup/kabupaten"},
-     *     operationId="setup/kabupaten/{id}",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function show($id)
-    {
-        try {
-            return $this->data($this->service->getById($id));
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e);
-        }
-    }
+        $data = $request->only(['id', 'nama', 'st_provinsi_id']);
+        $result = $service->create($data);
 
-    /**
-     * Delete Setup Kabupaten
-     *
-     * @OA\Delete(
-     *     path="/api/setup/kabupaten/{id}",
-     *     tags={"setup/kabupaten"},
-     *     operationId="setup/kabupaten/{id}/delete",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function delete($id)
-    {
-        try {
-            $this->service->deleteById($id);
-            return $this->success("kabupaten berhasil dihapus");
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -226,23 +155,44 @@ class KabupatenController extends Controller
      *    	),
      *   ),
      */
-    public function update(UpdateKabupatenRequest $request, $id)
+    public function update(UpdateKabupatenService $service, UpdateKabupatenRequest $request, $id)
     {
-        $data = $request->only([
-            'id',
-            'nama',
-            'st_provinsi_id'
-        ]);
-
-        try {
-            if (!$this->service->updateData($data, $id)) {
-                return $this->handleBadRequest("Bad Request");
-            }
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
 
-        return $this->success("Kabupaten berhasil diupdate");
+        $data = $request->only(['id', 'nama', 'st_provinsi_id']);
+        $result = $service->update($data, $id);
+
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Delete Setup Kabupaten
+     *
+     * @OA\Delete(
+     *     path="/api/setup/kabupaten/{id}",
+     *     tags={"setup/kabupaten"},
+     *     operationId="setup/kabupaten/{id}/delete",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function delete(DeleteKabupatenService $service, $id)
+    {
+        $result = $service->delete($id);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -265,14 +215,37 @@ class KabupatenController extends Controller
      *     },
      *   ),
      */
-
-    public function getRef(KabupatenService $service, $prov)
+    public function getRef(DataKabupatenService $service)
     {
-        try {
-            $result = $service->getRef($prov);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->getRef();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Show Ref Setup Kabupaten by Provinsi information
+     *
+     * @OA\Get(
+     *     path="/api/ref/setup/kabupaten/{prov}",
+     *     tags={"references"},
+     *     operationId="ref/setup/kabupaten/{prov}",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function getFRef(DataKabupatenService $service, $prov)
+    {
+        $result = $service->getFRef($prov);
+        return $result->status ? $this->data($result->data)
+        : $this->handleErrorRequest($result->message);
     }
 }

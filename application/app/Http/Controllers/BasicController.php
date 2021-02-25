@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 
 use App\Services\Auth\UserDataService;
 use App\Services\Auth\UserInfoService;
-use App\Models\Jamaah;
-use Illuminate\Support\Facades\App;
 
 class BasicController extends Controller
 {

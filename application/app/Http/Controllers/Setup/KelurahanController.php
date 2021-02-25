@@ -3,19 +3,19 @@
 
 namespace App\Http\Controllers\Setup;
 
-use App\Http\Request\CreateKelurahanRequest;
-use App\Http\Request\UpdateKelurahanRequest;
 use App\Http\Controllers\Controller;
-use Exception;
-use App\Services\Kelurahan\KelurahanService;
+use App\Http\Request\Setup\Kelurahan\CreateKelurahanRequest;
+use App\Http\Request\Setup\Kelurahan\UpdateKelurahanRequest;
+use App\Services\Setup\Kelurahan\CreateKelurahanService;
+use App\Services\Setup\Kelurahan\DataKelurahanService;
+use App\Services\Setup\Kelurahan\DeleteKelurahanService;
+use App\Services\Setup\Kelurahan\UpdateKelurahanService;
 
 class KelurahanController extends Controller
 {
-    protected $kelurahanService;
-
-    public function __construct(KelurahanService $kelurahanService)
+    public function __construct()
     {
-        $this->kelurahanService = $kelurahanService;
+
     }
 
     /**
@@ -38,24 +38,20 @@ class KelurahanController extends Controller
      *     },
      *   ),
      */
-
-    public function index()
+    public function index(DataKelurahanService $service)
     {
-        try{
-            $data =  $this->kelurahanService->getAll();
-            return $this->data($data);
-        }catch (\Exception $e){
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        $result = $service->getAll();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
-        /**
-     * Show Setup Kelurahan Filter
+    /**
+     * Show Detail Setup Kelurahan
      *
      * @OA\Get(
-     *     path="/api/setup/kelurahan/filter/{st_kec_id}",
+     *     path="/api/setup/kelurahan/{id}",
      *     tags={"setup/kelurahan"},
-     *     operationId="setup/kelurahan/st_kec_id",
+     *     operationId="setup/kelurahan/{id}",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"
@@ -69,18 +65,14 @@ class KelurahanController extends Controller
      *     },
      *   ),
      */
-    public function filter($st_kec_id)
+    public function show(DataKelurahanService $service, $id)
     {
-
-        try{
-            $data =  $this->kelurahanService->getByFilter($st_kec_id);
-            return $this->data($data);
-        }catch (\Exception $e){
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        $result = $service->getByID($id);
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
-        /**
+    /**
      * Store Setup Kelurahan
      *
      * @OA\Post(
@@ -115,78 +107,17 @@ class KelurahanController extends Controller
      *    	),
      *   ),
      */
-    public function store(CreateKelurahanRequest $request)
+    public function store(CreateKelurahanService $service, CreateKelurahanRequest $request)
     {
-        $data = $request->only([
-            'id',
-            'nama',
-            'st_kec_id'
-        ]);
-        try {
-            $this->kelurahanService->saveData($data);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
-        return $this->success("Kelurahan berhasil dibuat");
-    }
 
-    /**
-     * Show Detail Setup Kelurahan
-     *
-     * @OA\Get(
-     *     path="/api/setup/kelurahan/{id}",
-     *     tags={"setup/kelurahan"},
-     *     operationId="setup/kelurahan/{id}",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function show($id)
-    {
-        try {
-            return $this->data($this->kelurahanService->getById($id));
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e);
-        }
-    }
+        $data = $request->only(['id', 'nama', 'st_kec_id']);
+        $result = $service->create($data);
 
-    /**
-     * Delete Setup Kelurahan
-     *
-     * @OA\Delete(
-     *     path="/api/setup/kelurahan/{id}",
-     *     tags={"setup/kelurahan"},
-     *     operationId="setup/kelurahan/{id}/delete",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function delete($id)
-    {
-        try {
-            $this->kelurahanService->deleteById($id);
-            return $this->success("kelurahan berhasil dihapus");
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -224,23 +155,44 @@ class KelurahanController extends Controller
      *    	),
      *   ),
      */
-    public function update(UpdateKelurahanRequest $request, $id)
+    public function update(UpdateKelurahanService $service, UpdateKelurahanRequest $request, $id)
     {
-        $data = $request->only([
-            'id',
-            'nama',
-            'st_kec_id'
-        ]);
-
-        try {
-            if (!$this->kelurahanService->updateData($data, $id)) {
-                return $this->handleBadRequest("Bad Request");
-            }
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
 
-        return $this->success("Kelurahan berhasil diupdate");
+        $data = $request->only(['id', 'nama', 'st_kec_id']);
+        $result = $service->update($data, $id);
+
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Delete Setup Kelurahan
+     *
+     * @OA\Delete(
+     *     path="/api/setup/kelurahan/{id}",
+     *     tags={"setup/kelurahan"},
+     *     operationId="setup/kelurahan/{id}/delete",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function delete(DeleteKelurahanService $service, $id)
+    {
+        $result = $service->delete($id);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -263,15 +215,37 @@ class KelurahanController extends Controller
      *     },
      *   ),
      */
-
-    public function getRef(KelurahanService $service, $kec)
+    public function getRef(DataKelurahanService $service)
     {
-        try {
-            $result = $service->getRef($kec);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->getRef();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
+    /**
+     * Show Ref Setup Kecamatan by Provinsi information
+     *
+     * @OA\Get(
+     *     path="/api/ref/setup/kecamatan/{kab}",
+     *     tags={"references"},
+     *     operationId="ref/setup/kecamatan/{kab}",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function getFRef(DataKelurahanService $service, $kec)
+    {
+        $result = $service->getFRef($kec);
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
+    }
 }

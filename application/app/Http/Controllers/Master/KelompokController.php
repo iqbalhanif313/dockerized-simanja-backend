@@ -3,22 +3,21 @@
 
 namespace App\Http\Controllers\Master;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
+use App\Http\Request\Master\Kelompok\CreateKelompokRequest;
+use App\Http\Request\Master\Kelompok\UpdateKelompokRequest;
+use App\Services\Master\Kelompok\CreateKelompokService;
+use App\Services\Master\Kelompok\DataKelompokService;
+use App\Services\Master\Kelompok\DeleteKelompokService;
+use App\Services\Master\Kelompok\UpdateKelompokService;
 use App\Http\Controllers\Controller;
-use DB;
-use Exception;
-use App\Services\Kelompok\KelompokService;
 
 class KelompokController extends Controller
 {
-
-    protected $kelompokService;
-
-    public function __construct(KelompokService $kelompokService)
+    public function __construct()
     {
-        $this->kelompokService = $kelompokService;
+
     }
+
     /**
      * Show List Kelompok
      *
@@ -39,22 +38,38 @@ class KelompokController extends Controller
      *     },
      *   ),
      */
-
-    public function index()
+    public function index(DataKelompokService $service)
     {
-        $result = ['status' => 200];
+        $result = $service->getAll();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
+    }
 
-        try {
-            $result['message'] = "ok";
-            $result['data'] = $this->kelompokService->getAll();
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-
-        return response()->json($result, $result['status']);
+    /**
+     * Show Detail Kelompok
+     *
+     * @OA\Get(
+     *     path="/api/master/kelompok/id",
+     *     tags={"master/kelompok"},
+     *     operationId="master/kelompok/id",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function show(DataKelompokService $service, $id)
+    {
+        $result = $service->getByID($id);
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -102,66 +117,23 @@ class KelompokController extends Controller
      *    	),
      *   ),
      */
-
-    public function store(Request $request)
+    public function store(CreateKelompokService $service, CreateKelompokRequest $request)
     {
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
+        }
+
         $data = $request->only([
             'id',
-            'st_desa_id',
             'nama',
-            'alamat'
+            'alamat',
+            'st_desa_id',
         ]);
 
-        $result = ['status' => 200];
+        $result = $service->create($data);
 
-        try {
-            $result['message'] = "ok";
-            $result['data'] = $this->kelompokService->saveData($data);
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-
-        return response()->json($result, $result['status']);
-    }
-
-    /**
-     * Show Detail Kelompok
-     *
-     * @OA\Get(
-     *     path="/api/master/kelompok/id",
-     *     tags={"master/kelompok"},
-     *     operationId="master/kelompok/id",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-
-    public function show($id)
-    {
-        $result = ['status' => 200];
-
-        try {
-            $result['message'] = "ok";
-            $result['data'] = $this->kelompokService->getById($id);
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-        return response()->json($result, $result['status']);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -209,8 +181,12 @@ class KelompokController extends Controller
      *    	),
      *   ),
      */
-    public function update(Request $request, $id)
+    public function update(UpdateKelompokService $service, UpdateKelompokRequest $request, $id)
     {
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
+        }
+
         $data = $request->only([
             'id',
             'st_desa_id',
@@ -218,18 +194,36 @@ class KelompokController extends Controller
             'alamat'
         ]);
 
-        $result = ['status' => 200];
+        $result = $service->update($data, $id);
 
-        try {
-            $result['data'] = $this->kelompokService->updateData($data, $id);
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
+    }
 
-        return response()->json($result, $result['status']);
+    /**
+     * Delete Master Kegiatan
+     *
+     * @OA\Delete(
+     *     path="/api/master/jamaah/{nik}",
+     *     tags={"master/jamaah"},
+     *     operationId="master/jamaah/{nik}/delete",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function delete(DeleteKelompokService $service, $id) {
+        $result = $service->delete($id);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -252,15 +246,10 @@ class KelompokController extends Controller
      *     },
      *   ),
      */
-
-    public function getRef()
+    public function getRef(DataKelompokService $service)
     {
-        $result = [];
-        try {
-            $result =  $this->kelompokService->getRef();
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->getRef();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 }

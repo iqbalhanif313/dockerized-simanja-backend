@@ -5,17 +5,17 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Request\Master\Jamaah\CreateJamaahRequest;
 use App\Http\Request\Master\Jamaah\UpdateJamaahRequest;
-use App\Services\MdJamaah\JamaahService;
 use App\Http\Controllers\Controller;
-use Exception;
+use App\Services\Master\Jamaah\CreateJamaahService;
+use App\Services\Master\Jamaah\DataJamaahService;
+use App\Services\Master\Jamaah\DeleteJamaahService;
+use App\Services\Master\Jamaah\UpdateJamaahService;
 
 class JamaahController extends Controller
 {
-    protected $service;
-
-    public function __construct(JamaahService $service)
+    public function __construct()
     {
-        $this->service = $service;
+
     }
 
     /**
@@ -38,15 +38,11 @@ class JamaahController extends Controller
      *     },
      *   ),
      */
-
-    public function index()
+    public function index(DataJamaahService $service)
     {
-        try {
-            $result = $this->service->getAll();
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->getAll();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -69,20 +65,11 @@ class JamaahController extends Controller
      *     },
      *   ),
      */
-    public function show($id)
+    public function show(DataJamaahService $service, $id)
     {
-        $result = ['status' => 200];
-
-        try {
-            $result['message'] = "ok";
-            $result['data'] = $this->service->getById($id);
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-        return response()->json($result, $result['status']);
+        $result = $service->getByID($id);
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -188,7 +175,7 @@ class JamaahController extends Controller
      *    	),
      *   ),
      */
-    public function store(CreateJamaahRequest $request)
+    public function store(CreateJamaahService $service, CreateJamaahRequest $request)
     {
         if (isset($request->validator) && $request->validator->fails()) {
             return $this->handleErrorRequest($request->validator->messages()->first());
@@ -212,13 +199,10 @@ class JamaahController extends Controller
             'st_status_jamaah_id'
         ]);
 
-        try {
-            $this->service->create($data);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        $result = $service->create($data);
 
-        return $this->success('Data berhasil disimpan!');
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -266,7 +250,7 @@ class JamaahController extends Controller
      *    	),
      *   ),
      */
-    public function update(UpdateJamaahRequest $request, $nik)
+    public function update(UpdateJamaahService $service, UpdateJamaahRequest $request, $nik)
     {
         if (isset($request->validator) && $request->validator->fails()) {
             return $this->handleErrorRequest($request->validator->messages()->first());
@@ -290,43 +274,10 @@ class JamaahController extends Controller
             'st_status_jamaah_id'
         ]);
 
-        try {
-            $this->service->update($data, $nik);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        $result = $service->update($data, $nik);
 
-        return $this->success('Data berhasil diupdate!');
-    }
-
-    /**
-     * Show Ref Master Jamaah
-     *
-     * @OA\Get(
-     *     path="/api/ref/master/jamaah",
-     *     tags={"references"},
-     *     operationId="ref/master/jamaah",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function getRef()
-    {
-        try {
-            $result = $this->service->getRef();
-        } catch (Exception $exception) {
-            return $this->handleErrorRequest($exception->getMessage());
-        }
-        return $this->data($result);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -349,8 +300,36 @@ class JamaahController extends Controller
      *     },
      *   ),
      */
-    public function delete($nik) {
-        $result = $this->service->delete($nik);
-        return $result ? $this->success('data berhasil dihapus') : $this->handleErrorRequest('data gagal dihapus');
+    public function delete(DeleteJamaahService $service, $nik) {
+        $result = $service->delete($nik);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Show Ref Master Jamaah
+     *
+     * @OA\Get(
+     *     path="/api/ref/master/jamaah",
+     *     tags={"references"},
+     *     operationId="ref/master/jamaah",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function getRef(DataJamaahService $service)
+    {
+        $result = $service->getRef();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 }

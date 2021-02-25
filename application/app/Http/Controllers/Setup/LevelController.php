@@ -3,19 +3,19 @@
 
 namespace App\Http\Controllers\Setup;
 
-use App\Http\Request\CreateLevelRequest;
-use App\Http\Request\UpdateLevelRequest;
 use App\Http\Controllers\Controller;
-use Exception;
-use App\Services\Level\LevelService;
+use App\Http\Request\Setup\BaseCreateSetupRequest;
+use App\Http\Request\Setup\BaseUpdateSetupRequest;
+use App\Services\Setup\Level\CreateLevelService;
+use App\Services\Setup\Level\DataLevelService;
+use App\Services\Setup\Level\DeleteLevelService;
+use App\Services\Setup\Level\UpdateLevelService;
 
 class LevelController extends Controller
 {
-    protected $levelService;
-
-    public function __construct(LevelService $levelService)
+    public function __construct()
     {
-        $this->levelService = $levelService;
+
     }
 
     /**
@@ -38,16 +38,38 @@ class LevelController extends Controller
      *     },
      *   ),
      */
-
-    public function index()
+    public function index(DataLevelService $service)
     {
-        $result = [];
-        try {
-            $result =  $this->levelService->getAll();
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->getAll();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Show Detail Setup Level
+     *
+     * @OA\Get(
+     *     path="/api/setup/level/{id}",
+     *     tags={"setup/level"},
+     *     operationId="setup/level/{id}",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function show(DataLevelService $service, $id)
+    {
+        $result = $service->getByID($id);
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -85,77 +107,17 @@ class LevelController extends Controller
      *    	),
      *   ),
      */
-    public function store(CreateLevelRequest $request)
+    public function store(CreateLevelService $service, BaseCreateSetupRequest $request)
     {
-        $data = $request->only([
-            'id',
-            'nama',
-        ]);
-        try {
-            $this->levelService->saveData($data);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
-        return $this->success("Level berhasil dibuat");
-    }
 
-    /**
-     * Show Detail Setup Level
-     *
-     * @OA\Get(
-     *     path="/api/setup/level/{id}",
-     *     tags={"setup/level"},
-     *     operationId="setup/level/{id}",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function show($id)
-    {
-        try {
-            return $this->data($this->levelService->getById($id));
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e);
-        }
-    }
+        $data = $request->only(['id', 'nama']);
+        $result = $service->create($data);
 
-    /**
-     * Delete Setup Level
-     *
-     * @OA\Delete(
-     *     path="/api/setup/level/{id}",
-     *     tags={"setup/level"},
-     *     operationId="setup/level/{id}/delete",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function delete($id)
-    {
-        try {
-            $this->levelService->deleteById($id);
-            return $this->success("level berhasil dihapus");
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -193,31 +155,26 @@ class LevelController extends Controller
      *    	),
      *   ),
      */
-    public function update(UpdateLevelRequest $request, $id)
+    public function update(UpdateLevelService $service, BaseUpdateSetupRequest $request, $id)
     {
-        $data = $request->only([
-            'id',
-            'nama'
-        ]);
-
-        try {
-            if (!$this->levelService->updateData($data, $id)) {
-                return $this->handleBadRequest("Bad Request");
-            }
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
 
-        return $this->success("Level berhasil diupdate");
+        $data = $request->only(['id', 'nama']);
+        $result = $service->update($data, $id);
+
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
-     * Show Ref Setup Level information
+     * Delete Setup Level
      *
-     * @OA\Get(
-     *     path="/api/ref/level",
-     *     tags={"references"},
-     *     operationId="ref/level",
+     * @OA\Delete(
+     *     path="/api/setup/level/{id}",
+     *     tags={"setup/level"},
+     *     operationId="setup/level/{id}/delete",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"
@@ -231,15 +188,37 @@ class LevelController extends Controller
      *     },
      *   ),
      */
-
-    public function getRef()
+    public function delete(DeleteLevelService $service, $id)
     {
-        $result = [];
-        try {
-            $result =  $this->levelService->getRef();
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->delete($id);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Show Ref Setup Level information
+     *
+     * @OA\Get(
+     *     path="/api/ref/setup/level",
+     *     tags={"references"},
+     *     operationId="ref/setup/level",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function getRef(DataLevelService $service)
+    {
+        $result = $service->getRef();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 }

@@ -3,25 +3,20 @@
 
 namespace App\Http\Controllers\Setup;
 
-use App\Http\Request\CreateJenisKegiatanRequest;
-use App\Http\Request\UpdateDesaRequest;
-use App\Http\Request\UpdateJenisKegiatanRequest;
-use App\Services\JenisKegiatan\JenisKegiatanService;
 use App\Http\Controllers\Controller;
-use Exception;
+use App\Http\Request\Setup\BaseCreateSetupRequest;
+use App\Http\Request\Setup\BaseUpdateSetupRequest;
+use App\Services\Setup\JenisKegiatan\CreateJenisKegiatanService;
+use App\Services\Setup\JenisKegiatan\DataJenisKegiatanService;
+use App\Services\Setup\JenisKegiatan\DeleteJenisKegiatanService;
+use App\Services\Setup\JenisKegiatan\UpdateJenisKegiatanService;
 
 class JenisKegiatanController extends Controller
 {
-    /**
-     * @var JenisKegiatanService
-     */
-    private $jenisKegiatanService;
-
     public function __construct()
     {
-        $this->jenisKegiatanService = new JenisKegiatanService();
-    }
 
+    }
 
     /**
      * Show Setup Jenis Kegiatan information
@@ -43,16 +38,11 @@ class JenisKegiatanController extends Controller
      *     },
      *   ),
      */
-
-    public function index()
+    public function index(DataJenisKegiatanService $service)
     {
-        try{
-            $data = $this->jenisKegiatanService->getAll();
-            return $this->data($data);
-        }catch (\Exception $e){
-            return $this->handleErrorRequest($e->getMessage());
-        }
-
+        $result = $service->getAll();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -75,58 +65,114 @@ class JenisKegiatanController extends Controller
      *     },
      *   ),
      */
-    public function show($id)
+    public function show(DataJenisKegiatanService $service, $id)
     {
-        try {
-            return $this->data($this->jenisKegiatanService->getById($id));
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e);
-        }
-    }
-
-    public function delete($id){
-        try{
-            $this->jenisKegiatanService->deleteById($id);
-        }catch (\Exception $e){
-            return $this->handleErrorRequest($e->getMessage());
-        }
-    }
-
-    public function store(CreateJenisKegiatanRequest $request){
-        $data = $request->only([
-            'id',
-            'nama',
-        ]);
-        try {
-            $this->jenisKegiatanService->saveData($data);
-        } catch (\Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->success("Jenis Kegiatan berhasil dibuat");
-    }
-
-    public function update(UpdateJenisKegiatanRequest $request, $id){
-        $data = $request->only([
-            'id',
-            'nama'
-        ]);
-
-        try{
-            if(!$this->jenisKegiatanService->updateData($data, $id)){
-                return $this->handleBadRequest("Bad Request");
-            }
-        }catch (\Exception $e){
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        $result = $service->getByID($id);
+        return $result->status ? $this->data($result->data)
+        : $this->handleErrorRequest($result->message);
     }
 
     /**
-     * Show Ref Setup Jenis Kegiatan information
+     * Store Setup Desa
      *
-     * @OA\Get(
-     *     path="/api/ref/jenis-kegiatan",
-     *     tags={"references"},
-     *     operationId="ref/jenis-kegiatan",
+     * @OA\Post(
+     *     path="/api/setup/jenis-kegiatan",
+     *     tags={"setup/jenis-kegiatan"},
+     *     operationId="setup/jenis-kegiatan/store",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *    	@OA\RequestBody(
+     *    		@OA\MediaType(
+     *    			mediaType="application/json",
+     *    			@OA\Schema(
+     *                  @OA\Property(property="id",
+     *    					type="string",
+     *    					example="SPR",
+     *                  ),
+     *                  @OA\Property(property="nama",
+     *    					type="string",
+     *    					example="Semampir",
+     *                  ),
+     *    			),
+     *    		),
+     *    	),
+     *   ),
+     */
+    public function store(CreateJenisKegiatanService $service, BaseCreateSetupRequest $request){
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
+        }
+
+        $data = $request->only(['id', 'nama']);
+        $result = $service->create($data);
+
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Update Setup Desa
+     *
+     * @OA\Put(
+     *     path="/api/setup/jenis-kegiatan/{id}",
+     *     tags={"setup/jenis-kegiatan"},
+     *     operationId="setup/jenis-kegiatan/update",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *    	@OA\RequestBody(
+     *    		@OA\MediaType(
+     *    			mediaType="application/json",
+     *    			@OA\Schema(
+     *                  @OA\Property(property="id",
+     *    					type="string",
+     *    					example="SPR",
+     *                  ),
+     *                  @OA\Property(property="nama",
+     *    					type="string",
+     *    					example="Semampir",
+     *                  ),
+     *    			),
+     *    		),
+     *    	),
+     *   ),
+     */
+    public function update(UpdateJenisKegiatanService $service, BaseUpdateSetupRequest $request, $id){
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
+        }
+
+        $data = $request->only(['id', 'nama']);
+        $result = $service->update($data, $id);
+
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Delete Setup Desa
+     *
+     * @OA\Delete(
+     *     path="/api/setup/jenis-kegiatan/{id}",
+     *     tags={"setup/jenis-kegiatan"},
+     *     operationId="setup/jenis-kegiatan/{id}/delete",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"
@@ -140,16 +186,36 @@ class JenisKegiatanController extends Controller
      *     },
      *   ),
      */
+    public function delete(DeleteJenisKegiatanService $service, $id){
+        $result = $service->delete($id);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
+    }
 
-    public function getRef()
+    /**
+     * Show Ref Setup Jenis Kegiatan information
+     *
+     * @OA\Get(
+     *     path="/api/ref/setup/jenis-kegiatan",
+     *     tags={"references"},
+     *     operationId="ref/setup/jenis-kegiatan",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function getRef(DataJenisKegiatanService $service)
     {
-        $result = [];
-        try {
-            $result =  $this->jenisKegiatanService->getRef();
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->data($result);
-    }  
-
+        $result = $service->getRef();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
+    }
 }

@@ -3,20 +3,19 @@
 
 namespace App\Http\Controllers\Master;
 
-use App\Helpers\MsgHelper;
 use App\Http\Request\Master\Kegiatan\CreateKegiatanRequest;
 use App\Http\Request\Master\Kegiatan\UpdateKegiatanRequest;
 use App\Http\Controllers\Controller;
-use Exception;
-use App\Services\Kegiatan\KegiatanService;
+use App\Services\Master\Kegiatan\CreateKegiatanService;
+use App\Services\Master\Kegiatan\DataKegiatanService;
+use App\Services\Master\Kegiatan\DeleteKegiatanService;
+use App\Services\Master\Kegiatan\UpdateKegiatanService;
 
 class KegiatanController extends Controller
 {
-    protected $service;
-
-    public function __construct(KegiatanService $service)
+    public function __construct()
     {
-        $this->service = $service;
+
     }
 
     /**
@@ -39,15 +38,11 @@ class KegiatanController extends Controller
      *     },
      *   ),
      */
-    public function index()
+    public function index(DataKegiatanService $service)
     {
-        try {
-            $result = $this->service->getAll();
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
-
-        return $this->data($result);
+        $result = $service->getAll();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -70,20 +65,11 @@ class KegiatanController extends Controller
      *     },
      *   ),
      */
-    public function show($id)
+    public function show(DataKegiatanService $service, $id)
     {
-        $result = ['status' => 200];
-
-        try {
-            $result['message'] = "ok";
-            $result['data'] = $this->service->getById($id);
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-        return response()->json($result, $result['status']);
+        $result = $service->getByID($id);
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -148,7 +134,7 @@ class KegiatanController extends Controller
      *    	),
      *   ),
      */
-    public function store(CreateKegiatanRequest $request)
+    public function store(CreateKegiatanService $service, CreateKegiatanRequest $request)
     {
         if (isset($request->validator) && $request->validator->fails()) {
             return $this->handleErrorRequest($request->validator->messages()->first());
@@ -163,13 +149,10 @@ class KegiatanController extends Controller
             'md_kelompok_id'
         ]);
 
-        try {
-            $this->service->create($data);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        $result = $service->create($data);
 
-        return $this->success(MsgHelper::CREATE_SUCCESS);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -234,7 +217,7 @@ class KegiatanController extends Controller
      *    	),
      *   ),
      */
-    public function update(UpdateKegiatanRequest $request, $id)
+    public function update(UpdateKegiatanService $service, UpdateKegiatanRequest $request, $id)
     {
         if (isset($request->validator) && $request->validator->fails()) {
             return $this->handleErrorRequest($request->validator->messages()->first());
@@ -249,13 +232,10 @@ class KegiatanController extends Controller
             'md_kelompok_id'
         ]);
 
-        try {
-            $this->service->update($data, $id);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        $result = $service->update($data, $id);
 
-        return $this->success(MsgHelper::UPDATE_SUCCESS);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -278,9 +258,10 @@ class KegiatanController extends Controller
      *     },
      *   ),
      */
-    public function delete($nik) {
-        $result = $this->service->delete($nik);
-        return $result ? $this->success(MsgHelper::DELETE_SUCCESS) : $this->handleErrorRequest(MsgHelper::DELETE_FAIL);
+    public function delete(DeleteKegiatanService $service, $id) {
+        $result = $service->delete($id);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -303,13 +284,10 @@ class KegiatanController extends Controller
      *     },
      *   ),
      */
-    public function getRef()
+    public function getRef(DataKegiatanService $service)
     {
-        try {
-            $result = $this->service->getRef();
-        } catch (Exception $exception) {
-            return $this->handleErrorRequest($exception->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->getRef();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 }

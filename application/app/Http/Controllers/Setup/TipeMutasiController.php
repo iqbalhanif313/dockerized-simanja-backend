@@ -3,19 +3,19 @@
 
 namespace App\Http\Controllers\Setup;
 
-use App\Http\Request\CreateTipeMutasiRequest;
-use App\Http\Request\UpdateTipeMutasiRequest;
 use App\Http\Controllers\Controller;
-use Exception;
-use App\Services\TipeMutasi\TipeMutasiService;
+use App\Http\Request\Setup\BaseCreateSetupRequest;
+use App\Http\Request\Setup\BaseUpdateSetupRequest;
+use App\Services\Setup\TipeMutasi\CreateTipeMutasiService;
+use App\Services\Setup\TipeMutasi\DataTipeMutasiService;
+use App\Services\Setup\TipeMutasi\DeleteTipeMutasiService;
+use App\Services\Setup\TipeMutasi\UpdateTipeMutasiService;
 
 class TipeMutasiController extends Controller
 {
-    protected $tipeMutasiService;
-
-    public function __construct(TipeMutasiService $tipeMutasiService)
+    public function __construct()
     {
-        $this->tipeMutasiService = $tipeMutasiService;
+
     }
 
     /**
@@ -38,16 +38,38 @@ class TipeMutasiController extends Controller
      *     },
      *   ),
      */
-
-    public function index()
+    public function index(DataTipeMutasiService $service)
     {
-        $result = [];
-        try {
-            $result =  $this->tipeMutasiService->getAll();
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->getAll();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Show Detail Setup TipeMutasi
+     *
+     * @OA\Get(
+     *     path="/api/setup/tipe-mutasi/{id}",
+     *     tags={"setup/tipe-mutasi"},
+     *     operationId="setup/tipe-mutasi/{id}",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function show(DataTipeMutasiService $service, $id)
+    {
+        $result = $service->getByID($id);
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -85,77 +107,17 @@ class TipeMutasiController extends Controller
      *    	),
      *   ),
      */
-    public function store(CreateTipeMutasiRequest $request)
+    public function store(CreateTipeMutasiService $service, BaseCreateSetupRequest $request)
     {
-        $data = $request->only([
-            'id',
-            'nama',
-        ]);
-        try {
-            $this->tipeMutasiService->saveData($data);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
-        return $this->success("TipeMutasi berhasil dibuat");
-    }
 
-    /**
-     * Show Detail Setup TipeMutasi
-     *
-     * @OA\Get(
-     *     path="/api/setup/tipe-mutasi/{id}",
-     *     tags={"setup/tipe-mutasi"},
-     *     operationId="setup/tipe-mutasi/{id}",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function show($id)
-    {
-        try {
-            return $this->data($this->tipeMutasiService->getById($id));
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e);
-        }
-    }
+        $data = $request->only(['id', 'nama']);
+        $result = $service->create($data);
 
-    /**
-     * Delete Setup TipeMutasi
-     *
-     * @OA\Delete(
-     *     path="/api/setup/tipe-mutasi/{id}",
-     *     tags={"setup/tipe-mutasi"},
-     *     operationId="setup/tipe-mutasi/{id}/delete",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function delete($id)
-    {
-        try {
-            $this->tipeMutasiService->deleteById($id);
-            return $this->success("Status Kehadiran berhasil dihapus");
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -193,31 +155,26 @@ class TipeMutasiController extends Controller
      *    	),
      *   ),
      */
-    public function update(UpdateTipeMutasiRequest $request, $id)
+    public function update(UpdateTipeMutasiService $service, BaseUpdateSetupRequest $request, $id)
     {
-        $data = $request->only([
-            'id',
-            'nama'
-        ]);
-
-        try {
-            if (!$this->tipeMutasiService->updateData($data, $id)) {
-                return $this->handleBadRequest("Bad Request");
-            }
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
 
-        return $this->success("Tipe Mutasi berhasil diupdate");
+        $data = $request->only(['id', 'nama']);
+        $result = $service->update($data, $id);
+
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
-     * Show Ref Setup TipeMutasi information
+     * Delete Setup TipeMutasi
      *
-     * @OA\Get(
-     *     path="/api/ref/tipe-mutasi",
-     *     tags={"references"},
-     *     operationId="ref/tipe-mutasi",
+     * @OA\Delete(
+     *     path="/api/setup/tipe-mutasi/{id}",
+     *     tags={"setup/tipe-mutasi"},
+     *     operationId="setup/tipe-mutasi/{id}/delete",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"
@@ -231,15 +188,37 @@ class TipeMutasiController extends Controller
      *     },
      *   ),
      */
-
-    public function getRef()
+    public function delete(DeleteTipeMutasiService $service, $id)
     {
-        $result = [];
-        try {
-            $result =  $this->tipeMutasiService->getRef();
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->delete($id);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Show Ref Setup TipeMutasi information
+     *
+     * @OA\Get(
+     *     path="/api/ref/setup/tipe-mutasi",
+     *     tags={"references"},
+     *     operationId="ref/setup/tipe-mutasi",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function getRef(DataTipeMutasiService $service)
+    {
+        $result = $service->getRef();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 }

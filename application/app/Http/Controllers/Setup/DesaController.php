@@ -3,21 +3,21 @@
 
 namespace App\Http\Controllers\Setup;
 
-use App\Http\Request\CreateDesaRequest;
-use App\Http\Request\UpdateDesaRequest;
+use App\Http\Request\Setup\BaseCreateSetupRequest;
 use App\Http\Controllers\Controller;
-use Exception;
-use App\Services\Desa\DesaService;
+use App\Http\Request\Setup\BaseUpdateSetupRequest;
+use App\Services\Setup\Desa\CreateDesaService;
+use App\Services\Setup\Desa\DataDesaService;
+use App\Services\Setup\Desa\DeleteDesaService;
+use App\Services\Setup\Desa\UpdateDesaService;
 
 class DesaController extends Controller
 {
-
-    protected $desaService;
-
-    public function __construct(DesaService $desaService)
+    public function __construct()
     {
-        $this->desaService = $desaService;
+
     }
+
     /**
      * Show List Setup Desa
      *
@@ -38,16 +38,38 @@ class DesaController extends Controller
      *     },
      *   ),
      */
-
-    public function index()
+    public function index(DataDesaService $service)
     {
-        $result = [];
-        try {
-            $result =  $this->desaService->getAll();
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->getAll();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Show Detail Setup Desa
+     *
+     * @OA\Get(
+     *     path="/api/setup/desa/{id}",
+     *     tags={"setup/desa"},
+     *     operationId="setup/desa/{id}",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function show(DataDesaService $service, $id)
+    {
+        $result = $service->getByID($id);
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -85,77 +107,17 @@ class DesaController extends Controller
      *    	),
      *   ),
      */
-    public function store(CreateDesaRequest $request)
+    public function store(CreateDesaService $service, BaseCreateSetupRequest $request)
     {
-        $data = $request->only([
-            'id',
-            'nama',
-        ]);
-        try {
-            $this->desaService->saveData($data);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
-        return $this->success("desa berhasil dibuat");
-    }
 
-    /**
-     * Show Detail Setup Desa
-     *
-     * @OA\Get(
-     *     path="/api/setup/desa/{id}",
-     *     tags={"setup/desa"},
-     *     operationId="setup/desa/{id}",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function show($id)
-    {
-        try {
-            return $this->data($this->desaService->getById($id));
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e);
-        }
-    }
+        $data = $request->only(['id', 'nama']);
+        $result = $service->create($data);
 
-    /**
-     * Delete Setup Desa
-     *
-     * @OA\Delete(
-     *     path="/api/setup/desa/{id}",
-     *     tags={"setup/desa"},
-     *     operationId="setup/desa/{id}/delete",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function delete($id)
-    {
-        try {
-            $this->desaService->deleteById($id);
-            return $this->success("desa berhasil dihapus");
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -193,31 +155,26 @@ class DesaController extends Controller
      *    	),
      *   ),
      */
-    public function update(UpdateDesaRequest $request, $id)
+    public function update(UpdateDesaService $service, BaseUpdateSetupRequest $request, $id)
     {
-        $data = $request->only([
-            'id',
-            'nama'
-        ]);
-
-        try {
-            if (!$this->desaService->updateData($data, $id)) {
-                return $this->handleBadRequest("Bad Request");
-            }
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
 
-        return $this->success("Desa berhasil diupdate");
+        $data = $request->only(['id', 'nama']);
+        $result = $service->update($data, $id);
+
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
-     * Show Ref Setup Desa
+     * Delete Setup Desa
      *
-     * @OA\Get(
-     *     path="/api/ref/desa",
-     *     tags={"references"},
-     *     operationId="ref/desa",
+     * @OA\Delete(
+     *     path="/api/setup/desa/{id}",
+     *     tags={"setup/desa"},
+     *     operationId="setup/desa/{id}/delete",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"
@@ -231,15 +188,37 @@ class DesaController extends Controller
      *     },
      *   ),
      */
-
-    public function getRef()
+    public function delete(DeleteDesaService $service, $id)
     {
-        $result = [];
-        try {
-            $result =  $this->desaService->getRef();
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->delete($id);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Show Ref Setup Desa
+     *
+     * @OA\Get(
+     *     path="/api/ref/setup/desa",
+     *     tags={"references"},
+     *     operationId="ref/setup/desa",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function getRef(DataDesaService $service)
+    {
+        $result = $service->getRef();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 }

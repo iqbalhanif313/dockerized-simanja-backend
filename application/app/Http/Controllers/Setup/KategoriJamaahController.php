@@ -3,19 +3,19 @@
 
 namespace App\Http\Controllers\Setup;
 
-use App\Http\Request\CreateKategoriJamaahRequest;
-use App\Http\Request\UpdateKategoriJamaahRequest;
 use App\Http\Controllers\Controller;
-use Exception;
-use App\Services\KategoriJamaah\KategoriJamaahService;
+use App\Http\Request\Setup\BaseCreateSetupRequest;
+use App\Http\Request\Setup\BaseUpdateSetupRequest;
+use App\Services\Setup\KategoriJamaah\CreateKategoriJamaahService;
+use App\Services\Setup\KategoriJamaah\DataKategoriJamaahService;
+use App\Services\Setup\KategoriJamaah\DeleteKategoriJamaahService;
+use App\Services\Setup\KategoriJamaah\UpdateKategoriJamaahService;
 
 class KategoriJamaahController extends Controller
 {
-    protected $kategoriJamaahService;
-
-    public function __construct(KategoriJamaahService $kategoriJamaahService)
+    public function __construct()
     {
-        $this->kategoriJamaahService = $kategoriJamaahService;
+
     }
 
     /**
@@ -38,16 +38,38 @@ class KategoriJamaahController extends Controller
      *     },
      *   ),
      */
-
-    public function index()
+    public function index(DataKategoriJamaahService $service)
     {
-        $result = [];
-        try {
-            $result =  $this->kategoriJamaahService->getAll();
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->getAll();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Show Detail Setup KategoriJamaah
+     *
+     * @OA\Get(
+     *     path="/api/setup/kategori-jamaah/{id}",
+     *     tags={"setup/kategori-jamaah"},
+     *     operationId="setup/kategori-jamaah/{id}",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function show(DataKategoriJamaahService $service, $id)
+    {
+        $result = $service->getByID($id);
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -85,77 +107,17 @@ class KategoriJamaahController extends Controller
      *    	),
      *   ),
      */
-    public function store(CreateKategoriJamaahRequest $request)
+    public function store(CreateKategoriJamaahService $service, BaseCreateSetupRequest $request)
     {
-        $data = $request->only([
-            'id',
-            'nama',
-        ]);
-        try {
-            $this->kategoriJamaahService->saveData($data);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
-        return $this->success("KategoriJamaah berhasil dibuat");
-    }
 
-    /**
-     * Show Detail Setup KategoriJamaah
-     *
-     * @OA\Get(
-     *     path="/api/setup/kategori-jamaah/{id}",
-     *     tags={"setup/kategori-jamaah"},
-     *     operationId="setup/kategori-jamaah/{id}",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function show($id)
-    {
-        try {
-            return $this->data($this->kategoriJamaahService->getById($id));
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e);
-        }
-    }
+        $data = $request->only(['id', 'nama']);
+        $result = $service->create($data);
 
-    /**
-     * Delete Setup KategoriJamaah
-     *
-     * @OA\Delete(
-     *     path="/api/setup/kategori-jamaah/{id}",
-     *     tags={"setup/kategori-jamaah"},
-     *     operationId="setup/kategori-jamaah/{id}/delete",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function delete($id)
-    {
-        try {
-            $this->kategoriJamaahService->deleteById($id);
-            return $this->success("kategori jamaah berhasil dihapus");
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -193,31 +155,26 @@ class KategoriJamaahController extends Controller
      *    	),
      *   ),
      */
-    public function update(UpdateKategoriJamaahRequest $request, $id)
+    public function update(UpdateKategoriJamaahService $service, BaseUpdateSetupRequest $request, $id)
     {
-        $data = $request->only([
-            'id',
-            'nama'
-        ]);
-
-        try {
-            if (!$this->kategoriJamaahService->updateData($data, $id)) {
-                return $this->handleBadRequest("Bad Request");
-            }
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
 
-        return $this->success("KategoriJamaah berhasil diupdate");
+        $data = $request->only(['id', 'nama']);
+        $result = $service->update($data, $id);
+
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
-     * Show Ref Setup Kategori Jamaah information
+     * Delete Setup KategoriJamaah
      *
-     * @OA\Get(
-     *     path="/api/ref/kategori-jamaah",
-     *     tags={"references"},
-     *     operationId="ref/kategori-jamaah",
+     * @OA\Delete(
+     *     path="/api/setup/kategori-jamaah/{id}",
+     *     tags={"setup/kategori-jamaah"},
+     *     operationId="setup/kategori-jamaah/{id}/delete",
      *     @OA\Response(
      *         response=400,
      *         description="Bad Request"
@@ -231,15 +188,37 @@ class KategoriJamaahController extends Controller
      *     },
      *   ),
      */
-
-    public function getRef()
+    public function delete(DeleteKategoriJamaahService $service, $id)
     {
-        $result = [];
-        try {
-            $result =  $this->kategoriJamaahService->getRef();
-        } catch (Exception $e) {
-            $this->handleErrorRequest($e->getMessage());
-        }
-        return $this->data($result);
+        $result = $service->delete($id);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
+    }
+
+    /**
+     * Show Ref Setup Kategori Jamaah information
+     *
+     * @OA\Get(
+     *     path="/api/ref/setup/kategori-jamaah",
+     *     tags={"references"},
+     *     operationId="ref/setup/kategori-jamaah",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function getRef(DataKategoriJamaahService $service)
+    {
+        $result = $service->getRef();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 }
