@@ -12,6 +12,19 @@ class KelurahanRepository extends BaseRepository
         parent::__construct($model);
     }
 
+    public function data($columns = '*') {
+        return $this->model->newQuery()
+            ->selectRaw("
+                st_kel.id,
+                st_kel.nama,
+                st_kel.st_kec_id,
+                case when sk.nama is null then '-' else sk.nama end as kecamatan
+            ")
+            ->leftJoin('st_kec as sk', 'st_kel.st_kec_id', '=', 'sk.id')
+            ->whereNull('st_kel.deleted_at')
+            ->get();
+    }
+
     public function flist($kec) {
         return $this->model->newQuery()
             ->selectRaw("id, concat(id, ' - ', nama) as text")
