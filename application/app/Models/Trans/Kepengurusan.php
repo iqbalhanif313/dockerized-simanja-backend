@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Trans;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TransKepengurusan extends Model
+class Kepengurusan extends Model
 {
     use SoftDeletes;
+    public $table = 'trans_kepengurusan';
     protected $guarded = [];
-    public $table = "trans_kepengurusan";
-    public $incrementing = false;
     protected $dates = ['deleted_at'];
+    public $incrementing = false;
 }

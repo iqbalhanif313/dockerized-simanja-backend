@@ -3,24 +3,21 @@
 
 namespace App\Http\Controllers\Trans;
 
-use App\Helpers\DateTimeHelper;
-use App\Helpers\ResponseHelper;
-use App\Services\Jadwal\JadwalService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
+use App\Http\Request\Trans\Jadwal\CreateJadwalRequest;
+use App\Http\Request\Trans\Jadwal\UpdateJadwalRequest;
+use App\Services\Trans\Jadwal\CreateJadwalService;
+use App\Services\Trans\Jadwal\DataJadwalService;
 use App\Http\Controllers\Controller;
-use DB;
-use Exception;
+use App\Services\Trans\Jadwal\DeleteJadwalService;
+use App\Services\Trans\Jadwal\UpdateJadwalService;
 
 class JadwalController extends Controller
 {
-
-    protected $jadwalService;
-
-    public function __construct(JadwalService $jadwalService)
+    public function __construct()
     {
-        $this->jadwalService = $jadwalService;
+
     }
+
     /**
      * Show List Trans Jadwal
      *
@@ -41,21 +38,38 @@ class JadwalController extends Controller
      *     },
      *   ),
      */
-
-    public function index()
+    public function index(DataJadwalService $service)
     {
-        $result = ['status' => 200];
+        $result = $service->getAll();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
+    }
 
-        try {
-            $result['data'] = $this->jadwalService->getAll();
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-
-        return response()->json($result, $result['status']);
+    /**
+     * Show Detail Trans Jadwal
+     *
+     * @OA\Get(
+     *     path="/api/trans/jadwal/{id}",
+     *     tags={"trans/jadwal"},
+     *     operationId="trans/jadwal/id",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function show(DataJadwalService $service, $id)
+    {
+        $result = $service->getByID($id);
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -103,8 +117,12 @@ class JadwalController extends Controller
      *    	),
      *   ),
      */
-    public function store(Request $request)
+    public function store(CreateJadwalService $service, CreateJadwalRequest $request)
     {
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
+        }
+
         $data = $request->only([
             'tanggal',
             'jam_mulai',
@@ -112,53 +130,10 @@ class JadwalController extends Controller
             'md_kegiatan_id'
         ]);
 
-        $result = ['status' => 200];
+        $result = $service->create($data);
 
-        try {
-            $result['data'] = $this->jadwalService->saveData($data);
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-
-        return response()->json($result, $result['status']);
-    }
-
-    /**
-     * Show Detail Trans Jadwal
-     *
-     * @OA\Get(
-     *     path="/api/trans/jadwal/{id}",
-     *     tags={"trans/jadwal"},
-     *     operationId="trans/jadwal/id",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function show($id)
-    {
-        $result = ['status' => 200];
-
-        try {
-            $result['data'] = $this->jadwalService->getById($id);
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-        return response()->json($result, $result['status']);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
      /**
@@ -206,8 +181,11 @@ class JadwalController extends Controller
      *    	),
      *   ),
      */
-    public function update(Request $request, $id)
+    public function update(UpdateJadwalService $service, UpdateJadwalRequest $request, $id)
     {
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
+        }
 
         $data = $request->only([
             'tanggal',
@@ -216,13 +194,10 @@ class JadwalController extends Controller
             'md_kegiatan_id'
         ]);
 
-        try {
-            $this->jadwalService->updateData($data, $id);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
-        }
+        $result = $service->update($data, $id);
 
-        return $this->success('Data berhasil diupdate!');
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -245,8 +220,9 @@ class JadwalController extends Controller
      *     },
      *   ),
      */
-    public function delete($id) {
-        $result = $this->jadwalService->deleteById($id);
-        return $result ? $this->success('data berhasil dihapus') : $this->handleErrorRequest('data gagal dihapus');
+    public function delete(DeleteJadwalService $service, $id) {
+        $result = $service->delete($id);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 }

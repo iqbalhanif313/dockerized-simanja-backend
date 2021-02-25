@@ -16,4 +16,5 @@ class MsgHelper
     const DELETE_FAIL = 'Data gagal dihapus!';
     const ID_EXIST = 'Data gagal disimpan: ID sudah ada!';
     const USER_ID_EXIST = 'Data gagal disimpan: ID user sudah ada!';
+    const JAM_CRASH = 'Jam selesai kurang dari jam mulai!';
 }

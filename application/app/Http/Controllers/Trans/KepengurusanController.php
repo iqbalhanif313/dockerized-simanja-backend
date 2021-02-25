@@ -3,21 +3,21 @@
 
 namespace App\Http\Controllers\Trans;
 
-use App\Helpers\ResponseHelper;
-use App\Services\TransKepengurusan\TransKepengurusanService;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Exception;
+use App\Http\Request\Trans\Kepengurusan\CreateKepengurusanRequest;
+use App\Http\Request\Trans\Kepengurusan\UpdateKepengurusanRequest;
+use App\Services\Trans\Kepengurusan\CreateKepengurusanService;
+use App\Services\Trans\Kepengurusan\DataKepengurusanService;
+use App\Services\Trans\Kepengurusan\DeleteKepengurusanService;
+use App\Services\Trans\Kepengurusan\UpdateKepengurusanService;
 
 class KepengurusanController extends Controller
 {
-
-    protected $service;
-
-    public function __construct(TransKepengurusanService $service)
+    public function __construct()
     {
-        $this->service = $service;
+
     }
+
     /**
      * Show List Trans Kepengurusan
      *
@@ -38,21 +38,38 @@ class KepengurusanController extends Controller
      *     },
      *   ),
      */
-
-    public function index()
+    public function index(DataKepengurusanService $service)
     {
-        $result = ['status' => 200];
+        $result = $service->getAll();
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
+    }
 
-        try {
-            $result['data'] = $this->service->getAll();
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-
-        return response()->json($result, $result['status']);
+    /**
+     * Show Detail Trans Kepengurusan
+     *
+     * @OA\Get(
+     *     path="/api/trans/kepengurusan/{id}",
+     *     tags={"trans/kepengurusan"},
+     *     operationId="trans/kepengurusan/id",
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     ),
+     *     security={
+     *         {"api_key": {"write:user", "read:user"}}
+     *     },
+     *   ),
+     */
+    public function show(DataKepengurusanService $service, $id)
+    {
+        $result = $service->getByID($id);
+        return $result->status ? $this->data($result->data)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -90,55 +107,17 @@ class KepengurusanController extends Controller
      *    	),
      *   ),
      */
-    public function store(Request $request)
+    public function store(CreateKepengurusanService $service, CreateKepengurusanRequest $request)
     {
-        $data = $request->only([
-            'md_jamaah_nik',
-            'md_kepengurusan_id'
-        ]);
-
-        try {
-            $result['data'] = $this->service->saveData($data);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
 
-        return $this->success($result, ResponseHelper::HTTP_CREATED);
-    }
+        $data = $request->only(['md_jamaah_nik', 'md_kepengurusan_id']);
+        $result = $service->create($data);
 
-    /**
-     * Show Detail Trans Kepengurusan
-     *
-     * @OA\Get(
-     *     path="/api/trans/kepengurusan/{id}",
-     *     tags={"trans/kepengurusan"},
-     *     operationId="trans/kepengurusan/id",
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     ),
-     *     security={
-     *         {"api_key": {"write:user", "read:user"}}
-     *     },
-     *   ),
-     */
-    public function show($id)
-    {
-        $result = ['status' => 200];
-
-        try {
-            $result['data'] = $this->service->getById($id);
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'message' => $e->getMessage()
-            ];
-        }
-        return response()->json($result, $result['status']);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -176,20 +155,17 @@ class KepengurusanController extends Controller
      *    	),
      *   ),
      */
-    public function update(Request $request, $id)
+    public function update(UpdateKepengurusanService $service, UpdateKepengurusanRequest $request, $id)
     {
-        $data = $request->only([
-            'md_jamaah_nik',
-            'md_kepengurusan_id'
-        ]);
-
-        try {
-            $this->service->updateData($data, $id);
-        } catch (Exception $e) {
-            return $this->handleErrorRequest($e->getMessage());
+        if (isset($request->validator) && $request->validator->fails()) {
+            return $this->handleErrorRequest($request->validator->messages()->first());
         }
 
-        return $this->success('Data berhasil diupdate!');
+        $data = $request->only(['md_jamaah_nik', 'md_kepengurusan_id']);
+        $result = $service->update($data, $id);
+
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 
     /**
@@ -212,8 +188,9 @@ class KepengurusanController extends Controller
      *     },
      *   ),
      */
-    public function delete($id) {
-        $result = $this->service->deleteById($id);
-        return $result ? $this->success('data berhasil dihapus') : $this->handleErrorRequest('data gagal dihapus');
+    public function delete(DeleteKepengurusanService $service, $id) {
+        $result = $service->delete($id);
+        return $result->status ? $this->success($result->message)
+            : $this->handleErrorRequest($result->message);
     }
 }
