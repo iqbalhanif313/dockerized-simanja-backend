@@ -18,9 +18,15 @@ class KelurahanRepository extends BaseRepository
                 st_kel.id,
                 st_kel.nama,
                 st_kel.st_kec_id,
-                case when sk.nama is null then '-' else sk.nama end as kecamatan
+                case when sc.nama is null then '-' else sc.nama end as kecamatan,
+                sc.st_kab_id,
+                case when sb.nama is null then '-' else sb.nama end as kabupaten,
+                sb.st_provinsi_id,
+                case when sp.nama is null then '-' else sp.nama end as provinsi
             ")
-            ->leftJoin('st_kec as sk', 'st_kel.st_kec_id', '=', 'sk.id')
+            ->leftJoin('st_kec as sc', 'st_kel.st_kec_id', '=', 'sc.id')
+            ->leftJoin('st_kab as sb', 'sc.st_kab_id', '=', 'sb.id')
+            ->leftJoin('st_provinsi as sp', 'sb.st_provinsi_id', '=', 'sp.id')
             ->whereNull('st_kel.deleted_at')
             ->get();
     }

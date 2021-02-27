@@ -18,9 +18,12 @@ class KecamatanRepository extends BaseRepository
                 st_kec.id,
                 st_kec.nama,
                 st_kec.st_kab_id,
-                case when sk.nama is null then '-' else sk.nama end as kabupaten
+                case when sk.nama is null then '-' else sk.nama end as kabupaten,
+                sk.st_provinsi_id,
+                case when sp.nama is null then '-' else sp.nama end as provinsi
             ")
             ->leftJoin('st_kab as sk', 'st_kec.st_kab_id', '=', 'sk.id')
+            ->leftJoin('st_provinsi as sp', 'sk.st_provinsi_id', '=', 'sp.id')
             ->whereNull('st_kec.deleted_at')
             ->get();
     }
