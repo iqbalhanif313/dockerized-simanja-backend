@@ -20,6 +20,9 @@ class PresensiRepository extends BaseRepository
                 trans_presensi.md_jamaah_nik,
                 case when mj.nama is null then '-' else mj.nama end as nama_jamaah,
                 trans_presensi.trans_jadwal_id,
+                case when tj.tanggal is null then '-' else TO_CHAR(tj.tanggal, 'DD Mon YYYY') end as tanggal,
+                case when tj.jam_mulai is null then '00:00:00' else tj.jam_mulai end as jam_mulai,
+                case when tj.jam_selesai is null then '00:00:00' else tj.jam_selesai end as jam_selesai,
                 trans_presensi.st_status_kehadiran_id,
                 case when ssk.nama is null then '-' else ssk.nama end as status";
     }

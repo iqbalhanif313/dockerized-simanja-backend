@@ -36,7 +36,7 @@ class BaseRepository
 
     public function checkIfIDExist($id) {
         return $this->model->newQuery()
-            ->find($id)->exists();
+            ->find($id);
     }
 
     public function create($data) {
